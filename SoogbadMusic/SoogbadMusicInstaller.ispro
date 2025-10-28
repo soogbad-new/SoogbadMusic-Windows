@@ -1,0 +1,42 @@
+; InstallSimple project
+
+[Setup]
+WindowTitle=SoogbadMusic Installer
+ProductName=SoogbadMusic
+
+[Graphics]
+SplashScreen=
+SplashScreenDelay=3
+Header=
+HeaderJustify=Center
+HeaderFontColor=0
+WizardBitmap=
+WizardFontColor=0
+
+[FirstMessage]
+
+[LastMessage]
+Thank you for installing SoogbadMusic!
+
+[LicenseAgreement]
+
+[SetupFiles]
+SourceFolder=C:\Users\soogb\VisualStudioProjects\SoogbadMusic\SoogbadMusic\bin\Release\net8.0-windows10.0.26100.0
+SpecialFolder=Program Files
+SetupPath=SoogbadMusic
+SetupFile=C:\Users\soogb\Documents\SoogbadMusicInstaller.exe
+
+[Shortcuts]
+ProgramGroup=
+SoogbadMusic.exe=dm
+
+[Registry]
+
+[Requirements]
+OperatingSystem=0
+NetFramework=0
+NetFrameworkLink=https://dotnet.microsoft.com/download/dotnet-framework
+AdminRights=0
+
+[AfterInstalling]
+Reboot=0
