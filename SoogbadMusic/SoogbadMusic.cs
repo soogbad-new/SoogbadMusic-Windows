@@ -386,6 +386,10 @@ namespace SoogbadMusic
             return SongList;
         }
 
+        private void SoogbadMusic_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }
