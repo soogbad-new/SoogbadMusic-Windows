@@ -36,6 +36,7 @@ namespace SoogbadMusic
                 outputDevice = new WaveOutEvent();
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
                 outputDevice.Init(audioFile);
+                outputDevice.Volume = 1.0f;
             }
         }
 
@@ -57,17 +58,6 @@ namespace SoogbadMusic
             {
                 if(!Stopped && value >= 0 && value < Song.Duration)
                     audioFile.CurrentTime = new TimeSpan(0, 0, (int)Math.Round(value));
-            }
-        }
-        public double Volume
-        {
-            get
-            {
-                return outputDevice.Volume;
-            }
-            set
-            {
-                outputDevice.Volume = (float)value;
             }
         }
 

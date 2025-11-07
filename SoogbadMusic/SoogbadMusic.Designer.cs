@@ -37,7 +37,6 @@ namespace SoogbadMusic
             ProgressBar = new PictureButton();
             CurrentTimeLabel = new Label();
             DurationLabel = new Label();
-            VolumeTrackBar = new TrackBar();
             PlayPauseButton = new PictureButton();
             PreviousButton = new PictureButton();
             NextButton = new PictureButton();
@@ -55,7 +54,6 @@ namespace SoogbadMusic
             pictureButton2 = new PictureButton();
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PreviousButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NextButton).BeginInit();
@@ -117,24 +115,12 @@ namespace SoogbadMusic
             DurationLabel.TabIndex = 6;
             DurationLabel.Text = "0:00";
             // 
-            // VolumeTrackBar
-            // 
-            VolumeTrackBar.Font = new Font("Microsoft Sans Serif", 8.25F);
-            VolumeTrackBar.Location = new Point(595, 30);
-            VolumeTrackBar.Maximum = 100;
-            VolumeTrackBar.Name = "VolumeTrackBar";
-            VolumeTrackBar.Size = new Size(200, 45);
-            VolumeTrackBar.TabIndex = 9;
-            VolumeTrackBar.TickStyle = TickStyle.None;
-            VolumeTrackBar.Value = 100;
-            VolumeTrackBar.ValueChanged += OnVolumeTrackBarValueChanged;
-            // 
             // PlayPauseButton
             // 
             PlayPauseButton.BackColor = Color.Transparent;
             PlayPauseButton.Enabled = false;
             PlayPauseButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            PlayPauseButton.Image =  Properties.Resources.Play;
+            PlayPauseButton.Image = Properties.Resources.Play;
             PlayPauseButton.Location = new Point(462, 27);
             PlayPauseButton.Name = "PlayPauseButton";
             PlayPauseButton.Size = new Size(21, 21);
@@ -148,7 +134,7 @@ namespace SoogbadMusic
             PreviousButton.BackColor = Color.Transparent;
             PreviousButton.Enabled = false;
             PreviousButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            PreviousButton.Image =  Properties.Resources.Previous;
+            PreviousButton.Image = Properties.Resources.Previous;
             PreviousButton.Location = new Point(411, 27);
             PreviousButton.Name = "PreviousButton";
             PreviousButton.Size = new Size(20, 20);
@@ -162,7 +148,7 @@ namespace SoogbadMusic
             NextButton.BackColor = Color.Transparent;
             NextButton.Enabled = false;
             NextButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            NextButton.Image =  Properties.Resources.Next;
+            NextButton.Image = Properties.Resources.Next;
             NextButton.Location = new Point(512, 27);
             NextButton.Name = "NextButton";
             NextButton.Size = new Size(20, 20);
@@ -245,7 +231,7 @@ namespace SoogbadMusic
             LyricsPictureButton.BackColor = Color.FromArgb(0, 48, 64);
             LyricsPictureButton.BorderStyle = BorderStyle.FixedSingle;
             LyricsPictureButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            LyricsPictureButton.Image =  Properties.Resources.Lyrics;
+            LyricsPictureButton.Image = Properties.Resources.Lyrics;
             LyricsPictureButton.Location = new Point(0, 0);
             LyricsPictureButton.Name = "LyricsPictureButton";
             LyricsPictureButton.Size = new Size(25, 25);
@@ -258,7 +244,7 @@ namespace SoogbadMusic
             // 
             AdvancedSearchButton.BackColor = Color.Transparent;
             AdvancedSearchButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            AdvancedSearchButton.Image =  Properties.Resources.AdvancedSearchOff;
+            AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOff;
             AdvancedSearchButton.Location = new Point(921, 476);
             AdvancedSearchButton.Name = "AdvancedSearchButton";
             AdvancedSearchButton.Size = new Size(20, 20);
@@ -271,7 +257,7 @@ namespace SoogbadMusic
             // 
             ShuffleButton.BackColor = Color.Transparent;
             ShuffleButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            ShuffleButton.Image =  Properties.Resources.ShuffleOff;
+            ShuffleButton.Image = Properties.Resources.ShuffleOff;
             ShuffleButton.Location = new Point(854, 27);
             ShuffleButton.Name = "ShuffleButton";
             ShuffleButton.Size = new Size(21, 21);
@@ -296,7 +282,7 @@ namespace SoogbadMusic
             // 
             FilterButton.BackColor = Color.Transparent;
             FilterButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            FilterButton.Image =  Properties.Resources.FilterOn;
+            FilterButton.Image = Properties.Resources.FilterOn;
             FilterButton.Location = new Point(812, 27);
             FilterButton.Name = "FilterButton";
             FilterButton.Size = new Size(21, 21);
@@ -310,7 +296,7 @@ namespace SoogbadMusic
             pictureButton2.BackColor = Color.Transparent;
             pictureButton2.Enabled = false;
             pictureButton2.Font = new Font("Microsoft Sans Serif", 8.25F);
-            pictureButton2.Image =  Properties.Resources.ShuffleOff;
+            pictureButton2.Image = Properties.Resources.ShuffleOff;
             pictureButton2.Location = new Point(812, 27);
             pictureButton2.Name = "pictureButton2";
             pictureButton2.Size = new Size(21, 21);
@@ -335,7 +321,6 @@ namespace SoogbadMusic
             Controls.Add(NextButton);
             Controls.Add(PreviousButton);
             Controls.Add(PlayPauseButton);
-            Controls.Add(VolumeTrackBar);
             Controls.Add(DurationLabel);
             Controls.Add(CurrentTimeLabel);
             Controls.Add(ProgressBar);
@@ -349,7 +334,6 @@ namespace SoogbadMusic
             Load += SoogbadMusic_Load;
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)VolumeTrackBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)PreviousButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)NextButton).EndInit();
@@ -370,7 +354,6 @@ namespace SoogbadMusic
         private PictureButton ProgressBar;
         private System.Windows.Forms.Label CurrentTimeLabel;
         private System.Windows.Forms.Label DurationLabel;
-        private System.Windows.Forms.TrackBar VolumeTrackBar;
         private PictureButton PlayPauseButton;
         private PictureButton PreviousButton;
         private PictureButton NextButton;

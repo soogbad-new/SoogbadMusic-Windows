@@ -34,9 +34,6 @@ namespace SoogbadMusic
                     BlacklistControlLeft(label);
             Playlist.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             Playlist.RefreshSongs();
-            Settings.Default.Reload();
-            PlayerManager.Volume = Settings.Default.Volume;
-            VolumeTrackBar.Value = (int)Math.Round(PlayerManager.Volume * 100);
             PlayerManager.SongChanged += OnSongChanged;
             PlayerManager.PausedValueChanged += OnPausedValueChanged;
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer() { Interval = 10 };
@@ -264,11 +261,6 @@ namespace SoogbadMusic
             }
         }
 
-        private void OnVolumeTrackBarValueChanged(object sender, EventArgs e)
-        {
-            PlayerManager.Volume = VolumeTrackBar.Value / 100.0;
-        }
-
         private void OnProgressBarBackgroundMouseDown(object sender, MouseEventArgs e)
         {
             ChangeTime(e);
@@ -391,6 +383,7 @@ namespace SoogbadMusic
         {
 
         }
+
     }
 
 }

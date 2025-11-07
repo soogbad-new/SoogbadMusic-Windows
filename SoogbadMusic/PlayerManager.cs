@@ -24,22 +24,6 @@ namespace SoogbadMusic
         public static bool Filter { get; set; } = true;
 
         public static Player Player { get; set; } = null;
-        private static double volume = 1.0;
-        public static double Volume
-        {
-            get
-            {
-                return volume;
-            }
-            set
-            {
-                volume = value;
-                if(Player != null)
-                    Player.Volume = value;
-                Settings.Default.Volume = value;
-                Settings.Default.Save();
-            }
-        }
         private static bool paused = true;
         public static bool Paused
         {
@@ -71,10 +55,7 @@ namespace SoogbadMusic
         {
             if(Player != null)
                 Player.Dispose();
-            Player = new Player(history[currentlyPlayedSongIndex])
-            {
-                Volume = Volume
-            };
+            Player = new Player(history[currentlyPlayedSongIndex]);
             Player.PlaybackStopped += OnPlaybackStopped;
             if(!Paused)
                 Player.Play();

@@ -55,7 +55,7 @@ namespace SoogbadMusic
         bool doStuff = false;
         SoogbadMusic soogbadMusic = null;
         bool paused = false;
-        double currentTime = 0, volume = 0;
+        double currentTime = 0;
         bool wasPlayed = false;
         int index;
         private void OnSaveButtonMouseDown(object sender, MouseEventArgs e)
@@ -75,7 +75,6 @@ namespace SoogbadMusic
                     wasPlayed = true;
                     paused = PlayerManager.Player.Paused;
                     currentTime = PlayerManager.Player.CurrentTime;
-                    volume = PlayerManager.Player.Volume;
                     PlayerManager.Player.Dispose();
                     PlayerManager.Player = null;
                 }
@@ -120,7 +119,7 @@ namespace SoogbadMusic
                 doStuff = false;
                 if(wasPlayed)
                 {
-                    PlayerManager.Player = new Player(Playlist.Songs[index]) { Volume = volume, CurrentTime = currentTime };
+                    PlayerManager.Player = new Player(Playlist.Songs[index]) { CurrentTime = currentTime };
                     PlayerManager.Player.PlaybackStopped += PlayerManager.OnPlaybackStopped;
                     if(!paused)
                         PlayerManager.Player.Play();
