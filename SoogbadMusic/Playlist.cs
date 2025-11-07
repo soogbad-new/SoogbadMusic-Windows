@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SoogbadMusic
@@ -14,7 +15,7 @@ namespace SoogbadMusic
         private static Thread lastRefreshThread = null;
         private static bool stopLastThread = false;
 
-        public static void RefreshSongs(bool calculateProgress)
+        public static void RefreshSongs()
         {
             if(lastRefreshThread != null)
             {
@@ -25,38 +26,18 @@ namespace SoogbadMusic
             lastRefreshThread = new Thread(() =>
             {
                 Songs = new List<Song>();
-                string[] files = System.IO.Directory.GetFiles(Directory); //
-                int songsTotal = files.Length;
-                if(PlayerManager.Filter)
-                {
-                    songsTotal = 0;
-                    foreach(string file in files) //
-                    {
-                        if(stopLastThread)
-                            return;
-                        string[] split = file.ToLower().Split('\\');
-                        string filename = split[split.Length - 1];
-                        if(file.ToLower().EndsWith(".mp3") && !filename.StartsWith("_")) //
-                            songsTotal++;
-                    }
-                }
-                for(int i = 0, j = 0; i < files.Length; i++) //
+                IEnumerable<string> files = PlayerManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith("_"); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
+                int count = files.Count();
+                int i = 0;
+                foreach(string file in files)
                 {
                     if(stopLastThread)
                         return;
-                    string[] split = files[i].ToLower().Split('\\');
-                    string filename = split[split.Length - 1];
-                    if(files[i].ToLower().EndsWith(".mp3") && (!filename.StartsWith("_") || !PlayerManager.Filter)) //
-                    {
-                        Songs.Add(new Song(files[i])); //
-                        if(calculateProgress)
-                        {
-                            IsAccessingRefreshSongsProgress = true;
-                            RefreshSongsProgress = (double)j / songsTotal;
-                            IsAccessingRefreshSongsProgress = false;
-                        }
-                        j++;
-                    }
+                    Songs.Add(new Song(file));
+                    IsAccessingRefreshSongsProgress = true;
+                    RefreshSongsProgress = (double)i / count;
+                    IsAccessingRefreshSongsProgress = false;
+                    i++;
                 }
                 Songs.Sort(new SongComparer());
                 RefreshSongsComplete = true;
