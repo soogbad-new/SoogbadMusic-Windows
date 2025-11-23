@@ -1,22 +1,17 @@
-﻿using SoogbadMusic.Properties;
+﻿using System.Linq;
 using Windows.Media;
 using Windows.Media.Playback;
-using System;
-using System.IO;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using SoogbadMusic.Resources;
 
 namespace SoogbadMusic
 {
 
-    public partial class SoogbadMusic : Resources.ResponsiveForm
+    public partial class SoogbadMusic : ResponsiveForm
     {
 
         private SystemMediaTransportControls systemControls = null;
         private bool songReady = true;
         private bool advancedSearch = false;
+        private const int SCROLL_AMOUNT = 4;
 
         public SoogbadMusic()
         {
@@ -27,6 +22,8 @@ namespace SoogbadMusic
             BlacklistControlLeft(SongListScrollBar);
             BlacklistControlWidth(SongList);
             BlacklistControlTop(SearchTextBox);
+            MenuStrip.Renderer = new Utility.NoHighlightToolStripRenderer();
+            AddInvisibleToolStripMenuItems(MenuStrip.Items.Cast<ToolStripMenuItem>().ToList());
             List<Control> labels = SongList.GetLabels();
             AddInvisibleControls(labels);
             foreach(Control label in labels)
@@ -95,7 +92,7 @@ namespace SoogbadMusic
                 Playlist.RefreshSongsComplete = false;
                 Playlist.RefreshSongsProgress = 0;
                 PlayPauseButton.Enabled = true; PreviousButton.Enabled = true; NextButton.Enabled = true; SearchTextBox.Enabled = true;
-                SongListScrollBar.Maximum = Playlist.Songs.Count - 8;
+                SongListScrollBar.Maximum = SCROLL_AMOUNT * (Playlist.Songs.Count - SongList.GetItemCount());
                 SongList.ChangeIndex(0);
                 SearchTextBox.Font = new Font(SearchTextBox.Font, FontStyle.Italic);
                 SearchTextBox.ForeColor = Color.LightGray;
@@ -153,9 +150,9 @@ namespace SoogbadMusic
             ProgressBar.Width = 1;
             SongList.SelectedSong = PlayerManager.Player.Song;
             if(!SongList.IsOnScreen(PlayerManager.Player.Song))
-                SongListScrollBar.Value = Math.Min(Playlist.Songs.IndexOf(PlayerManager.Player.Song), SongListScrollBar.Maximum);
+                SongListScrollBar.Value = Math.Min(SCROLL_AMOUNT * Playlist.Songs.IndexOf(PlayerManager.Player.Song), SongListScrollBar.Maximum);
             else
-                SongList.ChangeIndex(SongList.Index);
+                SongList.ChangeIndex(SongList.Index, SongList.ScrollOffsetPixels);
             SongNameLabel.Text = PlayerManager.Player.Song.Data.Artist + " - " + PlayerManager.Player.Song.Data.Title;
             SongInfoLabel.Text = PlayerManager.Player.Song.Data.Album + " (" + PlayerManager.Player.Song.Data.Year.ToString() + ")";
             AlbumCoverPictureBox.Image = PlayerManager.Player.Song.Data.AlbumCover;
@@ -192,20 +189,9 @@ namespace SoogbadMusic
 
         private void ShortenLabelsText()
         {
-            ShortenLabelText(SongNameLabel, PlayerManager.Player != null ? PlayerManager.Player.Song.Data.Artist + " - " + PlayerManager.Player.Song.Data.Title : "");
-            ShortenLabelText(SongInfoLabel, PlayerManager.Player != null ? PlayerManager.Player.Song.Data.Album + " (" + PlayerManager.Player.Song.Data.Year.ToString() + ")" : "");
+            Utility.ShortenLabelText(SongNameLabel, PlayerManager.Player != null ? PlayerManager.Player.Song.Data.Artist + " - " + PlayerManager.Player.Song.Data.Title : "", ClientSize.Width - 50);
+            Utility.ShortenLabelText(SongInfoLabel, PlayerManager.Player != null ? PlayerManager.Player.Song.Data.Album + " (" + PlayerManager.Player.Song.Data.Year.ToString() + ")" : "", ClientSize.Width - 50);
         }
-        private void ShortenLabelText(Label label, string fullText)
-        {
-            label.Text = fullText;
-            for(int i = 1; ; i++)
-            {
-                if(label.Left + label.Width <= PreviousButton.Left - 25)
-                    break;
-                label.Text = fullText.Remove(fullText.Length - i) + "...";
-            }
-        }
-
 
         private void OnShuffleButtonMouseDown(object sender, MouseEventArgs e)
         {
@@ -213,9 +199,9 @@ namespace SoogbadMusic
             {
                 PlayerManager.Shuffle = !PlayerManager.Shuffle;
                 if(PlayerManager.Shuffle)
-                    ShuffleButton.Image = Properties.Resources.ShuffleOn;
+                    ShuffleButton.BackgroundImage = Properties.Resources.ShuffleOn;
                 else
-                    ShuffleButton.Image = Properties.Resources.ShuffleOff;
+                    ShuffleButton.BackgroundImage = Properties.Resources.ShuffleOff;
             }
         }
         private void OnFilterButtonMouseDown(object sender, MouseEventArgs e)
@@ -224,9 +210,9 @@ namespace SoogbadMusic
             {
                 PlayerManager.Filter = !PlayerManager.Filter;
                 if(PlayerManager.Filter)
-                    FilterButton.Image = Properties.Resources.FilterOn;
+                    FilterButton.BackgroundImage = Properties.Resources.FilterOn;
                 else
-                    FilterButton.Image = Properties.Resources.FilterOff;
+                    FilterButton.BackgroundImage = Properties.Resources.FilterOff;
                 SongListScrollBar.Value = 0;
                 SongList.SelectedSong = null;
                 Playlist.RefreshSongs();
@@ -287,26 +273,67 @@ namespace SoogbadMusic
 
         private void OnSongListScrollBarValueChanged(object sender, EventArgs e)
         {
-            SongList.ChangeIndex(SongListScrollBar.Value);
+            if(SongList.Height <= 0 || Playlist.Songs.Count == 0)
+                return;
+            int songsCount = SongList.IsTempSongListNull() ? Playlist.Songs.Count : SongList.GetTempSongList().Count;
+            int itemHeight = (int)Math.Round((double)SongList.Height / SongList.GetItemCount());
+            int maxIndex = Math.Max(0, songsCount - SongList.GetItemCount());
+            int songIndex = SongListScrollBar.Value / SCROLL_AMOUNT;
+            double pixelOffset = SongListScrollBar.Value % SCROLL_AMOUNT * (itemHeight / (double)SCROLL_AMOUNT);
+            if(songIndex >= maxIndex)
+            {
+                songIndex = maxIndex;
+                pixelOffset = 0;
+            }
+            SongList.ChangeIndex(songIndex, pixelOffset);
         }
         private void OnSongListMouseWheel(object sender, MouseEventArgs e)
         {
-            if(e.Delta < 0 && SongListScrollBar.Value < SongListScrollBar.Maximum)
-                SongListScrollBar.Value++;
-            else if(e.Delta > 0 && SongListScrollBar.Value > SongListScrollBar.Minimum)
-                SongListScrollBar.Value--;
+            if(SongList.Height <= 0 || Playlist.Songs.Count == 0)
+                return;
+            int songsCount = SongList.IsTempSongListNull() ? Playlist.Songs.Count : SongList.GetTempSongList().Count;
+            int itemHeight = (int)Math.Round((double)SongList.Height / SongList.GetItemCount());
+            int scrollPixels = itemHeight / SCROLL_AMOUNT;
+            if(e.Delta < 0)
+            {
+                int maxIndex = Math.Max(0, songsCount - SongList.GetItemCount());
+                double targetScroll = SongList.ScrollOffsetPixels + scrollPixels;
+                int newIndex = SongList.Index;
+                while(targetScroll >= itemHeight && newIndex < maxIndex)
+                {
+                    targetScroll -= itemHeight;
+                    newIndex++;
+                }
+                if(newIndex >= maxIndex)
+                {
+                    newIndex = maxIndex;
+                    targetScroll = 0;
+                }
+                SongList.ChangeIndex(newIndex, targetScroll);
+            }
+            else if(e.Delta > 0)
+            {
+                double targetScroll = SongList.ScrollOffsetPixels - scrollPixels;
+                int newIndex = SongList.Index;
+                while(targetScroll < 0 && newIndex > 0)
+                {
+                    targetScroll += itemHeight;
+                    newIndex--;
+                }
+                SongList.ChangeIndex(newIndex, Math.Max(0, targetScroll));
+            }
         }
 
         private void OnSearchTextBoxTextChanged(object sender, EventArgs e)
         {
             if(SearchTextBox.Text == "" || SearchTextBox.Font.Italic)
             {
-                if(!SongList.IsSongListNull())
+                if(!SongList.IsTempSongListNull())
                 {
-                    SongList.ChangeSongList(null);
-                    SongListScrollBar.Maximum = Playlist.Songs.Count - 8;
+                    SongList.ChangeTempSongList(null);
+                    SongListScrollBar.Maximum = SCROLL_AMOUNT * (Playlist.Songs.Count - SongList.GetItemCount());
                     if(PlayerManager.Player != null && !SongList.IsOnScreen(PlayerManager.Player.Song))
-                        SongListScrollBar.Value = Math.Min(Playlist.Songs.IndexOf(PlayerManager.Player.Song), SongListScrollBar.Maximum);
+                        SongListScrollBar.Value = Math.Min(SCROLL_AMOUNT * Playlist.Songs.IndexOf(PlayerManager.Player.Song), SongListScrollBar.Maximum);
                 }
             }
             else
@@ -315,8 +342,8 @@ namespace SoogbadMusic
                 foreach(Song song in Playlist.Songs)
                     if(song.Data.Contains(SearchTextBox.Text, advancedSearch))
                         songs.Add(song);
-                SongList.ChangeSongList(songs);
-                int maximum = songs.Count - 8;
+                SongList.ChangeTempSongList(songs);
+                int maximum = SCROLL_AMOUNT * (songs.Count - SongList.GetItemCount());
                 if(maximum < 0)
                     maximum = 0;
                 SongListScrollBar.Maximum = maximum;
@@ -346,7 +373,7 @@ namespace SoogbadMusic
             }
         }
 
-        private void OnLyricsPictureButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnLyricsButtonMouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
             {
@@ -371,6 +398,7 @@ namespace SoogbadMusic
                     AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOn;
                 else
                     AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOff;
+                OnSearchTextBoxTextChanged(null, null);
             }
         }
 

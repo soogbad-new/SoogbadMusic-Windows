@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Windows.Forms;
-
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
 
     static class Program

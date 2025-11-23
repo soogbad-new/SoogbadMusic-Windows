@@ -28,99 +28,100 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.NameLabel = new System.Windows.Forms.Label();
-            this.InfoLabel = new System.Windows.Forms.Label();
-            this.DurationLabel = new System.Windows.Forms.Label();
-            this.SongContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.AddToQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RemoveFromQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SongInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SongContextMenuStrip.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            NameLabel = new Label();
+            InfoLabel = new Label();
+            DurationLabel = new Label();
+            SongContextMenuStrip = new ContextMenuStrip(components);
+            AddToQueueToolStripMenuItem = new ToolStripMenuItem();
+            RemoveFromQueueToolStripMenuItem = new ToolStripMenuItem();
+            SongInfoToolStripMenuItem = new ToolStripMenuItem();
+            SongContextMenuStrip.SuspendLayout();
+            SuspendLayout();
             // 
             // NameLabel
             // 
-            this.NameLabel.AutoSize = true;
-            this.NameLabel.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NameLabel.ForeColor = System.Drawing.Color.White;
-            this.NameLabel.Location = new System.Drawing.Point(8, 8);
-            this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(0, 14);
-            this.NameLabel.TabIndex = 0;
-            this.NameLabel.UseMnemonic = false;
-            this.NameLabel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnSongListItemMouseDoubleClick);
+            NameLabel.AutoSize = true;
+            NameLabel.Font = new Font("Calibri", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            NameLabel.ForeColor = Color.White;
+            NameLabel.Location = new Point(9, 9);
+            NameLabel.Margin = new Padding(4, 0, 4, 0);
+            NameLabel.Name = "NameLabel";
+            NameLabel.Size = new Size(0, 14);
+            NameLabel.TabIndex = 0;
+            NameLabel.UseMnemonic = false;
+            NameLabel.MouseDoubleClick += OnSongListItemMouseDoubleClick;
             // 
             // InfoLabel
             // 
-            this.InfoLabel.AutoSize = true;
-            this.InfoLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.InfoLabel.ForeColor = System.Drawing.Color.White;
-            this.InfoLabel.Location = new System.Drawing.Point(8, 23);
-            this.InfoLabel.Name = "InfoLabel";
-            this.InfoLabel.Size = new System.Drawing.Size(0, 13);
-            this.InfoLabel.TabIndex = 1;
-            this.InfoLabel.UseMnemonic = false;
-            this.InfoLabel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnSongListItemMouseDoubleClick);
+            InfoLabel.AutoSize = true;
+            InfoLabel.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            InfoLabel.ForeColor = Color.White;
+            InfoLabel.Location = new Point(9, 27);
+            InfoLabel.Margin = new Padding(4, 0, 4, 0);
+            InfoLabel.Name = "InfoLabel";
+            InfoLabel.Size = new Size(0, 13);
+            InfoLabel.TabIndex = 1;
+            InfoLabel.UseMnemonic = false;
+            InfoLabel.MouseDoubleClick += OnSongListItemMouseDoubleClick;
             // 
             // DurationLabel
             // 
-            this.DurationLabel.AutoSize = true;
-            this.DurationLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.DurationLabel.ForeColor = System.Drawing.Color.White;
-            this.DurationLabel.Location = new System.Drawing.Point(919, 16);
-            this.DurationLabel.Name = "DurationLabel";
-            this.DurationLabel.Size = new System.Drawing.Size(0, 13);
-            this.DurationLabel.TabIndex = 2;
-            this.DurationLabel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnSongListItemMouseDoubleClick);
+            DurationLabel.AutoSize = true;
+            DurationLabel.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            DurationLabel.ForeColor = Color.White;
+            DurationLabel.Location = new Point(1072, 18);
+            DurationLabel.Margin = new Padding(4, 0, 4, 0);
+            DurationLabel.Name = "DurationLabel";
+            DurationLabel.Size = new Size(0, 13);
+            DurationLabel.TabIndex = 2;
+            DurationLabel.MouseDoubleClick += OnSongListItemMouseDoubleClick;
             // 
             // SongContextMenuStrip
             // 
-            this.SongContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddToQueueToolStripMenuItem,
-            this.RemoveFromQueueToolStripMenuItem,
-            this.SongInfoToolStripMenuItem});
-            this.SongContextMenuStrip.Name = "ContextMenuStrip";
-            this.SongContextMenuStrip.Size = new System.Drawing.Size(187, 70);
+            SongContextMenuStrip.Items.AddRange(new ToolStripItem[] { AddToQueueToolStripMenuItem, RemoveFromQueueToolStripMenuItem, SongInfoToolStripMenuItem });
+            SongContextMenuStrip.Name = "ContextMenuStrip";
+            SongContextMenuStrip.Size = new Size(187, 70);
             // 
             // AddToQueueToolStripMenuItem
             // 
-            this.AddToQueueToolStripMenuItem.Image = global::SoogbadMusic.Properties.Resources.QueueAdd;
-            this.AddToQueueToolStripMenuItem.Name = "AddToQueueToolStripMenuItem";
-            this.AddToQueueToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.AddToQueueToolStripMenuItem.Text = "Add To Queue";
-            this.AddToQueueToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnAddToQueueToolStripMenuItemMouseDown);
+            AddToQueueToolStripMenuItem.Image = Properties.Resources.QueueAdd;
+            AddToQueueToolStripMenuItem.Name = "AddToQueueToolStripMenuItem";
+            AddToQueueToolStripMenuItem.Size = new Size(186, 22);
+            AddToQueueToolStripMenuItem.Text = "Add To Queue";
+            AddToQueueToolStripMenuItem.MouseDown += OnAddToQueueToolStripMenuItemMouseDown;
             // 
             // RemoveFromQueueToolStripMenuItem
             // 
-            this.RemoveFromQueueToolStripMenuItem.Image = global::SoogbadMusic.Properties.Resources.QueueRemove;
-            this.RemoveFromQueueToolStripMenuItem.Name = "RemoveFromQueueToolStripMenuItem";
-            this.RemoveFromQueueToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.RemoveFromQueueToolStripMenuItem.Text = "Remove From Queue";
-            this.RemoveFromQueueToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnRemoveFromQueueToolStripMenuItemMouseDown);
+            RemoveFromQueueToolStripMenuItem.Image = Properties.Resources.QueueRemove;
+            RemoveFromQueueToolStripMenuItem.Name = "RemoveFromQueueToolStripMenuItem";
+            RemoveFromQueueToolStripMenuItem.Size = new Size(186, 22);
+            RemoveFromQueueToolStripMenuItem.Text = "Remove From Queue";
+            RemoveFromQueueToolStripMenuItem.MouseDown += OnRemoveFromQueueToolStripMenuItemMouseDown;
             // 
             // SongInfoToolStripMenuItem
             // 
-            this.SongInfoToolStripMenuItem.Image = global::SoogbadMusic.Properties.Resources.Info;
-            this.SongInfoToolStripMenuItem.Name = "SongInfoToolStripMenuItem";
-            this.SongInfoToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.SongInfoToolStripMenuItem.Text = "Song Info";
-            this.SongInfoToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnSongInfoToolStripMenuItemMouseDown);
+            SongInfoToolStripMenuItem.Image = Properties.Resources.Info;
+            SongInfoToolStripMenuItem.Name = "SongInfoToolStripMenuItem";
+            SongInfoToolStripMenuItem.Size = new Size(186, 22);
+            SongInfoToolStripMenuItem.Text = "Song Info";
+            SongInfoToolStripMenuItem.MouseDown += OnSongInfoToolStripMenuItemMouseDown;
             // 
             // SongListItem
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(96)))));
-            this.Controls.Add(this.DurationLabel);
-            this.Controls.Add(this.InfoLabel);
-            this.Controls.Add(this.NameLabel);
-            this.Name = "SongListItem";
-            this.Size = new System.Drawing.Size(927, 45);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnSongListItemMouseDoubleClick);
-            this.SongContextMenuStrip.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(0, 80, 96);
+            Controls.Add(DurationLabel);
+            Controls.Add(InfoLabel);
+            Controls.Add(NameLabel);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "SongListItem";
+            Size = new Size(1082, 52);
+            MouseDoubleClick += OnSongListItemMouseDoubleClick;
+            SongContextMenuStrip.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

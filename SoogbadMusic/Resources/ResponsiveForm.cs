@@ -1,10 +1,6 @@
-﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace SoogbadMusic.Resources
+namespace SoogbadMusic
 {
 
     public class ResponsiveForm : Form
@@ -16,7 +12,7 @@ namespace SoogbadMusic.Resources
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            var colorRef = ColorTranslator.ToWin32(Color.FromArgb(20, 115, 60));
+            var colorRef = ColorTranslator.ToWin32(Color.FromArgb(15, 100, 50));
             DwmSetWindowAttribute(this.Handle, DWMWA_CAPTION_COLOR, ref colorRef, sizeof(int));
         }
 
@@ -24,6 +20,7 @@ namespace SoogbadMusic.Resources
         private Dictionary<string, Values> initialValues = new Dictionary<string, Values>();
         private List<string> widthBlacklist = new List<string>(), heightBlacklist = new List<string>(), leftBlacklist = new List<string>(), topBlacklist = new List<string>();
         private List<Control> invisibleControls = new List<Control>();
+        private List<ToolStripMenuItem> invisibleToolStripMenuItems = new List<ToolStripMenuItem>();
         private List<string> changeAnchor = new List<string>();
 
         protected event EmptyEventHandler ResponsiveClientSizeChanged;
@@ -51,12 +48,22 @@ namespace SoogbadMusic.Resources
             foreach(Control control in controls)
                 OnControlAdded(control);
         }
+        protected void AddInvisibleToolStripMenuItems(List<ToolStripMenuItem> items)
+        {
+            invisibleToolStripMenuItems.AddRange(items);
+            foreach(ToolStripMenuItem item in items)
+                OnToolStripMenuItemAdded(item);
+        }
 
         protected void AddChangeAnchorControl(Control control)
         {
             changeAnchor.Add(control.Name);
         }
         protected virtual int GetRTLExtraMargin(Control control)
+        {
+            return 0;
+        }
+        protected virtual int GetRTLExtraMargin(ToolStripMenuItem item)
         {
             return 0;
         }
@@ -87,6 +94,18 @@ namespace SoogbadMusic.Resources
                 return;
             MakeResponsive(control, ClientSize.Width / initialFormSize.Width, ClientSize.Height / initialFormSize.Height);
         }
+        private void OnToolStripMenuItemAdded(ToolStripMenuItem item)
+        {
+            try
+            {
+                initialValues.Add(item.Name, new Values((int)item.Font.Size, item.Width, item.Height, item.Bounds.Top, item.Bounds.Top));
+            }
+            catch(ArgumentException) { }
+            item.TextChanged += OnControlTextChanged;
+            if(WindowState == FormWindowState.Minimized)
+                return;
+            MakeResponsive(item, ClientSize.Width / initialFormSize.Width, ClientSize.Height / initialFormSize.Height);
+        }
         private void OnControlTextChanged(object sender, EventArgs e)
         {
             Control control = (Control)sender;
@@ -108,6 +127,8 @@ namespace SoogbadMusic.Resources
             }
             float horizontalFactor = (float)ClientSize.Width / initialFormSize.Width;
             float verticalFactor = (float)ClientSize.Height / initialFormSize.Height;
+            foreach(ToolStripMenuItem item in invisibleToolStripMenuItems)
+                MakeResponsive(item, horizontalFactor, verticalFactor);
             foreach(Control control in Controls)
                 MakeResponsive(control, horizontalFactor, verticalFactor);
             foreach(Control control in invisibleControls)
@@ -131,6 +152,19 @@ namespace SoogbadMusic.Resources
                 control.Left = control.RightToLeft == RightToLeft.Yes && changeAnchor.Contains(name) ? ClientSize.Width - GetRTLExtraMargin(control) - control.Width - init.Left : (int)(horizontalFactor * init.Left);
             if(!topBlacklist.Contains(name))
                 control.Top = (int)(verticalFactor * init.Top);
+        }
+        private void MakeResponsive(ToolStripMenuItem item, float horizontalFactor, float verticalFactor)
+        {
+            if(horizontalFactor == 0 || verticalFactor == 0)
+                return;
+            string name = item.Name;
+            Values init = initialValues[name];
+            item.Font = new Font(item.Font.FontFamily, Math.Min(horizontalFactor, verticalFactor) * init.FontSize, item.Font.Style);
+            if(!widthBlacklist.Contains(name))
+                item.Width = (int)(horizontalFactor * init.Width);
+            if(!heightBlacklist.Contains(name))
+                item.Height = (int)(verticalFactor * init.Height);
+            item.Invalidate();
         }
 
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 
 namespace SoogbadMusic
 {

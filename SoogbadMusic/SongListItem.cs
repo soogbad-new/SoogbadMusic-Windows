@@ -1,9 +1,4 @@
-﻿using SoogbadMusic.Resources;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
 
     public partial class SongListItem : UserControl
@@ -39,8 +34,8 @@ namespace SoogbadMusic
                 else
                 {
                     ContextMenuStrip = SongContextMenuStrip;
-                    NameLabel.Text = song.Data.Artist + " - " + song.Data.Title;
-                    InfoLabel.Text = song.Data.Album + " (" + song.Data.Year.ToString() + ")";
+                    Utility.ShortenLabelText(NameLabel, Song != null ? Song.Data.Artist + " - " + Song.Data.Title : "", DurationLabel.Left - 50);
+                    Utility.ShortenLabelText(InfoLabel, Song != null ? Song.Data.Album + " (" + Song.Data.Year.ToString() + ")" : "", DurationLabel.Left - 50);
                     DurationLabel.Text = Utility.FormatTime(song.Duration);
                 }
             }
@@ -50,6 +45,14 @@ namespace SoogbadMusic
         {
             DurationLabel.Left = Width - DurationLabel.Width - 8;
             RemoveFromQueueToolStripMenuItem.Enabled = Song == null || PlayerManager.QueueContains(Song);
+        }
+
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            Utility.ShortenLabelText(NameLabel, Song != null ? Song.Data.Artist + " - " + Song.Data.Title : "", DurationLabel.Left - 50);
+            Utility.ShortenLabelText(InfoLabel, Song != null ? Song.Data.Album + " (" + Song.Data.Year.ToString() + ")" : "", DurationLabel.Left - 50);
         }
 
         public List<Control> GetLabels()

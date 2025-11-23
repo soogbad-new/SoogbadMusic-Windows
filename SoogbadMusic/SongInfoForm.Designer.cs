@@ -1,6 +1,4 @@
-﻿using SoogbadMusic.Resources;
-
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
     partial class SongInfoForm
     {

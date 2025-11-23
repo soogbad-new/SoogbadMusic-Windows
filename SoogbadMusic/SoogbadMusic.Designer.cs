@@ -1,6 +1,4 @@
-﻿using SoogbadMusic.Resources;
-
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
     partial class SoogbadMusic
     {
@@ -46,31 +44,26 @@ namespace SoogbadMusic
             SongInfoLabel = new Label();
             SongList = new SongList();
             AlbumCoverPictureBox = new PictureBox();
-            LyricsPictureButton = new PictureButton();
             AdvancedSearchButton = new PictureButton();
-            ShuffleButton = new PictureButton();
-            pictureButton1 = new PictureButton();
-            FilterButton = new PictureButton();
-            pictureButton2 = new PictureButton();
+            MenuStrip = new MenuStrip();
+            LyricsButton = new ToolStripMenuItem();
+            ShuffleButton = new ToolStripMenuItem();
+            FilterButton = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PreviousButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NextButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureBox).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)LyricsPictureButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AdvancedSearchButton).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)ShuffleButton).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureButton1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)FilterButton).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureButton2).BeginInit();
+            MenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // ProgressBarBackground
             // 
             ProgressBarBackground.BackColor = Color.Black;
             ProgressBarBackground.Font = new Font("Microsoft Sans Serif", 8.25F);
-            ProgressBarBackground.Location = new Point(0, 75);
+            ProgressBarBackground.Location = new Point(0, 120);
             ProgressBarBackground.Name = "ProgressBarBackground";
             ProgressBarBackground.Size = new Size(944, 35);
             ProgressBarBackground.SizeMode = PictureBoxSizeMode.Zoom;
@@ -80,9 +73,9 @@ namespace SoogbadMusic
             // 
             // ProgressBar
             // 
-            ProgressBar.BackColor = Color.FromArgb(20, 115, 60);
+            ProgressBar.BackColor = Color.FromArgb(15, 100, 50);
             ProgressBar.Font = new Font("Microsoft Sans Serif", 8.25F);
-            ProgressBar.Location = new Point(0, 75);
+            ProgressBar.Location = new Point(0, 120);
             ProgressBar.Name = "ProgressBar";
             ProgressBar.Size = new Size(1, 35);
             ProgressBar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -97,7 +90,7 @@ namespace SoogbadMusic
             CurrentTimeLabel.BackColor = Color.Transparent;
             CurrentTimeLabel.Font = new Font("Calibri", 8.25F);
             CurrentTimeLabel.ForeColor = Color.White;
-            CurrentTimeLabel.Location = new Point(5, 58);
+            CurrentTimeLabel.Location = new Point(0, 103);
             CurrentTimeLabel.Name = "CurrentTimeLabel";
             CurrentTimeLabel.Size = new Size(28, 13);
             CurrentTimeLabel.TabIndex = 5;
@@ -109,7 +102,7 @@ namespace SoogbadMusic
             DurationLabel.BackColor = Color.Transparent;
             DurationLabel.Font = new Font("Calibri", 8.25F);
             DurationLabel.ForeColor = Color.White;
-            DurationLabel.Location = new Point(911, 58);
+            DurationLabel.Location = new Point(911, 103);
             DurationLabel.Name = "DurationLabel";
             DurationLabel.Size = new Size(28, 13);
             DurationLabel.TabIndex = 6;
@@ -121,7 +114,7 @@ namespace SoogbadMusic
             PlayPauseButton.Enabled = false;
             PlayPauseButton.Font = new Font("Microsoft Sans Serif", 8.25F);
             PlayPauseButton.Image = Properties.Resources.Play;
-            PlayPauseButton.Location = new Point(462, 27);
+            PlayPauseButton.Location = new Point(462, 80);
             PlayPauseButton.Name = "PlayPauseButton";
             PlayPauseButton.Size = new Size(21, 21);
             PlayPauseButton.SizeMode = PictureBoxSizeMode.Zoom;
@@ -135,7 +128,7 @@ namespace SoogbadMusic
             PreviousButton.Enabled = false;
             PreviousButton.Font = new Font("Microsoft Sans Serif", 8.25F);
             PreviousButton.Image = Properties.Resources.Previous;
-            PreviousButton.Location = new Point(411, 27);
+            PreviousButton.Location = new Point(411, 80);
             PreviousButton.Name = "PreviousButton";
             PreviousButton.Size = new Size(20, 20);
             PreviousButton.SizeMode = PictureBoxSizeMode.Zoom;
@@ -149,7 +142,7 @@ namespace SoogbadMusic
             NextButton.Enabled = false;
             NextButton.Font = new Font("Microsoft Sans Serif", 8.25F);
             NextButton.Image = Properties.Resources.Next;
-            NextButton.Location = new Point(512, 27);
+            NextButton.Location = new Point(512, 80);
             NextButton.Name = "NextButton";
             NextButton.Size = new Size(20, 20);
             NextButton.SizeMode = PictureBoxSizeMode.Zoom;
@@ -161,10 +154,10 @@ namespace SoogbadMusic
             // 
             SongListScrollBar.Font = new Font("Microsoft Sans Serif", 8.25F);
             SongListScrollBar.LargeChange = 1;
-            SongListScrollBar.Location = new Point(927, 110);
+            SongListScrollBar.Location = new Point(927, 155);
             SongListScrollBar.Maximum = 0;
             SongListScrollBar.Name = "SongListScrollBar";
-            SongListScrollBar.Size = new Size(17, 360);
+            SongListScrollBar.Size = new Size(17, 315);
             SongListScrollBar.TabIndex = 14;
             SongListScrollBar.ValueChanged += OnSongListScrollBarValueChanged;
             // 
@@ -177,7 +170,7 @@ namespace SoogbadMusic
             SearchTextBox.ForeColor = Color.White;
             SearchTextBox.Location = new Point(0, 475);
             SearchTextBox.Name = "SearchTextBox";
-            SearchTextBox.Size = new Size(917, 22);
+            SearchTextBox.Size = new Size(920, 22);
             SearchTextBox.TabIndex = 23;
             SearchTextBox.TextChanged += OnSearchTextBoxTextChanged;
             SearchTextBox.Enter += OnSearchTextBoxFocusEnter;
@@ -188,7 +181,7 @@ namespace SoogbadMusic
             SongNameLabel.AutoSize = true;
             SongNameLabel.Font = new Font("Calibri", 11.25F, FontStyle.Bold);
             SongNameLabel.ForeColor = Color.White;
-            SongNameLabel.Location = new Point(113, 5);
+            SongNameLabel.Location = new Point(88, 23);
             SongNameLabel.Name = "SongNameLabel";
             SongNameLabel.RightToLeft = RightToLeft.No;
             SongNameLabel.Size = new Size(0, 18);
@@ -200,7 +193,7 @@ namespace SoogbadMusic
             SongInfoLabel.AutoSize = true;
             SongInfoLabel.Font = new Font("Calibri", 9F);
             SongInfoLabel.ForeColor = Color.White;
-            SongInfoLabel.Location = new Point(113, 25);
+            SongInfoLabel.Location = new Point(88, 43);
             SongInfoLabel.Name = "SongInfoLabel";
             SongInfoLabel.Size = new Size(0, 14);
             SongInfoLabel.TabIndex = 25;
@@ -209,109 +202,85 @@ namespace SoogbadMusic
             // SongList
             // 
             SongList.Font = new Font("Microsoft Sans Serif", 8.25F);
-            SongList.Location = new Point(0, 110);
+            SongList.Location = new Point(0, 155);
             SongList.Margin = new Padding(4);
             SongList.Name = "SongList";
             SongList.SelectedSong = null;
-            SongList.Size = new Size(927, 360);
+            SongList.Size = new Size(927, 315);
             SongList.TabIndex = 26;
             // 
             // AlbumCoverPictureBox
             // 
             AlbumCoverPictureBox.Font = new Font("Microsoft Sans Serif", 8.25F);
-            AlbumCoverPictureBox.Location = new Point(45, 7);
+            AlbumCoverPictureBox.Location = new Point(10, 25);
             AlbumCoverPictureBox.Name = "AlbumCoverPictureBox";
-            AlbumCoverPictureBox.Size = new Size(60, 60);
+            AlbumCoverPictureBox.Size = new Size(70, 70);
             AlbumCoverPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             AlbumCoverPictureBox.TabIndex = 27;
             AlbumCoverPictureBox.TabStop = false;
-            // 
-            // LyricsPictureButton
-            // 
-            LyricsPictureButton.BackColor = Color.FromArgb(0, 48, 64);
-            LyricsPictureButton.BorderStyle = BorderStyle.FixedSingle;
-            LyricsPictureButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            LyricsPictureButton.Image = Properties.Resources.Lyrics;
-            LyricsPictureButton.Location = new Point(0, 0);
-            LyricsPictureButton.Name = "LyricsPictureButton";
-            LyricsPictureButton.Size = new Size(25, 25);
-            LyricsPictureButton.SizeMode = PictureBoxSizeMode.Zoom;
-            LyricsPictureButton.TabIndex = 28;
-            LyricsPictureButton.TabStop = false;
-            LyricsPictureButton.MouseDown += OnLyricsPictureButtonMouseDown;
             // 
             // AdvancedSearchButton
             // 
             AdvancedSearchButton.BackColor = Color.Transparent;
             AdvancedSearchButton.Font = new Font("Microsoft Sans Serif", 8.25F);
             AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOff;
-            AdvancedSearchButton.Location = new Point(921, 476);
+            AdvancedSearchButton.Location = new Point(923, 476);
             AdvancedSearchButton.Name = "AdvancedSearchButton";
-            AdvancedSearchButton.Size = new Size(20, 20);
+            AdvancedSearchButton.Size = new Size(18, 18);
             AdvancedSearchButton.SizeMode = PictureBoxSizeMode.Zoom;
             AdvancedSearchButton.TabIndex = 29;
             AdvancedSearchButton.TabStop = false;
             AdvancedSearchButton.MouseDown += OnAdvancedSearchButtonMouseDown;
             // 
+            // MenuStrip
+            // 
+            MenuStrip.AutoSize = false;
+            MenuStrip.BackColor = Color.FromArgb(15, 100, 50);
+            MenuStrip.Font = new Font("Segoe UI", 9F);
+            MenuStrip.Items.AddRange(new ToolStripItem[] { LyricsButton, ShuffleButton, FilterButton });
+            MenuStrip.Location = new Point(0, 0);
+            MenuStrip.Name = "MenuStrip";
+            MenuStrip.Size = new Size(944, 16);
+            MenuStrip.TabIndex = 32;
+            // 
+            // LyricsButton
+            // 
+            LyricsButton.AutoSize = false;
+            LyricsButton.BackgroundImage = Properties.Resources.Lyrics;
+            LyricsButton.BackgroundImageLayout = ImageLayout.Stretch;
+            LyricsButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            LyricsButton.Margin = new Padding(5, 0, 0, 0);
+            LyricsButton.Name = "LyricsButton";
+            LyricsButton.Size = new Size(12, 12);
+            LyricsButton.MouseDown += OnLyricsButtonMouseDown;
+            // 
             // ShuffleButton
             // 
-            ShuffleButton.BackColor = Color.Transparent;
-            ShuffleButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            ShuffleButton.Image = Properties.Resources.ShuffleOff;
-            ShuffleButton.Location = new Point(854, 27);
+            ShuffleButton.AutoSize = false;
+            ShuffleButton.BackgroundImage = Properties.Resources.ShuffleOff;
+            ShuffleButton.BackgroundImageLayout = ImageLayout.Stretch;
+            ShuffleButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            ShuffleButton.Margin = new Padding(15, 0, 0, 0);
             ShuffleButton.Name = "ShuffleButton";
-            ShuffleButton.Size = new Size(21, 21);
-            ShuffleButton.SizeMode = PictureBoxSizeMode.Zoom;
-            ShuffleButton.TabIndex = 30;
-            ShuffleButton.TabStop = false;
+            ShuffleButton.Size = new Size(12, 12);
             ShuffleButton.MouseDown += OnShuffleButtonMouseDown;
-            // 
-            // pictureButton1
-            // 
-            pictureButton1.BackColor = Color.Transparent;
-            pictureButton1.Enabled = false;
-            pictureButton1.Font = new Font("Microsoft Sans Serif", 8.25F);
-            pictureButton1.Location = new Point(854, 27);
-            pictureButton1.Name = "pictureButton1";
-            pictureButton1.Size = new Size(21, 21);
-            pictureButton1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureButton1.TabIndex = 30;
-            pictureButton1.TabStop = false;
             // 
             // FilterButton
             // 
-            FilterButton.BackColor = Color.Transparent;
-            FilterButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            FilterButton.Image = Properties.Resources.FilterOn;
-            FilterButton.Location = new Point(812, 27);
+            FilterButton.AutoSize = false;
+            FilterButton.BackgroundImage = Properties.Resources.FilterOn;
+            FilterButton.BackgroundImageLayout = ImageLayout.Stretch;
+            FilterButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            FilterButton.Margin = new Padding(15, 0, 0, 0);
             FilterButton.Name = "FilterButton";
-            FilterButton.Size = new Size(21, 21);
-            FilterButton.SizeMode = PictureBoxSizeMode.Zoom;
-            FilterButton.TabIndex = 31;
-            FilterButton.TabStop = false;
+            FilterButton.Size = new Size(11, 11);
             FilterButton.MouseDown += OnFilterButtonMouseDown;
-            // 
-            // pictureButton2
-            // 
-            pictureButton2.BackColor = Color.Transparent;
-            pictureButton2.Enabled = false;
-            pictureButton2.Font = new Font("Microsoft Sans Serif", 8.25F);
-            pictureButton2.Image = Properties.Resources.ShuffleOff;
-            pictureButton2.Location = new Point(812, 27);
-            pictureButton2.Name = "pictureButton2";
-            pictureButton2.Size = new Size(21, 21);
-            pictureButton2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureButton2.TabIndex = 31;
-            pictureButton2.TabStop = false;
             // 
             // SoogbadMusic
             // 
             BackColor = Color.FromArgb(0, 64, 80);
             ClientSize = new Size(944, 501);
-            Controls.Add(FilterButton);
-            Controls.Add(ShuffleButton);
             Controls.Add(AdvancedSearchButton);
-            Controls.Add(LyricsPictureButton);
             Controls.Add(AlbumCoverPictureBox);
             Controls.Add(SongList);
             Controls.Add(SongInfoLabel);
@@ -325,7 +294,10 @@ namespace SoogbadMusic
             Controls.Add(CurrentTimeLabel);
             Controls.Add(ProgressBar);
             Controls.Add(ProgressBarBackground);
+            Controls.Add(MenuStrip);
+            Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = MenuStrip;
             MinimumSize = new Size(960, 540);
             Name = "SoogbadMusic";
             Text = "SoogbadMusic";
@@ -338,12 +310,9 @@ namespace SoogbadMusic
             ((System.ComponentModel.ISupportInitialize)PreviousButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)NextButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)LyricsPictureButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)AdvancedSearchButton).EndInit();
-            ((System.ComponentModel.ISupportInitialize)ShuffleButton).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureButton1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)FilterButton).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureButton2).EndInit();
+            MenuStrip.ResumeLayout(false);
+            MenuStrip.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
@@ -363,12 +332,11 @@ namespace SoogbadMusic
         private System.Windows.Forms.Label SongInfoLabel;
         private SongList SongList;
         private System.Windows.Forms.PictureBox AlbumCoverPictureBox;
-        private PictureButton LyricsPictureButton;
         private PictureButton AdvancedSearchButton;
-        private PictureButton ShuffleButton;
-        private PictureButton pictureButton1;
-        private PictureButton FilterButton;
-        private PictureButton pictureButton2;
+        private MenuStrip MenuStrip;
+        private ToolStripMenuItem LyricsButton;
+        private ToolStripMenuItem ShuffleButton;
+        private ToolStripMenuItem FilterButton;
     }
 }
 

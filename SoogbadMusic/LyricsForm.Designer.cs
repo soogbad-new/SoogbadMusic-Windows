@@ -29,71 +29,73 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LyricsForm));
-            this.LyricsLabel = new System.Windows.Forms.Label();
-            this.Panel = new System.Windows.Forms.Panel();
-            this.SongNameLabel = new System.Windows.Forms.Label();
-            this.SongInfoLabel = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            LyricsLabel = new Label();
+            Panel = new Panel();
+            SongNameLabel = new Label();
+            SongInfoLabel = new Label();
+            SuspendLayout();
             // 
             // LyricsLabel
             // 
-            this.LyricsLabel.AutoSize = true;
-            this.LyricsLabel.Font = new System.Drawing.Font("Calibri", 11.08383F);
-            this.LyricsLabel.ForeColor = System.Drawing.Color.White;
-            this.LyricsLabel.Location = new System.Drawing.Point(20, 18);
-            this.LyricsLabel.Name = "LyricsLabel";
-            this.LyricsLabel.Size = new System.Drawing.Size(0, 18);
-            this.LyricsLabel.TabIndex = 1;
-            this.LyricsLabel.UseMnemonic = false;
+            LyricsLabel.AutoSize = true;
+            LyricsLabel.Font = new Font("Calibri", 11.08383F);
+            LyricsLabel.ForeColor = Color.White;
+            LyricsLabel.Location = new Point(20, 18);
+            LyricsLabel.Name = "LyricsLabel";
+            LyricsLabel.Size = new Size(0, 18);
+            LyricsLabel.TabIndex = 1;
+            LyricsLabel.UseMnemonic = false;
             // 
             // Panel
             // 
-            this.Panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(80)))));
-            this.Panel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.16018F);
-            this.Panel.Location = new System.Drawing.Point(0, 86);
-            this.Panel.Name = "Panel";
-            this.Panel.Size = new System.Drawing.Size(1259, 530);
-            this.Panel.TabIndex = 2;
+            Panel.BackColor = Color.FromArgb(0, 64, 80);
+            Panel.Font = new Font("Microsoft Sans Serif", 10.16018F);
+            Panel.Location = new Point(0, 86);
+            Panel.Name = "Panel";
+            Panel.Size = new Size(1259, 530);
+            Panel.TabIndex = 2;
             // 
             // SongNameLabel
             // 
-            this.SongNameLabel.AutoSize = true;
-            this.SongNameLabel.Font = new System.Drawing.Font("Calibri", 17.5494F, System.Drawing.FontStyle.Bold);
-            this.SongNameLabel.ForeColor = System.Drawing.Color.White;
-            this.SongNameLabel.Location = new System.Drawing.Point(20, 18);
-            this.SongNameLabel.Name = "SongNameLabel";
-            this.SongNameLabel.Size = new System.Drawing.Size(0, 29);
-            this.SongNameLabel.TabIndex = 3;
-            this.SongNameLabel.UseMnemonic = false;
+            SongNameLabel.AutoSize = true;
+            SongNameLabel.Font = new Font("Calibri", 17.5494F, FontStyle.Bold);
+            SongNameLabel.ForeColor = Color.White;
+            SongNameLabel.Location = new Point(20, 18);
+            SongNameLabel.Name = "SongNameLabel";
+            SongNameLabel.Size = new Size(0, 29);
+            SongNameLabel.TabIndex = 3;
+            SongNameLabel.UseMnemonic = false;
             // 
             // SongInfoLabel
             // 
-            this.SongInfoLabel.AutoSize = true;
-            this.SongInfoLabel.Font = new System.Drawing.Font("Calibri", 13.85479F);
-            this.SongInfoLabel.ForeColor = System.Drawing.Color.White;
-            this.SongInfoLabel.Location = new System.Drawing.Point(20, 49);
-            this.SongInfoLabel.Name = "SongInfoLabel";
-            this.SongInfoLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SongInfoLabel.Size = new System.Drawing.Size(0, 23);
-            this.SongInfoLabel.TabIndex = 4;
-            this.SongInfoLabel.UseMnemonic = false;
+            SongInfoLabel.AutoSize = true;
+            SongInfoLabel.Font = new Font("Calibri", 13.85479F);
+            SongInfoLabel.ForeColor = Color.White;
+            SongInfoLabel.Location = new Point(20, 49);
+            SongInfoLabel.Name = "SongInfoLabel";
+            SongInfoLabel.RightToLeft = RightToLeft.No;
+            SongInfoLabel.Size = new Size(0, 23);
+            SongInfoLabel.TabIndex = 4;
+            SongInfoLabel.UseMnemonic = false;
             // 
             // LyricsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1259, 617);
-            this.Controls.Add(this.SongInfoLabel);
-            this.Controls.Add(this.SongNameLabel);
-            this.Controls.Add(this.Panel);
-            this.Controls.Add(this.LyricsLabel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "LyricsForm";
-            this.Text = "SoogbadMusic";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(6F, 14F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(0, 48, 64);
+            ClientSize = new Size(1259, 617);
+            Controls.Add(SongInfoLabel);
+            Controls.Add(SongNameLabel);
+            Controls.Add(Panel);
+            Controls.Add(LyricsLabel);
+            Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new Size(1275, 656);
+            Name = "LyricsForm";
+            Text = "SoogbadMusic";
+            WindowState = FormWindowState.Maximized;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

@@ -1,10 +1,4 @@
-﻿using SoogbadMusic.Properties;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using SoogbadMusic.Resources;
-
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
 
     public static class PlayerManager
