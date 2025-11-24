@@ -15,11 +15,13 @@ namespace SoogbadMusic
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-            string file = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\Cursors", "Hand", "default");
-            Cursor = file != null && File.Exists(file) ? new Cursor(LoadCursorFromFile(file)) : Cursors.Hand;
+            string? filePath = Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\Cursors", "Hand", "default") as string;
+            Cursor = !string.IsNullOrEmpty(filePath) && File.Exists(filePath)
+                ? new Cursor(LoadCursorFromFile(filePath))
+                : Cursors.Hand;
         }
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern nint LoadCursorFromFile(string path);
 
     }

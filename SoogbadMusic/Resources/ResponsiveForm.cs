@@ -12,18 +12,18 @@ namespace SoogbadMusic
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            var colorRef = ColorTranslator.ToWin32(Color.FromArgb(15, 100, 50));
-            DwmSetWindowAttribute(this.Handle, DWMWA_CAPTION_COLOR, ref colorRef, sizeof(int));
+            int colorRef = ColorTranslator.ToWin32(Color.FromArgb(15, 100, 50));
+            _ = DwmSetWindowAttribute(Handle, DWMWA_CAPTION_COLOR, ref colorRef, sizeof(int));
         }
 
         private Size initialFormSize = Size.Empty;
-        private Dictionary<string, Values> initialValues = new Dictionary<string, Values>();
-        private List<string> widthBlacklist = new List<string>(), heightBlacklist = new List<string>(), leftBlacklist = new List<string>(), topBlacklist = new List<string>();
-        private List<Control> invisibleControls = new List<Control>();
-        private List<ToolStripMenuItem> invisibleToolStripMenuItems = new List<ToolStripMenuItem>();
-        private List<string> changeAnchor = new List<string>();
+        private Dictionary<string, Values> initialValues = [];
+        private List<string> widthBlacklist = [], heightBlacklist = [], leftBlacklist = [], topBlacklist = [];
+        private List<Control> invisibleControls = [];
+        private List<ToolStripMenuItem> invisibleToolStripMenuItems = [];
+        private List<string> changeAnchor = [];
 
-        protected event EmptyEventHandler ResponsiveClientSizeChanged;
+        protected event EmptyEventHandler ResponsiveClientSizeChanged = new(() => {});
 
         protected void BlacklistControlWidth(Control control)
         {
@@ -42,8 +42,10 @@ namespace SoogbadMusic
             topBlacklist.Add(control.Name);
         }
 
-        protected void AddInvisibleControls(List<Control> controls)
+        protected void AddInvisibleControls(List<Control>? controls)
         {
+            if(controls == null)
+                return;
             invisibleControls.AddRange(controls);
             foreach(Control control in controls)
                 OnControlAdded(control);
@@ -80,7 +82,8 @@ namespace SoogbadMusic
         protected override void OnControlAdded(ControlEventArgs e)
         {
             base.OnControlAdded(e);
-            OnControlAdded(e.Control);
+            if(e.Control != null)
+                OnControlAdded(e.Control);
         }
         private void OnControlAdded(Control control)
         {
@@ -96,6 +99,8 @@ namespace SoogbadMusic
         }
         private void OnToolStripMenuItemAdded(ToolStripMenuItem item)
         {
+            if(item == null || item.Name == null)
+                return;
             try
             {
                 initialValues.Add(item.Name, new Values((int)item.Font.Size, item.Width, item.Height, item.Bounds.Top, item.Bounds.Top));
@@ -106,8 +111,10 @@ namespace SoogbadMusic
                 return;
             MakeResponsive(item, ClientSize.Width / initialFormSize.Width, ClientSize.Height / initialFormSize.Height);
         }
-        private void OnControlTextChanged(object sender, EventArgs e)
+        private void OnControlTextChanged(object? sender, EventArgs e)
         {
+            if(sender == null)
+                return;
             Control control = (Control)sender;
             if(control.Text == "")
                 return;
@@ -157,7 +164,9 @@ namespace SoogbadMusic
         {
             if(horizontalFactor == 0 || verticalFactor == 0)
                 return;
-            string name = item.Name;
+            string? name = item.Name;
+            if(name == null)
+                return;
             Values init = initialValues[name];
             item.Font = new Font(item.Font.FontFamily, Math.Min(horizontalFactor, verticalFactor) * init.FontSize, item.Font.Style);
             if(!widthBlacklist.Contains(name))

@@ -4,20 +4,20 @@
     public static class PlayerManager
     {
 
-        public static event EmptyEventHandler SongChanged;
+        public static event EmptyEventHandler SongChanged = new(() => { });
         public static void RaiseSongChanged()
         {
             SongChanged();
         }
-        public static event EmptyEventHandler PausedValueChanged;
+        public static event EmptyEventHandler PausedValueChanged = new(() => { });
 
-        private static List<Song> history = new List<Song>();
+        private static List<Song> history = [];
         private static int currentlyPlayedSongIndex = -1;
 
         public static bool Shuffle { get; set; } = false;
         public static bool Filter { get; set; } = true;
 
-        public static Player Player { get; set; } = null;
+        public static Player? Player { get; set; } = null;
         private static bool paused = true;
         public static bool Paused
         {
@@ -54,7 +54,7 @@
             if(!Paused)
                 Player.Play();
         }
-        public static void OnPlaybackStopped(object sender, MyStoppedEventArgs e)
+        public static void OnPlaybackStopped(object? sender, MyStoppedEventArgs e)
         {
             if(e.Finished || e.Exception != null)
                 NextSong();
@@ -84,7 +84,7 @@
                         CreatePlayer();
                         SongChanged();
                     }
-                    else if(!paused && Player.Stopped)
+                    else if(!paused && Player != null && Player.Stopped)
                         Paused = true;
                 }
                 else
@@ -144,7 +144,7 @@
             Paused = false;
         }
 
-        private static List<Song> queue = new List<Song>();
+        private static List<Song> queue = [];
         public static void AddToQueue(Song song)
         {
             queue.Add(song);
@@ -161,7 +161,7 @@
 
         private static bool SampleRateConstant(Song song)
         {
-            Player testPlayer = new Player(song);
+            Player testPlayer = new(song);
             if(testPlayer.InitSuccess)
             {
                 testPlayer.Dispose2();

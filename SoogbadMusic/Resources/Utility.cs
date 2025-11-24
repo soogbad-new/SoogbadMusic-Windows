@@ -1,12 +1,13 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace SoogbadMusic
 {
 
     public delegate void EmptyEventHandler();
 
-    public static class Utility
+    public static partial class Utility
     {
 
         public static string FormatTime(double seconds)
@@ -44,12 +45,14 @@ namespace SoogbadMusic
                 DrawBackgroundImage(e.Graphics, e.Item.BackgroundImage, e.Item.BackColor, e.Item.BackgroundImageLayout, new Rectangle(Point.Empty, e.Item.Size), new Rectangle(Point.Empty, e.Item.Size));
             }
 
-            private static void DrawBackgroundImage(Graphics g, Image backgroundImage, Color backColor, ImageLayout backgroundImageLayout, Rectangle bounds, Rectangle clipRect, Point scrollOffset = default, RightToLeft rightToLeft = RightToLeft.No)
+            private static void DrawBackgroundImage(Graphics g, Image? backgroundImage, Color backColor, ImageLayout backgroundImageLayout, Rectangle bounds, Rectangle clipRect, RightToLeft rightToLeft = RightToLeft.No)
             {
+                if(backgroundImage == null)
+                    return;
                 Rectangle imageRectangle = bounds;
                 if(rightToLeft == RightToLeft.Yes && backgroundImageLayout == ImageLayout.None)
                     imageRectangle.X += clipRect.Width - imageRectangle.Width;
-                using(SolidBrush brush = new SolidBrush(backColor))
+                using(SolidBrush brush = new(backColor))
                     g.FillRectangle(brush, clipRect);
                 if(!clipRect.Contains(imageRectangle))
                 {
@@ -58,7 +61,7 @@ namespace SoogbadMusic
                 }
                 else
                 {
-                    ImageAttributes imageAttrib = new ImageAttributes();
+                    ImageAttributes imageAttrib = new();
                     imageAttrib.SetWrapMode(WrapMode.TileFlipXY);
                     g.DrawImage(backgroundImage, imageRectangle, 0, 0, backgroundImage.Width, backgroundImage.Height, GraphicsUnit.Pixel, imageAttrib);
                     imageAttrib.Dispose();

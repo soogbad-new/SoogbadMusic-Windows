@@ -11,7 +11,7 @@
         static void Main()
         {
             bool instanceCountOne = false;
-            using(Mutex mutex = new Mutex(true, "SoogbadMusic", out instanceCountOne))
+            using(Mutex mutex = new(true, "SoogbadMusic", out instanceCountOne))
             {
                 if(instanceCountOne)
                 {

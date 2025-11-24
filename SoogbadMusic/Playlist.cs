@@ -3,11 +3,11 @@ namespace SoogbadMusic
 	
 	public static class Playlist
 	{
-		
-		public static string Directory { get; set; }
-        public static List<Song> Songs { get; private set; } = new List<Song>();
 
-        private static Thread lastRefreshThread = null;
+        public static string Directory { get; set; } = "";
+        public static List<Song> Songs { get; private set; } = [];
+
+        private static Thread? lastRefreshThread = null;
         private static bool stopLastThread = false;
 
         public static void RefreshSongs()
@@ -20,8 +20,8 @@ namespace SoogbadMusic
             }
             lastRefreshThread = new Thread(() =>
             {
-                Songs = new List<Song>();
-                IEnumerable<string> files = PlayerManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith("_"); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
+                Songs = [];
+                IEnumerable<string> files = PlayerManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith('_'); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
                 int count = files.Count();
                 int i = 0;
                 foreach(string file in files)

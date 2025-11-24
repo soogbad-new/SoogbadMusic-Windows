@@ -24,7 +24,7 @@ namespace SoogbadMusic
             YearTextBox.Text = Song.Data.Year.ToString();
             AlbumCoverPictureButton.Image = Song.Data.AlbumCover;
             LyricsTextBox.Text = Song.Data.Lyrics;
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer() { Interval = 50 };
+            System.Windows.Forms.Timer timer = new() { Interval = 50 };
             timer.Tick += OnTimerTick;
             timer.Start();
         }
@@ -45,11 +45,11 @@ namespace SoogbadMusic
         }
         private bool Cancel()
         {
-            return (TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics) ? true : new ExitDialog().ShowDialog() == DialogResult.OK;
+            return (TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics) || new ExitDialog().ShowDialog() == DialogResult.OK;
         }
         bool saving = false;
         bool doStuff = false;
-        SoogbadMusic soogbadMusic = null;
+        SoogbadMusic? soogbadMusicForm = null;
         bool paused = false;
         double currentTime = 0;
         bool wasPlayed = false;
@@ -59,11 +59,11 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
             {
                 SaveButton.Enabled = false;
-                soogbadMusic = null;
+                soogbadMusicForm = null;
                 foreach(Form form in Application.OpenForms)
-                    if(form is SoogbadMusic)
+                    if(form is SoogbadMusic soogbadMusic)
                     {
-                        soogbadMusic = (SoogbadMusic)form;
+                        soogbadMusicForm = soogbadMusic;
                         break;
                     }
                 if(PlayerManager.Player != null && PlayerManager.Player.Song == Song)
@@ -76,12 +76,12 @@ namespace SoogbadMusic
                 }
                 TagLib.File file = TagLib.File.Create(Song.Path);
                 file.Tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
-                file.Tag.AlbumArtists = ArtistTextBox.Text == "" ? new string[0] : new string[] { ArtistTextBox.Text };
+                file.Tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
                 file.Tag.Performers = file.Tag.AlbumArtists;
                 file.Tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
                 file.Tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
                 file.Tag.Track = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
-                file.Tag.Pictures = AlbumCoverPictureButton.Image == null ? new IPicture[0] : new IPicture[] { new Picture(new ByteVector((byte[])new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[])))) };
+                file.Tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
                 file.Tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
                 new System.Threading.Thread(() =>
                 {
@@ -108,7 +108,7 @@ namespace SoogbadMusic
                 }).Start();
             }
         }
-        private void OnTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object? sender, EventArgs e)
         {
             if(doStuff)
             {
@@ -121,9 +121,12 @@ namespace SoogbadMusic
                         PlayerManager.Player.Play();
                     PlayerManager.RaiseSongChanged();
                 }
-                SongList songList = soogbadMusic.GetSongList();
-                songList.SortList();
-                songList.ChangeIndex(songList.Index);
+                if(soogbadMusicForm != null)
+                {
+                    SongList songList = soogbadMusicForm.GetSongList();
+                    songList.SortList();
+                    songList.ChangeIndex(songList.Index);
+                }
                 saving = true;
                 Close();
             }

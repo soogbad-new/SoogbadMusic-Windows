@@ -1,22 +1,16 @@
 namespace SoogbadMusic
 {
 	
-	public struct SongData
-	{
+	public struct SongData(string title, string artist, string album, uint year, Image? albumCover, string lyrics)
+    {
+        public string Title { get; set; } = title;
+		public string Artist { get; set; } = artist;
+		public string Album { get; set; } = album;
+		public uint Year { get; set; } = year;
+		public Image? AlbumCover { get; set; } = albumCover;
+		public string Lyrics { get; set; } = lyrics;
 
-		public SongData(string title, string artist, string album, uint year, Image albumCover, string lyrics)
-		{
-			Title = title; Artist = artist; Album = album; Year = year; AlbumCover = albumCover; Lyrics = lyrics;
-		}
-		
-		public string Title { get; set; }
-		public string Artist { get; set; }
-		public string Album { get; set; }
-		public uint Year { get; set; }
-        public Image AlbumCover { get; set; }
-        public string Lyrics { get; set; }
-
-        public bool Contains(string key, bool advanced)
+        public readonly bool Contains(string key, bool advanced)
         {
 			string realKey = RemoveSpecialCharacters(key.ToLower());
 			if(!advanced)
@@ -24,7 +18,7 @@ namespace SoogbadMusic
 			else
 				return Contains(RemoveSpecialCharacters(Artist.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Title.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Album.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Year.ToString().ToLower()), realKey) || Contains(RemoveSpecialCharacters(Lyrics.ToLower()), realKey);
 		}
-		private bool Contains(string str, string key)
+		private static bool Contains(string str, string key)
         {
 			for(int i = str.IndexOf(key); ; i = str.IndexOf(key, i + 1))
             {
@@ -35,7 +29,7 @@ namespace SoogbadMusic
 			}
 			return false;
 		}
-		private string RemoveSpecialCharacters(string str)
+		private static string RemoveSpecialCharacters(string str)
         {
 			string ret = "";
 			foreach(char chr in str)

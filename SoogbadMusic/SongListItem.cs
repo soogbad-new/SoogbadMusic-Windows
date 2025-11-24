@@ -8,13 +8,13 @@
         {
             InitializeComponent();
             ContextMenuStrip = null;
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer() { Interval = 100 };
+            System.Windows.Forms.Timer timer = new() { Interval = 100 };
             timer.Tick += OnTimerTick;
             timer.Start();
         }
 
-        private Song song = null;
-        public Song Song
+        private Song? song = null;
+        public Song? Song
         {
             get
             {
@@ -41,7 +41,7 @@
             }
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object? sender, EventArgs e)
         {
             DurationLabel.Left = Width - DurationLabel.Width - 8;
             RemoveFromQueueToolStripMenuItem.Enabled = Song == null || PlayerManager.QueueContains(Song);
@@ -57,7 +57,7 @@
 
         public List<Control> GetLabels()
         {
-            return new List<Control> { NameLabel, InfoLabel, DurationLabel };
+            return [NameLabel, InfoLabel, DurationLabel];
         }
 
 

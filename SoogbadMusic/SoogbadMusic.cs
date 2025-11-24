@@ -8,7 +8,7 @@ namespace SoogbadMusic
     public partial class SoogbadMusic : ResponsiveForm
     {
 
-        private SystemMediaTransportControls systemControls = null;
+        private SystemMediaTransportControls? systemControls = null;
         private bool songReady = true;
         private bool advancedSearch = false;
         private const int SCROLL_AMOUNT = 4;
@@ -24,16 +24,17 @@ namespace SoogbadMusic
             BlacklistControlTop(SearchTextBox);
             MenuStrip.Renderer = new Utility.NoHighlightToolStripRenderer();
             AddInvisibleToolStripMenuItems(MenuStrip.Items.Cast<ToolStripMenuItem>().ToList());
-            List<Control> labels = SongList.GetLabels();
+            List<Control>? labels = SongList.GetLabels();
             AddInvisibleControls(labels);
-            foreach(Control label in labels)
-                if(label.Name.Contains("Duration"))
-                    BlacklistControlLeft(label);
+            if(labels != null)
+                foreach(Control label in labels)
+                    if(label.Name.Contains("Duration"))
+                        BlacklistControlLeft(label);
             Playlist.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             Playlist.RefreshSongs();
             PlayerManager.SongChanged += OnSongChanged;
             PlayerManager.PausedValueChanged += OnPausedValueChanged;
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer() { Interval = 10 };
+            System.Windows.Forms.Timer timer = new() { Interval = 10 };
             timer.Tick += OnTimerTick;
             timer.Start();
             ResponsiveClientSizeChanged += OnResponsiveClientSizeChanged;
@@ -82,7 +83,7 @@ namespace SoogbadMusic
             ShortenLabelsText();
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object? sender, EventArgs e)
         {
             DurationLabel.Left = ClientSize.Width - DurationLabel.Width - 5;
             SearchTextBox.Top = (int)Math.Round(SongList.Top + SongList.Height + 0.5 * (ClientSize.Height - (SongList.Top + SongList.Height)) - 0.5 * SearchTextBox.Height);
@@ -143,6 +144,8 @@ namespace SoogbadMusic
 
         private void OnSongChanged()
         {
+            if(PlayerManager.Player == null)
+                return;
             AlbumCoverPictureBox.Select();
             SearchTextBox.Font = new Font(SearchTextBox.Font, FontStyle.Italic);
             SearchTextBox.ForeColor = Color.LightGray;
@@ -171,6 +174,8 @@ namespace SoogbadMusic
         }
         private async void UpdateSystemControlsData()
         {
+            if(systemControls == null || PlayerManager.Player == null)
+                return;
             systemControls.DisplayUpdater.Type = MediaPlaybackType.Music;
             systemControls.DisplayUpdater.MusicProperties.Artist = PlayerManager.Player.Song.Data.Artist;
             systemControls.DisplayUpdater.MusicProperties.AlbumArtist = PlayerManager.Player.Song.Data.Artist;
@@ -227,7 +232,8 @@ namespace SoogbadMusic
         private void OnPausedValueChanged()
         {
             PlayPauseButton.Image = PlayerManager.Paused ? Properties.Resources.Play : Properties.Resources.Pause;
-            systemControls.PlaybackStatus = PlayerManager.Paused ? MediaPlaybackStatus.Paused : MediaPlaybackStatus.Playing;
+            if(systemControls != null)
+                systemControls.PlaybackStatus = PlayerManager.Paused ? MediaPlaybackStatus.Paused : MediaPlaybackStatus.Playing;
         }
 
         private void OnNextButtonMouseDown(object sender, MouseEventArgs e)
@@ -287,7 +293,7 @@ namespace SoogbadMusic
             }
             SongList.ChangeIndex(songIndex, pixelOffset);
         }
-        private void OnSongListMouseWheel(object sender, MouseEventArgs e)
+        private void OnSongListMouseWheel(object? sender, MouseEventArgs e)
         {
             if(SongList.Height <= 0 || Playlist.Songs.Count == 0)
                 return;
@@ -324,7 +330,7 @@ namespace SoogbadMusic
             }
         }
 
-        private void OnSearchTextBoxTextChanged(object sender, EventArgs e)
+        private void OnSearchTextBoxTextChanged(object? sender, EventArgs? e)
         {
             if(SearchTextBox.Text == "" || SearchTextBox.Font.Italic)
             {
@@ -338,7 +344,7 @@ namespace SoogbadMusic
             }
             else
             {
-                List<Song> songs = new List<Song>();
+                List<Song> songs = [];
                 foreach(Song song in Playlist.Songs)
                     if(song.Data.Contains(SearchTextBox.Text, advancedSearch))
                         songs.Add(song);
@@ -349,9 +355,9 @@ namespace SoogbadMusic
                 SongListScrollBar.Maximum = maximum;
             }
         }
-        private void OnControlMouseUp(object sender, MouseEventArgs e)
+        private void OnControlMouseUp(object? sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+            if(sender != null && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right))
                 ((Control)sender).Select();
         }
         private void OnSearchTextBoxFocusEnter(object sender, EventArgs e)

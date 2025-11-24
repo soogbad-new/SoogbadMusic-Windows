@@ -16,7 +16,7 @@ namespace SoogbadMusic
             using(TagLib.File file = TagLib.File.Create(Path))
             {
                 Duration = file.Properties.Duration.TotalSeconds;
-                Image image = null;
+                Image? image = null;
                 if(file.Tag.Pictures.Length > 0)
                     image = Image.FromStream(new MemoryStream(file.Tag.Pictures[0].Data.Data));
                 string artist;
@@ -43,8 +43,15 @@ namespace SoogbadMusic
 
     public class SongComparer : IComparer<Song>
     {
-        public int Compare(Song a, Song b)
+        public int Compare(Song? a, Song? b)
         {
+            if(ReferenceEquals(a, b))
+                return 0;
+            if(a is null)
+                return 1;
+            if(b is null)
+                return -1;
+
             int artist = a.Data.Artist.CompareTo(b.Data.Artist);
             if(artist != 0)
                 return artist;

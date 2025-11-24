@@ -14,7 +14,7 @@ namespace SoogbadMusic
             Panel.VerticalScroll.Visible = false;
             Panel.AutoScroll = true;
             Panel.Controls.Add(LyricsLabel);
-            AddInvisibleControls(new List<Control>() { LyricsLabel });
+            AddInvisibleControls([LyricsLabel]);
             BlacklistControlTop(LyricsLabel);
             AddChangeAnchorControl(SongNameLabel);
             AddChangeAnchorControl(SongInfoLabel);
@@ -30,7 +30,7 @@ namespace SoogbadMusic
         const int GWL_STYLE = -16;
         const int WS_VSCROLL = 0x00200000;
         [DllImport("user32.dll")]
-        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         private bool IsScrollBarVisible()
         {
             if(Panel.Disposing || Panel.IsDisposed)
@@ -51,7 +51,7 @@ namespace SoogbadMusic
         }
         private void ScrollToTop()
         {
-            using(Control control = new Control() { Parent = Panel, Dock = DockStyle.Top })
+            using(Control control = new() { Parent = Panel, Dock = DockStyle.Top })
             {
                 Panel.ScrollControlIntoView(control);
                 control.Parent = null;

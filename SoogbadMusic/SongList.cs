@@ -5,12 +5,12 @@
     {
 
         private SongListItem[] items;
-        private List<Song> tempSongList = null;
+        private List<Song>? tempSongList = null;
 
         public SongList()
         {
             InitializeComponent();
-            items = new SongListItem[] { SongListItem1, SongListItem2, SongListItem3, SongListItem4, SongListItem5, SongListItem6, SongListItem7, SongListItem8Hidden };
+            items = [SongListItem1, SongListItem2, SongListItem3, SongListItem4, SongListItem5, SongListItem6, SongListItem7, SongListItem8Hidden];
             for(int i = 0; i < items.Length; i++)
             {
                 foreach(Control label in items[i].GetLabels())
@@ -21,9 +21,16 @@
                 items[i].MouseDown += OnSongListItemMouseDown;
             }
         }
-        private void OnSongListItemMouseDown(object sender, MouseEventArgs e)
+        private void OnSongListItemMouseDown(object? sender, MouseEventArgs e)
         {
-            SongListItem item = (SongListItem)(sender is Label ? ((Label)sender).Parent : sender);
+            if(sender == null)
+                return;
+            SongListItem item;
+            if(sender is Label senderLabel && senderLabel.Parent != null)
+                item = (SongListItem)senderLabel.Parent;
+            else
+                item = (SongListItem)sender;
+
             if(item.Song != null)
             {
                 bool light = Index % 2 == 0;
@@ -85,9 +92,9 @@
             Update();
         }
 
-        public Song SelectedSong { get; set; } = null;
+        public Song? SelectedSong { get; set; } = null;
 
-        public void ChangeTempSongList(List<Song> tempSongList)
+        public void ChangeTempSongList(List<Song>? tempSongList)
         {
             SortList();
             this.tempSongList = tempSongList;
@@ -118,7 +125,7 @@
             base.OnClientSizeChanged(e);
             if(items == null)
                 return;
-            Size size = new Size(Width, (int)Math.Round((double)Height / GetItemCount()));
+            Size size = new(Width, (int)Math.Round((double)Height / GetItemCount()));
             int offsetPixels = (int)Math.Round(ScrollOffsetPixels);
             int i = 0;
             foreach(SongListItem item in items)
@@ -129,11 +136,11 @@
             }
         }
 
-        public List<Control> GetLabels()
+        public List<Control>? GetLabels()
         {
             if(items == null)
                 return null;
-            List<Control> ret = new List<Control>();
+            List<Control> ret = [];
             foreach(SongListItem item in items)
                 ret.AddRange(item.GetLabels());
             return ret;

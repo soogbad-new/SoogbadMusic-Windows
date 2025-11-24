@@ -7,7 +7,7 @@
     <RootNamespace>SoogbadMusic</RootNamespace>
     <AssemblyName>SoogbadMusic</AssemblyName>
     <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.10240.0</SupportedOSPlatformVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
@@ -27,6 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <TargetCulture>en</TargetCulture>
+    <NeutralLanguage>en</NeutralLanguage>
     <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
