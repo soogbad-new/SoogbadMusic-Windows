@@ -49,7 +49,7 @@ namespace SoogbadMusic
         }
         bool saving = false;
         bool doStuff = false;
-        SoogbadMusic? soogbadMusicForm = null;
+        MainForm? mainForm = null;
         bool paused = false;
         double currentTime = 0;
         bool wasPlayed = false;
@@ -59,20 +59,20 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
             {
                 SaveButton.Enabled = false;
-                soogbadMusicForm = null;
+                mainForm = null;
                 foreach(Form form in Application.OpenForms)
-                    if(form is SoogbadMusic soogbadMusic)
+                    if(form is MainForm main)
                     {
-                        soogbadMusicForm = soogbadMusic;
+                        mainForm = main;
                         break;
                     }
-                if(PlayerManager.Player != null && PlayerManager.Player.Song == Song)
+                if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
                 {
                     wasPlayed = true;
-                    paused = PlayerManager.Player.Paused;
-                    currentTime = PlayerManager.Player.CurrentTime;
-                    PlayerManager.Player.Dispose();
-                    PlayerManager.Player = null;
+                    paused = PlaybackManager.Player.Paused;
+                    currentTime = PlaybackManager.Player.CurrentTime;
+                    PlaybackManager.Player.Dispose();
+                    PlaybackManager.Player = null;
                 }
                 TagLib.File file = TagLib.File.Create(Song.Path);
                 file.Tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
@@ -83,7 +83,7 @@ namespace SoogbadMusic
                 file.Tag.Track = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
                 file.Tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
                 file.Tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
-                new System.Threading.Thread(() =>
+                new Thread(() =>
                 {
                     int i = 0;
                     while(true)
@@ -93,7 +93,7 @@ namespace SoogbadMusic
                         {
                             file.Save();
                         }
-                        catch(System.IO.IOException)
+                        catch(IOException)
                         {
                             worked = false;
                         }
@@ -115,17 +115,20 @@ namespace SoogbadMusic
                 doStuff = false;
                 if(wasPlayed)
                 {
-                    PlayerManager.Player = new Player(Playlist.Songs[index]) { CurrentTime = currentTime };
-                    PlayerManager.Player.PlaybackStopped += PlayerManager.OnPlaybackStopped;
+                    PlaybackManager.Player = new Player(Playlist.Songs[index]) { CurrentTime = currentTime };
+                    PlaybackManager.Player.PlaybackStopped += PlaybackManager.OnPlaybackStopped;
                     if(!paused)
-                        PlayerManager.Player.Play();
-                    PlayerManager.RaiseSongChanged();
+                        PlaybackManager.Player.Play();
+                    PlaybackManager.RaiseSongChanged();
                 }
-                if(soogbadMusicForm != null)
+                if(mainForm != null)
                 {
-                    SongList songList = soogbadMusicForm.GetSongList();
-                    songList.SortList();
-                    songList.ChangeIndex(songList.Index);
+                    SongList songList = mainForm.GetSongList();
+                    if(songList.TempSongList == null)
+                        Playlist.Songs.Sort(new SongComparer());
+                    else
+                        songList.TempSongList.Sort(new SongComparer());
+                    songList.ChangeIndex(songList.Index, songList.ScrollPixelsOffset);
                 }
                 saving = true;
                 Close();

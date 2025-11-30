@@ -18,7 +18,7 @@
                     Application.SetHighDpiMode(HighDpiMode.PerMonitorV2); // helps Windows choose proper icon sizes on high DPI
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new SoogbadMusic());
+                    Application.Run(new MainForm());
                     mutex.ReleaseMutex();
                 }
                 else

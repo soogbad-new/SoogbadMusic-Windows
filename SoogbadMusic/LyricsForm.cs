@@ -20,7 +20,7 @@ namespace SoogbadMusic
             AddChangeAnchorControl(SongInfoLabel);
             AddChangeAnchorControl(LyricsLabel);
             OnSongChanged();
-            PlayerManager.SongChanged += OnSongChanged;
+            PlaybackManager.SongChanged += OnSongChanged;
         }
 
         protected override int GetRTLExtraMargin(Control control)
@@ -41,11 +41,11 @@ namespace SoogbadMusic
 
         private void OnSongChanged()
         {
-            if(PlayerManager.Player != null)
+            if(PlaybackManager.Player != null)
             {
-                SongNameLabel.Text = PlayerManager.Player.Song.Data.Artist + " - " + PlayerManager.Player.Song.Data.Title;
-                SongInfoLabel.Text = PlayerManager.Player.Song.Data.Album + " (" + PlayerManager.Player.Song.Data.Year.ToString() + ")";
-                LyricsLabel.Text = PlayerManager.Player.Song.Data.Lyrics + "\n" + "\n";
+                SongNameLabel.Text = PlaybackManager.Player.Song.Data.Artist + " - " + PlaybackManager.Player.Song.Data.Title;
+                SongInfoLabel.Text = PlaybackManager.Player.Song.Data.Album + " (" + PlaybackManager.Player.Song.Data.Year.ToString() + ")";
+                LyricsLabel.Text = PlaybackManager.Player.Song.Data.Lyrics + "\n" + "\n";
             }
             ScrollToTop();
         }

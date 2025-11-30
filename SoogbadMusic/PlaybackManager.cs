@@ -1,7 +1,7 @@
 ﻿namespace SoogbadMusic
 {
 
-    public static class PlayerManager
+    public static class PlaybackManager
     {
 
         public static event EmptyEventHandler SongChanged = new(() => { });

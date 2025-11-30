@@ -1,6 +1,6 @@
 ﻿namespace SoogbadMusic
 {
-    partial class SoogbadMusic
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -17,8 +17,8 @@
             {
                 components.Dispose();
             }
-            if(PlayerManager.Player != null)
-                PlayerManager.Player.Dispose();
+            if(PlaybackManager.Player != null)
+                PlaybackManager.Player.Dispose();
             base.Dispose(disposing);
         }
 
@@ -30,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoogbadMusic));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             ProgressBarBackground = new PictureButton();
             ProgressBar = new PictureButton();
             CurrentTimeLabel = new Label();
@@ -159,7 +159,6 @@
             SongListScrollBar.Name = "SongListScrollBar";
             SongListScrollBar.Size = new Size(17, 315);
             SongListScrollBar.TabIndex = 14;
-            SongListScrollBar.ValueChanged += OnSongListScrollBarValueChanged;
             // 
             // SearchTextBox
             // 
@@ -242,6 +241,7 @@
             MenuStrip.Name = "MenuStrip";
             MenuStrip.Size = new Size(944, 16);
             MenuStrip.TabIndex = 32;
+            MenuStrip.MouseDown += OnMenuStripMouseDown;
             // 
             // LyricsButton
             // 
@@ -276,7 +276,7 @@
             FilterButton.Size = new Size(11, 11);
             FilterButton.MouseDown += OnFilterButtonMouseDown;
             // 
-            // SoogbadMusic
+            // MainForm
             // 
             BackColor = Color.FromArgb(0, 64, 80);
             ClientSize = new Size(944, 501);
@@ -299,11 +299,11 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = MenuStrip;
             MinimumSize = new Size(960, 540);
-            Name = "SoogbadMusic";
+            Name = "MainForm";
             Text = "SoogbadMusic";
             WindowState = FormWindowState.Maximized;
             FormClosed += OnFormClosed;
-            Load += SoogbadMusic_Load;
+            Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).EndInit();

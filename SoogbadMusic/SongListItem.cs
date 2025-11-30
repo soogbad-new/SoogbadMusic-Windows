@@ -44,7 +44,7 @@
         private void OnTimerTick(object? sender, EventArgs e)
         {
             DurationLabel.Left = Width - DurationLabel.Width - 8;
-            RemoveFromQueueToolStripMenuItem.Enabled = Song == null || PlayerManager.QueueContains(Song);
+            RemoveFromQueueToolStripMenuItem.Enabled = Song == null || PlaybackManager.QueueContains(Song);
         }
 
 
@@ -64,18 +64,18 @@
         private void OnSongListItemMouseDoubleClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left && Song != null)
-                PlayerManager.SwitchSong(Song);
+                PlaybackManager.SwitchSong(Song);
         }
 
         private void OnAddToQueueToolStripMenuItemMouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left && Song != null)
-                PlayerManager.AddToQueue(Song);
+                PlaybackManager.AddToQueue(Song);
         }
         private void OnRemoveFromQueueToolStripMenuItemMouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left && Song != null)
-                PlayerManager.RemoveFromQueue(Song);
+                PlaybackManager.RemoveFromQueue(Song);
         }
         private void OnSongInfoToolStripMenuItemMouseDown(object sender, MouseEventArgs e)
         {

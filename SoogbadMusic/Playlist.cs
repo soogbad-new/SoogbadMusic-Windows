@@ -21,7 +21,7 @@ namespace SoogbadMusic
             lastRefreshThread = new Thread(() =>
             {
                 Songs = [];
-                IEnumerable<string> files = PlayerManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith('_'); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
+                IEnumerable<string> files = PlaybackManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith('_'); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
                 int count = files.Count();
                 int i = 0;
                 foreach(string file in files)
