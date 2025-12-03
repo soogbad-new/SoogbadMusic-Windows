@@ -183,11 +183,11 @@
             ScrollBar.Maximum = ConvertSongIndexToScrollBarValue(songsCount);
         }
 
-        private int ConvertSongIndexToScrollBarValue(int index)
+        private static int ConvertSongIndexToScrollBarValue(int index)
         {
             return index * SCROLL_MULTIPLIER;
         }
-        private int ConvertScrollBarValueToSongIndex(int scrollbarValue)
+        private static int ConvertScrollBarValueToSongIndex(int scrollbarValue)
         {
             return scrollbarValue / SCROLL_MULTIPLIER;
         }

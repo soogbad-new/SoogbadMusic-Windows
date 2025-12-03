@@ -3,73 +3,86 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>WinExe</OutputType>
+  </PropertyGroup>  
+  
+  <PropertyGroup>
     <RootNamespace>SoogbadMusic</RootNamespace>
     <AssemblyName>SoogbadMusic</AssemblyName>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
-    <SupportedOSPlatformVersion>10.0.10240.0</SupportedOSPlatformVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyTitle>SoogbadMusic</AssemblyTitle>
+    <Product>SoogbadMusic</Product>
+    <StartupObject>SoogbadMusic.Program</StartupObject>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <UseWindowsForms>true</UseWindowsForms>
-    <Nullable>enable</Nullable>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <TargetZone>LocalIntranet</TargetZone>
+    <PublishProfile>ReleaseProfile</PublishProfile>
+    <OutputType>WinExe</OutputType>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <MapFileExtensions>true</MapFileExtensions>
     <TargetCulture>en</TargetCulture>
     <NeutralLanguage>en</NeutralLanguage>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishProfile>FolderProfile</PublishProfile>
-    <TargetFrameworkProfile />
+    <UpdateEnabled>false</UpdateEnabled>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PublishDir>bin\Release\$(TargetFramework)\</PublishDir>
-    <ExcludeAssets>runtime</ExcludeAssets>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <OutputPath>bin\release\</OutputPath>
+    <PublishSingleFile>false</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <ExcludeAssets>runtime</ExcludeAssets>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <DebugType>embedded</DebugType>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\debug\</OutputPath>
+    <Optimize>true</Optimize>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>full</DebugType>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>SoogbadMusic.Program</StartupObject>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Asio" Version="2.2.1">
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NAudio.Core" Version="2.2.1" />
+    <PackageReference Include="NAudio.Midi" Version="2.2.1">
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
+    <PackageReference Include="NAudio.WinForms" Version="2.2.1">
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NAudio.WinMM" Version="2.2.1" />
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
   </ItemGroup>
+  
   <ItemGroup>
     <None Include="Resources\ShuffleOn.png" />
     <None Include="Resources\ShuffleOff.png" />

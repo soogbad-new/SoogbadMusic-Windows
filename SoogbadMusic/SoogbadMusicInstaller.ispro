@@ -21,7 +21,7 @@ Thank you for installing SoogbadMusic!
 [LicenseAgreement]
 
 [SetupFiles]
-SourceFolder=C:\Users\soogb\VisualStudioProjects\SoogbadMusic\SoogbadMusic\bin\Release\net8.0-windows10.0.26100.0
+SourceFolder=C:\Users\soogb\VisualStudioProjects\SoogbadMusic\SoogbadMusic\bin\release\publish
 SpecialFolder=Program Files
 SetupPath=SoogbadMusic
 SetupFile=C:\Users\soogb\Documents\SoogbadMusicInstaller.exe

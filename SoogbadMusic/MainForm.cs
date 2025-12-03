@@ -15,20 +15,18 @@ namespace SoogbadMusic
         public MainForm()
         {
             InitializeComponent();
-            BlacklistControlWidth(ProgressBar);
-            BlacklistControlLeft(DurationLabel);
-            BlacklistControlWidth(SongListScrollBar);
-            BlacklistControlLeft(SongListScrollBar);
-            BlacklistControlWidth(SongList);
             BlacklistControlTop(SearchTextBox);
-            MenuStrip.Renderer = new Utility.NoHighlightToolStripRenderer();
-            AddInvisibleToolStripMenuItems([.. MenuStrip.Items.Cast<ToolStripMenuItem>()]);
+            BlacklistControlWidth(ProgressBar); BlacklistControlWidth(SongListScrollBar); BlacklistControlWidth(SongList);
+            BlacklistControlLeft(SongListScrollBar); BlacklistControlLeft(DurationLabel);
             List<Control>? labels = SongList.GetLabels();
             AddInvisibleControls(labels);
             if(labels != null)
                 foreach(Control label in labels)
                     if(label.Name.Contains("Duration"))
                         BlacklistControlLeft(label);
+            CurrentTimeLabel.Text = ""; DurationLabel.Text = "";
+            MenuStrip.Renderer = new Utility.NoHighlightToolStripRenderer();
+            AddInvisibleToolStripMenuItems([.. MenuStrip.Items.Cast<ToolStripMenuItem>()]);
             SongList.ScrollBar = SongListScrollBar;
             Playlist.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             Playlist.RefreshSongs();
@@ -67,8 +65,7 @@ namespace SoogbadMusic
             if(refreshProgress > 0)
             {
                 ProgressBar.Visible = true;
-                CurrentTimeLabel.Text = "";
-                DurationLabel.Text = "";
+                CurrentTimeLabel.Text = ""; DurationLabel.Text = "";
                 if(ProgressBar.Width <= ClientSize.Width)
                     ProgressBar.Width = (int)Math.Round(refreshProgress * ClientSize.Width);
             }
@@ -86,8 +83,7 @@ namespace SoogbadMusic
             else
             {
                 ProgressBar.Visible = false;
-                CurrentTimeLabel.Text = "";
-                DurationLabel.Text = "";
+                CurrentTimeLabel.Text = ""; DurationLabel.Text = "";
             }
         }
         private void OnRefreshSongsComplete()
@@ -133,6 +129,8 @@ namespace SoogbadMusic
             if(systemControls == null)
             {
                 systemControls = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
+                systemControls.DisplayUpdater.AppMediaId = "SoogbadMusic";
+                systemControls.DisplayUpdater.Type = MediaPlaybackType.Music;
                 systemControls.ButtonPressed += OnSystemControlsButtonPressed;
                 systemControls.IsPlayEnabled = true; systemControls.IsPauseEnabled = true; systemControls.IsPreviousEnabled = true; systemControls.IsNextEnabled = true;
             }
