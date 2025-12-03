@@ -238,7 +238,7 @@ namespace SoogbadMusic
                     Playlist.Songs.Sort(new SongComparer());
                     SongList.TempSongList = null;
                     SongList.SetScrollBarMaximum(Playlist.Songs.Count);
-                    if(PlaybackManager.Player != null && !SongList.IsOnScreen(PlaybackManager.Player.Song))
+                    if(PlaybackManager.Player != null)
                         SongList.SetScrollBarValue(Playlist.Songs.IndexOf(PlaybackManager.Player.Song));
                 }
             }
