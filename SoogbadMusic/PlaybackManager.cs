@@ -1,4 +1,8 @@
-﻿namespace SoogbadMusic
+﻿using Windows.Media;
+using Windows.Media.Playback;
+using Windows.Storage;
+
+namespace SoogbadMusic
 {
 
     public static class PlaybackManager
@@ -8,16 +12,17 @@
         public static void RaiseSongChanged()
         {
             SongChanged();
+            UpdateSystemControlsData();
         }
         public static event EmptyEventHandler PausedValueChanged = new(() => { });
 
+        private static SystemMediaTransportControls? systemControls = null;
         private static List<Song> history = [];
         private static int currentlyPlayedSongIndex = -1;
-
         public static bool Shuffle { get; set; } = false;
         public static bool Filter { get; set; } = true;
-
         public static Player? Player { get; set; } = null;
+
         private static bool paused = true;
         public static bool Paused
         {
@@ -42,6 +47,8 @@
                         Player.Play();
                 }
                 PausedValueChanged();
+                if(systemControls != null)
+                    systemControls.PlaybackStatus = Paused ? MediaPlaybackStatus.Paused : MediaPlaybackStatus.Playing;
             }
         }
 
@@ -82,7 +89,7 @@
                         history.Add(song);
                         currentlyPlayedSongIndex = history.Count - 1;
                         CreatePlayer();
-                        SongChanged();
+                        RaiseSongChanged();
                     }
                     else if(!paused && Player != null && Player.Stopped)
                         Paused = true;
@@ -97,7 +104,7 @@
                         return;
                     }
                     CreatePlayer();
-                    SongChanged();
+                    RaiseSongChanged();
                 }
             }
             else
@@ -112,7 +119,7 @@
                 currentlyPlayedSongIndex = history.Count - 1;
                 CreatePlayer();
                 queue.RemoveAt(0);
-                SongChanged();
+                RaiseSongChanged();
             }
         }
         public static void PreviousSong()
@@ -129,7 +136,7 @@
                     return;
                 }
                 CreatePlayer();
-                SongChanged();
+                RaiseSongChanged();
             }
         }
 
@@ -140,7 +147,7 @@
             history.Add(song);
             currentlyPlayedSongIndex = history.Count - 1;
             CreatePlayer();
-            SongChanged();
+            RaiseSongChanged();
             Paused = false;
         }
 
@@ -157,6 +164,48 @@
         public static bool QueueContains(Song song)
         {
             return queue.Contains(song);
+        }
+
+        private static void UpdateSystemControlsData()
+        {
+            if(Player == null)
+                return;
+            if(systemControls == null)
+            {
+                systemControls = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
+                systemControls.DisplayUpdater.AppMediaId = "SoogbadMusic";
+                systemControls.DisplayUpdater.Type = MediaPlaybackType.Music;
+                systemControls.ButtonPressed += OnSystemControlsButtonPressed;
+                systemControls.IsPlayEnabled = true; systemControls.IsPauseEnabled = true; systemControls.IsPreviousEnabled = true; systemControls.IsNextEnabled = true;
+            }
+            systemControls.DisplayUpdater.Type = MediaPlaybackType.Music;
+            systemControls.DisplayUpdater.MusicProperties.Artist = Player.Song.Data.Artist;
+            systemControls.DisplayUpdater.MusicProperties.AlbumArtist = Player.Song.Data.Artist;
+            systemControls.DisplayUpdater.MusicProperties.Title = Player.Song.Data.Title;
+            systemControls.DisplayUpdater.MusicProperties.AlbumTitle = Player.Song.Data.Album;
+            if(Player.Song.Data.AlbumCover != null)
+            {
+                string tempFolder = Path.GetTempPath() + "\\SoogbadMusic";
+                if(!Directory.Exists(tempFolder))
+                    Directory.CreateDirectory(tempFolder);
+                Player.Song.Data.AlbumCover.Save(tempFolder + "\\thumb.png");
+                StorageFile thumbFile = StorageFile.GetFileFromPathAsync(tempFolder + "\\thumb.png").AsTask().GetAwaiter().GetResult();
+                systemControls.DisplayUpdater.Thumbnail = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(thumbFile);
+            }
+            systemControls.DisplayUpdater.Update();
+        }
+        public static bool RequestPreviousSongFromMainThread { get; set; } = false;
+        public static bool RequestNextSongFromMainThread { get; set; } = false;
+        private static void OnSystemControlsButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs e)
+        {
+            switch(e.Button)
+            {
+                case SystemMediaTransportControlsButton.Play: Paused = false; break;
+                case SystemMediaTransportControlsButton.Pause: Paused = true; break;
+                case SystemMediaTransportControlsButton.Previous: RequestPreviousSongFromMainThread = true; break;
+                case SystemMediaTransportControlsButton.Next: RequestNextSongFromMainThread = true; break;
+                case SystemMediaTransportControlsButton.Stop: Environment.Exit(0); break;
+            }
         }
 
         private static bool SampleRateConstant(Song song)

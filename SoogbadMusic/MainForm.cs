@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using Windows.Media;
-using Windows.Media.Playback;
 
 namespace SoogbadMusic
 {
@@ -8,7 +7,6 @@ namespace SoogbadMusic
     public partial class MainForm : ResponsiveForm
     {
 
-        private SystemMediaTransportControls? systemControls = null;
         private bool songReady = true;
         private bool advancedSearch = false;
 
@@ -46,14 +44,14 @@ namespace SoogbadMusic
             UpdateProgressBar();
             if(Playlist.RefreshSongsComplete)
                 OnRefreshSongsComplete();
-            if(requestPrevious)
+            if(PlaybackManager.RequestPreviousSongFromMainThread)
             {
-                requestPrevious = false;
+                PlaybackManager.RequestPreviousSongFromMainThread = false;
                 PlaybackManager.PreviousSong();
             }
-            if(requestNext)
+            if(PlaybackManager.RequestNextSongFromMainThread)
             {
-                requestNext = false;
+                PlaybackManager.RequestNextSongFromMainThread = false;
                 PlaybackManager.NextSong();
             }
         }
@@ -119,35 +117,7 @@ namespace SoogbadMusic
             SongInfoLabel.Update();
             AlbumCoverPictureBox.Update();
             ShortenLabelsText();
-            UpdateSystemControlsData();
             songReady = true;
-        }
-        private async void UpdateSystemControlsData()
-        {
-            if(PlaybackManager.Player == null)
-                return;
-            if(systemControls == null)
-            {
-                systemControls = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
-                systemControls.DisplayUpdater.AppMediaId = "SoogbadMusic";
-                systemControls.DisplayUpdater.Type = MediaPlaybackType.Music;
-                systemControls.ButtonPressed += OnSystemControlsButtonPressed;
-                systemControls.IsPlayEnabled = true; systemControls.IsPauseEnabled = true; systemControls.IsPreviousEnabled = true; systemControls.IsNextEnabled = true;
-            }
-            systemControls.DisplayUpdater.Type = MediaPlaybackType.Music;
-            systemControls.DisplayUpdater.MusicProperties.Artist = PlaybackManager.Player.Song.Data.Artist;
-            systemControls.DisplayUpdater.MusicProperties.AlbumArtist = PlaybackManager.Player.Song.Data.Artist;
-            systemControls.DisplayUpdater.MusicProperties.Title = PlaybackManager.Player.Song.Data.Title;
-            systemControls.DisplayUpdater.MusicProperties.AlbumTitle = PlaybackManager.Player.Song.Data.Album;
-            if(PlaybackManager.Player.Song.Data.AlbumCover != null)
-            {
-                string tempFolder = Path.GetTempPath() + "\\SoogbadMusic";
-                if(!Directory.Exists(tempFolder))
-                    Directory.CreateDirectory(tempFolder);
-                PlaybackManager.Player.Song.Data.AlbumCover.Save(tempFolder + "\\thumb.png");
-                systemControls.DisplayUpdater.Thumbnail = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(tempFolder + "\\thumb.png"));
-            }
-            systemControls.DisplayUpdater.Update();
         }
 
         private void OnProgressBarBackgroundMouseDown(object sender, MouseEventArgs e)
@@ -208,8 +178,6 @@ namespace SoogbadMusic
         private void OnPausedValueChanged()
         {
             PlayPauseButton.Image = PlaybackManager.Paused ? Properties.Resources.Play : Properties.Resources.Pause;
-            if(systemControls != null)
-                systemControls.PlaybackStatus = PlaybackManager.Paused ? MediaPlaybackStatus.Paused : MediaPlaybackStatus.Playing;
         }
 
         private void OnNextButtonMouseDown(object sender, MouseEventArgs e)
@@ -319,19 +287,6 @@ namespace SoogbadMusic
         {
             if(sender != null && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right))
                 ((Control)sender).Select();
-        }
-
-        bool requestPrevious = false, requestNext = false;
-        private void OnSystemControlsButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs e)
-        {
-            switch(e.Button)
-            {
-                case SystemMediaTransportControlsButton.Play: PlaybackManager.Paused = false; break;
-                case SystemMediaTransportControlsButton.Pause: PlaybackManager.Paused = true; break;
-                case SystemMediaTransportControlsButton.Previous: requestPrevious = true; break;
-                case SystemMediaTransportControlsButton.Next: requestNext = true; break;
-                case SystemMediaTransportControlsButton.Stop: Environment.Exit(0); break;
-            }
         }
 
         bool closed = false;
