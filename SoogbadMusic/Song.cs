@@ -7,18 +7,15 @@ namespace SoogbadMusic
 		public Song(string path)
 		{
 			Path = path;
-            Refresh();
+            RefreshData();
         }
-        public void Refresh()
+        public void RefreshData()
         {
             if(!File.Exists(Path))
                 return;
             using(TagLib.File file = TagLib.File.Create(Path))
             {
                 Duration = file.Properties.Duration.TotalSeconds;
-                Image? image = null;
-                if(file.Tag.Pictures.Length > 0)
-                    image = Image.FromStream(new MemoryStream(file.Tag.Pictures[0].Data.Data));
                 string artist;
                 if(file.Tag.AlbumArtists.Length == 0)
                     artist = "";
@@ -29,10 +26,20 @@ namespace SoogbadMusic
                         for(int i = 1; i < file.Tag.AlbumArtists.Length; i++)
                             artist += "/" + file.Tag.AlbumArtists[i];
                 }
-                Data = new SongData(file.Tag.Title == null ? "" : file.Tag.Title, artist, file.Tag.Album == null ? "" : file.Tag.Album, file.Tag.Year, image, file.Tag.Lyrics == null ? "" : file.Tag.Lyrics);
+                Data = new SongData(file.Tag.Title == null ? "" : file.Tag.Title, artist, file.Tag.Album == null ? "" : file.Tag.Album, file.Tag.Year, null, "");
             }
         }
 
+        public void LoadAlbumCoverAndLyrics()
+        {
+            using(TagLib.File file = TagLib.File.Create(Path))
+            {
+                Image? image = null;
+                if(file.Tag.Pictures.Length > 0)
+                    image = Image.FromStream(new MemoryStream(file.Tag.Pictures[0].Data.Data));
+                Data = new SongData(Data.Title, Data.Artist, Data.Album, Data.Year, image, file.Tag.Lyrics == null ? "" : file.Tag.Lyrics);
+            }
+        }
 
         public string Path { get; private set; }
 		public double Duration { get; private set; }

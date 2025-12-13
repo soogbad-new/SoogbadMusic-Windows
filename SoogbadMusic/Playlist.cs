@@ -20,6 +20,8 @@ namespace SoogbadMusic
             }
             lastRefreshThread = new Thread(() =>
             {
+                TagLib.Id3v2.Tag.DefaultVersion = 3;
+                TagLib.Id3v2.Tag.ForceDefaultVersion = true;
                 Songs = [];
                 IEnumerable<string> files = PlaybackManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith('_'); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
                 int count = files.Count();

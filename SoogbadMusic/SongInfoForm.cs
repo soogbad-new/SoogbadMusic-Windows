@@ -5,18 +5,14 @@ namespace SoogbadMusic
     public partial class SongInfoForm : Form
     {
 
-        public static bool WindowExists(Song song)
-        {
-            foreach(Form form in Application.OpenForms)
-                if(form.Text == "Song Info - " + song.Path)
-                    return true;
-            return false;
-        }
+        public Song Song { get; private set; }
 
         public SongInfoForm(Song song)
         {
             InitializeComponent();
             Song = song;
+            if(Song.Data.AlbumCover == null || Song.Data.Lyrics == "")
+                Song.LoadAlbumCoverAndLyrics();
             Text = "Song Info - " + Song.Path;
             TitleTextBox.Text = Song.Data.Title;
             ArtistTextBox.Text = Song.Data.Artist;
@@ -29,8 +25,27 @@ namespace SoogbadMusic
             timer.Start();
         }
 
-        public Song Song { get; private set; }
-
+        public static bool WindowExists(Song song)
+        {
+            foreach(Form form in Application.OpenForms)
+                if(form.Text == "Song Info - " + song.Path)
+                    return true;
+            return false;
+        }
+        private void OnYearTextBoxKeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+        private void OnAlbumCoverPictureButtonMouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left && OpenAlbumCoverDialog.ShowDialog() == DialogResult.OK)
+                AlbumCoverPictureButton.Image = Image.FromFile(OpenAlbumCoverDialog.FileName);
+        }
+        private void OnTextBoxTextChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
+            textBox.RightToLeft = Utility.ContainsRTLCharacters(textBox.Text) ? RightToLeft.Yes : RightToLeft.No;
+        }
         private void OnCancelButtonMouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -38,22 +53,26 @@ namespace SoogbadMusic
         }
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            if(saving)
-                saving = false;
+            if(isSaving)
+            {
+                isSaving = false;
+                e.Cancel = false;
+            }
             else
-                e.Cancel = !Cancel();
+            {
+                if(TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics)
+                    e.Cancel = false;
+                else if(new ExitDialog().ShowDialog() == DialogResult.OK)
+                    e.Cancel = false;
+                else
+                    e.Cancel = true;
+            }
         }
-        private bool Cancel()
-        {
-            return (TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics) || new ExitDialog().ShowDialog() == DialogResult.OK;
-        }
-        bool saving = false;
-        bool doStuff = false;
+
+        bool isSaving = false, updateMainForm = false, wasPlaying = false, wasPaused = false;
+        double previousCurrentTime = 0;
+        int previousIndex;
         MainForm? mainForm = null;
-        bool paused = false;
-        double currentTime = 0;
-        bool wasPlayed = false;
-        int index;
         private void OnSaveButtonMouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -68,21 +87,21 @@ namespace SoogbadMusic
                     }
                 if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
                 {
-                    wasPlayed = true;
-                    paused = PlaybackManager.Player.Paused;
-                    currentTime = PlaybackManager.Player.CurrentTime;
+                    wasPlaying = true;
+                    wasPaused = PlaybackManager.Player.Paused;
+                    previousCurrentTime = PlaybackManager.Player.CurrentTime;
                     PlaybackManager.Player.Dispose();
                     PlaybackManager.Player = null;
                 }
                 TagLib.File file = TagLib.File.Create(Song.Path);
-                file.Tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
-                file.Tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
-                file.Tag.Performers = file.Tag.AlbumArtists;
-                file.Tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
-                file.Tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
-                file.Tag.Track = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
-                file.Tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
-                file.Tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
+                TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
+                tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
+                tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
+                tag.Performers = tag.AlbumArtists;
+                tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
+                tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
+                tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
+                tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
                 new Thread(() =>
                 {
                     int i = 0;
@@ -102,22 +121,22 @@ namespace SoogbadMusic
                         i++;
                     }
                     file.Dispose();
-                    index = Playlist.Songs.IndexOf(Song);
-                    Playlist.Songs[index].Refresh();
-                    doStuff = true;
+                    previousIndex = Playlist.Songs.IndexOf(Song);
+                    Playlist.Songs[previousIndex].RefreshData();
+                    updateMainForm = true;
                 }).Start();
             }
         }
         private void OnTimerTick(object? sender, EventArgs e)
         {
-            if(doStuff)
+            if(updateMainForm)
             {
-                doStuff = false;
-                if(wasPlayed)
+                updateMainForm = false;
+                if(wasPlaying)
                 {
-                    PlaybackManager.Player = new Player(Playlist.Songs[index]) { CurrentTime = currentTime };
+                    PlaybackManager.Player = new Player(Playlist.Songs[previousIndex]) { CurrentTime = previousCurrentTime };
                     PlaybackManager.Player.PlaybackStopped += PlaybackManager.OnPlaybackStopped;
-                    if(!paused)
+                    if(!wasPaused)
                         PlaybackManager.Player.Play();
                     PlaybackManager.RaiseSongChanged();
                 }
@@ -130,26 +149,9 @@ namespace SoogbadMusic
                         songList.TempSongList.Sort(new SongComparer());
                     songList.ChangeIndex(songList.Index, songList.ScrollPixelsOffset);
                 }
-                saving = true;
+                isSaving = true;
                 Close();
             }
-        }
-
-        private void OnYearTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
-        }
-
-        private void OnAlbumCoverPictureButtonMouseDown(object sender, MouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Left && OpenAlbumCoverDialog.ShowDialog() == DialogResult.OK)
-                AlbumCoverPictureButton.Image = Image.FromFile(OpenAlbumCoverDialog.FileName);
-        }
-
-        private void OnTextBoxTextChanged(object sender, EventArgs e)
-        {
-            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
-            textBox.RightToLeft = Utility.ContainsRTLCharacters(textBox.Text) ? RightToLeft.Yes : RightToLeft.No;
         }
 
     }

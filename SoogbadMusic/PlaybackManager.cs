@@ -11,6 +11,8 @@ namespace SoogbadMusic
         public static event EmptyEventHandler SongChanged = new(() => { });
         public static void RaiseSongChanged()
         {
+            if(Player != null && (Player.Song.Data.AlbumCover == null || Player.Song.Data.Lyrics == ""))
+                Player.Song.LoadAlbumCoverAndLyrics();
             SongChanged();
             UpdateSystemControlsData();
         }

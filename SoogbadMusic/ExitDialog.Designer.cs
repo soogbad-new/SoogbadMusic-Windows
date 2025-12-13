@@ -29,65 +29,71 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExitDialog));
-            this.CancelButton = new System.Windows.Forms.Button();
-            this.ExitButton = new System.Windows.Forms.Button();
-            this.DialogLabel = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            CancelButton = new Button();
+            ExitButton = new Button();
+            DialogLabel = new Label();
+            SuspendLayout();
             // 
             // CancelButton
             // 
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.CancelButton.Location = new System.Drawing.Point(155, 72);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 15;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            CancelButton.BackColor = Color.White;
+            CancelButton.DialogResult = DialogResult.Cancel;
+            CancelButton.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            CancelButton.Location = new Point(181, 83);
+            CancelButton.Margin = new Padding(4, 3, 4, 3);
+            CancelButton.Name = "CancelButton";
+            CancelButton.Size = new Size(88, 27);
+            CancelButton.TabIndex = 15;
+            CancelButton.Text = "Cancel";
+            CancelButton.UseVisualStyleBackColor = false;
             // 
             // ExitButton
             // 
-            this.ExitButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ExitButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.ExitButton.Location = new System.Drawing.Point(10, 72);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(75, 23);
-            this.ExitButton.TabIndex = 16;
-            this.ExitButton.Text = "Exit";
-            this.ExitButton.UseVisualStyleBackColor = true;
+            ExitButton.BackColor = Color.White;
+            ExitButton.DialogResult = DialogResult.OK;
+            ExitButton.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            ExitButton.Location = new Point(12, 83);
+            ExitButton.Margin = new Padding(4, 3, 4, 3);
+            ExitButton.Name = "ExitButton";
+            ExitButton.Size = new Size(88, 27);
+            ExitButton.TabIndex = 16;
+            ExitButton.Text = "Exit";
+            ExitButton.UseVisualStyleBackColor = false;
             // 
             // DialogLabel
             // 
-            this.DialogLabel.AutoSize = true;
-            this.DialogLabel.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.DialogLabel.ForeColor = System.Drawing.Color.White;
-            this.DialogLabel.Location = new System.Drawing.Point(22, 15);
-            this.DialogLabel.Name = "DialogLabel";
-            this.DialogLabel.Size = new System.Drawing.Size(196, 18);
-            this.DialogLabel.TabIndex = 17;
-            this.DialogLabel.Text = "Are you sure you want to exit?";
+            DialogLabel.AutoSize = true;
+            DialogLabel.Font = new Font("Calibri", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            DialogLabel.ForeColor = Color.White;
+            DialogLabel.Location = new Point(26, 17);
+            DialogLabel.Margin = new Padding(4, 0, 4, 0);
+            DialogLabel.Name = "DialogLabel";
+            DialogLabel.Size = new Size(196, 18);
+            DialogLabel.TabIndex = 17;
+            DialogLabel.Text = "Are you sure you want to exit?";
             // 
             // ExitDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(80)))));
-            this.ClientSize = new System.Drawing.Size(240, 105);
-            this.ControlBox = false;
-            this.Controls.Add(this.DialogLabel);
-            this.Controls.Add(this.ExitButton);
-            this.Controls.Add(this.CancelButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "ExitDialog";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Exit Dialog";
-            this.TopMost = true;
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(0, 64, 80);
+            ClientSize = new Size(280, 121);
+            ControlBox = false;
+            Controls.Add(DialogLabel);
+            Controls.Add(ExitButton);
+            Controls.Add(CancelButton);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "ExitDialog";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Exit Dialog";
+            TopMost = true;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
