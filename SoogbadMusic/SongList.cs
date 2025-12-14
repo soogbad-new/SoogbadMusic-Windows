@@ -1,35 +1,24 @@
-﻿namespace SoogbadMusic
+﻿using System.ComponentModel;
+
+namespace SoogbadMusic
 {
 
     public partial class SongList : UserControl
     {
 
         private SongListItem[] items;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Song? HighlightedSong { get; set; } = null;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<Song>? TempSongList { get; set; } = null;
-        public Song? SelectedSong { get; set; } = null;
-
-        public int Index { get; private set; } = 0;
-        public int ScrollPixelsOffset { get; set; }
+        private VScrollBar? scrollBar = null;
         private const int SCROLL_MULTIPLIER = 3;
+        public int Index { get; private set; } = 0;
+        public int ScrollPixelsOffset { get; private set; }
         private int ItemHeight { get { return items.Length > 0 ? (int)Math.Round((double)Height / GetVisibleItemsCount()) : Height; } }
         private int ScrollAmount { get { return (int)Math.Round(ItemHeight / (double)SCROLL_MULTIPLIER); } }
 
-        private VScrollBar? scrollBar = null;
-        public VScrollBar? ScrollBar
-        {
-            get { return scrollBar; }
-            set
-            {
-                if(value == null)
-                    return;
-                scrollBar = value;
-                scrollBar.SmallChange = ScrollAmount;
-                scrollBar.LargeChange = SCROLL_MULTIPLIER * GetVisibleItemsCount();
-                scrollBar.ValueChanged += OnScrollBarValueChanged;
-            }
-        }
-
-        public SongList()
+        public SongList(VScrollBar scrollBar)
         {
             InitializeComponent();
             MouseWheel += OnSongListMouseWheel;
@@ -43,6 +32,10 @@
                 }
                 items[i].MouseDown += OnSongListItemMouseDown;
             }
+            this.scrollBar = scrollBar;
+            scrollBar.SmallChange = ScrollAmount;
+            scrollBar.LargeChange = SCROLL_MULTIPLIER * GetVisibleItemsCount();
+            scrollBar.ValueChanged += OnScrollBarValueChanged;
         }
 
         private void OnSongListItemMouseDown(object? sender, MouseEventArgs e)
@@ -60,13 +53,13 @@
                 bool light = Index % 2 == 0;
                 for(int i = 0; i < items.Length; i++)
                 {
-                    if(items[i].Song == SelectedSong)
+                    if(items[i].Song == HighlightedSong)
                         items[i].BackColor = light ? Color.FromArgb(0, 80, 96) : Color.FromArgb(0, 64, 64);
                     light = !light;
                 }
-                SelectedSong = item.Song;
+                HighlightedSong = item.Song;
                 item.BackColor = Color.FromArgb(208, 160, 32);
-                if(PlaybackManager.Player != null && SelectedSong != PlaybackManager.Player.Song)
+                if(PlaybackManager.Player != null && HighlightedSong != PlaybackManager.Player.Song)
                 {
                     foreach(SongListItem item2 in items)
                         if(item2.Song == PlaybackManager.Player.Song)
@@ -89,10 +82,10 @@
             foreach(SongListItem item in items)
             {
                 item.Song = Index + i < currentList.Count ? currentList[Index + i] : null;
-                item.BackColor = item.Song == SelectedSong && item.Song != null ? Color.FromArgb(208, 160, 32) : (light ? Color.FromArgb(0, 80, 96) : Color.FromArgb(0, 64, 64));
+                item.BackColor = item.Song == HighlightedSong && item.Song != null ? Color.FromArgb(208, 160, 32) : (light ? Color.FromArgb(0, 80, 96) : Color.FromArgb(0, 64, 64));
                 if(PlaybackManager.Player != null)
                 {
-                    if(item.Song == PlaybackManager.Player.Song && item.Song != SelectedSong)
+                    if(item.Song == PlaybackManager.Player.Song && item.Song != HighlightedSong)
                         foreach(Control label in item.GetLabels())
                             label.ForeColor = Color.FromArgb(255, 192, 0);
                     else
@@ -135,12 +128,12 @@
 
         public void OnScrollBarValueChanged(object? sender, EventArgs e)
         {
-            if(Height <= 0 || Playlist.Songs.Count == 0 || ScrollBar == null)
+            if(Height <= 0 || Playlist.Songs.Count == 0 || scrollBar == null)
                 return;
-            int targetScrollOffset = ScrollPixelsOffset + ScrollBar.Value % SCROLL_MULTIPLIER * ScrollAmount;
-            int targetIndex = ConvertScrollBarValueToSongIndex(ScrollBar.Value);
+            int targetScrollOffset = ScrollPixelsOffset + scrollBar.Value % SCROLL_MULTIPLIER * ScrollAmount;
+            int targetIndex = ConvertScrollBarValueToSongIndex(scrollBar.Value);
             (targetIndex, targetScrollOffset) = ClampScrollValues(targetIndex, targetScrollOffset);
-            if(ScrollBar.Value == 0)
+            if(scrollBar.Value == 0)
                 targetScrollOffset = 0;
             if(targetIndex != Index || targetScrollOffset != ScrollPixelsOffset)
                 ChangeIndex(targetIndex, targetScrollOffset);
@@ -167,20 +160,20 @@
 
         public void SetScrollBarValue(int index)
         {
-            if(ScrollBar == null)
+            if(scrollBar == null)
                 return;
             int targetScroll = ConvertSongIndexToScrollBarValue(index);
-            if(targetScroll >= ScrollBar.Maximum)
-                targetScroll = ScrollBar.Maximum;
-            ScrollBar.Value = targetScroll;
+            if(targetScroll >= scrollBar.Maximum)
+                targetScroll = scrollBar.Maximum;
+            scrollBar.Value = targetScroll;
         }
         public void SetScrollBarMaximum(int songsCount)
         {
-            if(ScrollBar == null)
+            if(scrollBar == null)
                 return;
             if(songsCount <= GetVisibleItemsCount())
                 songsCount = 0;
-            ScrollBar.Maximum = ConvertSongIndexToScrollBarValue(songsCount);
+            scrollBar.Maximum = ConvertSongIndexToScrollBarValue(songsCount);
         }
 
         private static int ConvertSongIndexToScrollBarValue(int index)

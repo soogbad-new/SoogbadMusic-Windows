@@ -42,7 +42,7 @@
             SearchTextBox = new TextBox();
             SongNameLabel = new Label();
             SongInfoLabel = new Label();
-            SongList = new SongList();
+            SongList = new SongList(SongListScrollBar);
             AlbumCoverPictureBox = new PictureBox();
             AdvancedSearchButton = new PictureButton();
             MenuStrip = new MenuStrip();
@@ -204,7 +204,7 @@
             SongList.Location = new Point(0, 155);
             SongList.Margin = new Padding(4);
             SongList.Name = "SongList";
-            SongList.SelectedSong = null;
+            SongList.HighlightedSong = null;
             SongList.Size = new Size(927, 315);
             SongList.TabIndex = 26;
             // 

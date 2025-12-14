@@ -1,4 +1,6 @@
-﻿namespace SoogbadMusic
+﻿using System.ComponentModel;
+
+namespace SoogbadMusic
 {
 
     public partial class SongListItem : UserControl
@@ -14,6 +16,7 @@
         }
 
         private Song? song = null;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Song? Song
         {
             get

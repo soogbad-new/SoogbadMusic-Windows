@@ -24,7 +24,6 @@ namespace SoogbadMusic
             CurrentTimeLabel.Text = ""; DurationLabel.Text = "";
             MenuStrip.Renderer = new Utility.NoHighlightToolStripRenderer();
             AddInvisibleToolStripMenuItems([.. MenuStrip.Items.Cast<ToolStripMenuItem>()]);
-            SongList.ScrollBar = SongListScrollBar;
             Playlist.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             Playlist.RefreshSongs();
             PlaybackManager.SongChanged += OnSongChanged;
@@ -104,7 +103,7 @@ namespace SoogbadMusic
             SearchTextBox.ForeColor = Color.LightGray;
             SearchTextBox.Text = "Search " + Playlist.Songs.Count + " Songs";
             ProgressBar.Width = 1;
-            SongList.SelectedSong = PlaybackManager.Player.Song;
+            SongList.HighlightedSong = PlaybackManager.Player.Song;
             if(!SongList.IsOnScreen(PlaybackManager.Player.Song))
                 SongList.SetScrollBarValue(Playlist.Songs.IndexOf(PlaybackManager.Player.Song));
             else
@@ -164,7 +163,7 @@ namespace SoogbadMusic
                     FilterButton.BackgroundImage = Properties.Resources.FilterOn;
                 else
                     FilterButton.BackgroundImage = Properties.Resources.FilterOff;
-                SongList.SelectedSong = null;
+                SongList.HighlightedSong = null;
                 Playlist.RefreshSongs();
             }
         }

@@ -12,17 +12,22 @@
     <Product>SoogbadMusic</Product>
     <StartupObject>SoogbadMusic.Program</StartupObject>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
     <TargetZone>LocalIntranet</TargetZone>
     <PublishProfile>ReleaseProfile</PublishProfile>
     <OutputType>WinExe</OutputType>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <AppendTargetFrameworkToPublishDirectory>false</AppendTargetFrameworkToPublishDirectory>
+    <AppendRuntimeIdentifierToPublishDirectory>false</AppendRuntimeIdentifierToPublishDirectory>
   </PropertyGroup>
   
   <PropertyGroup>
