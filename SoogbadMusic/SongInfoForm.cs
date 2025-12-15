@@ -36,7 +36,7 @@ namespace SoogbadMusic
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
-        private void OnAlbumCoverPictureButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnAlbumCoverPictureButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left && OpenAlbumCoverDialog.ShowDialog() == DialogResult.OK)
                 AlbumCoverPictureButton.Image = Image.FromFile(OpenAlbumCoverDialog.FileName);
@@ -46,7 +46,7 @@ namespace SoogbadMusic
             System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
             textBox.RightToLeft = Utility.ContainsRTLCharacters(textBox.Text) ? RightToLeft.Yes : RightToLeft.No;
         }
-        private void OnCancelButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnCancelButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
                 Close();
@@ -73,59 +73,52 @@ namespace SoogbadMusic
         double previousCurrentTime = 0;
         int previousIndex;
         MainForm? mainForm = null;
-        private void OnSaveButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnSaveButtonMouseClick(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if(e.Button != MouseButtons.Left)
+                return;
+            SaveButton.Enabled = false;
+            mainForm = Utility.GetMainForm();
+            if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
             {
-                SaveButton.Enabled = false;
-                mainForm = null;
-                foreach(Form form in Application.OpenForms)
-                    if(form is MainForm main)
-                    {
-                        mainForm = main;
-                        break;
-                    }
-                if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
-                {
-                    wasPlaying = true;
-                    wasPaused = PlaybackManager.Player.Paused;
-                    previousCurrentTime = PlaybackManager.Player.CurrentTime;
-                    PlaybackManager.Player.Dispose();
-                    PlaybackManager.Player = null;
-                }
-                TagLib.File file = TagLib.File.Create(Song.Path);
-                TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
-                tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
-                tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
-                tag.Performers = tag.AlbumArtists;
-                tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
-                tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
-                tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
-                tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
-                new Thread(() =>
-                {
-                    int i = 0;
-                    while(true)
-                    {
-                        bool worked = true;
-                        try
-                        {
-                            file.Save();
-                        }
-                        catch(IOException)
-                        {
-                            worked = false;
-                        }
-                        if(worked)
-                            break;
-                        i++;
-                    }
-                    file.Dispose();
-                    previousIndex = Playlist.Songs.IndexOf(Song);
-                    Playlist.Songs[previousIndex].RefreshData();
-                    updateMainForm = true;
-                }).Start();
+                wasPlaying = true;
+                wasPaused = PlaybackManager.Player.Paused;
+                previousCurrentTime = PlaybackManager.Player.CurrentTime;
+                PlaybackManager.Player.Dispose();
+                PlaybackManager.Player = null;
             }
+            TagLib.File file = TagLib.File.Create(Song.Path);
+            TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
+            tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
+            tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
+            tag.Performers = tag.AlbumArtists;
+            tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
+            tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
+            tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
+            tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
+            new Thread(() =>
+            {
+                int i = 0;
+                while(true)
+                {
+                    bool worked = true;
+                    try
+                    {
+                        file.Save();
+                    }
+                    catch(IOException)
+                    {
+                        worked = false;
+                    }
+                    if(worked)
+                        break;
+                    i++;
+                }
+                file.Dispose();
+                previousIndex = Playlist.Songs.IndexOf(Song);
+                Playlist.Songs[previousIndex].RefreshData();
+                updateMainForm = true;
+            }).Start();
         }
         private void OnTimerTick(object? sender, EventArgs e)
         {
@@ -141,17 +134,16 @@ namespace SoogbadMusic
                     PlaybackManager.RaiseSongChanged();
                 }
                 if(mainForm != null)
-                {
-                    SongList songList = mainForm.GetSongList();
-                    if(songList.TempSongList == null)
-                        Playlist.Songs.Sort(new SongComparer());
-                    else
-                        songList.TempSongList.Sort(new SongComparer());
-                    songList.ChangeIndex(songList.Index, songList.ScrollPixelsOffset);
-                }
+                    mainForm.RefreshSongList();
                 isSaving = true;
                 Close();
             }
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            Utility.SetWindowTitleBarColor(Handle);
         }
 
     }

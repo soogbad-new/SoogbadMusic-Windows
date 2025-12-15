@@ -9,6 +9,12 @@
             InitializeComponent();
         }
 
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            Utility.SetWindowTitleBarColor(Handle);
+        }
+
     }
 
 }

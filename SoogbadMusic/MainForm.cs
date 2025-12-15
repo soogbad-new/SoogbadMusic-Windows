@@ -22,6 +22,7 @@ namespace SoogbadMusic
                     if(label.Name.Contains("Duration"))
                         BlacklistControlLeft(label);
             CurrentTimeLabel.Text = ""; DurationLabel.Text = "";
+            SongList.SetScrollBar(SongListScrollBar);
             MenuStrip.Renderer = new Utility.NoHighlightToolStripRenderer();
             AddInvisibleToolStripMenuItems([.. MenuStrip.Items.Cast<ToolStripMenuItem>()]);
             Playlist.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
@@ -167,8 +168,13 @@ namespace SoogbadMusic
                 Playlist.RefreshSongs();
             }
         }
+        private void OnDownloadButtonMouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+                new DownloadSongForm().Show();
+        }
 
-        private void OnPlayPauseButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnPlayPauseButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
                 PlaybackManager.Paused = !PlaybackManager.Paused;
@@ -178,20 +184,20 @@ namespace SoogbadMusic
             PlayPauseButton.Image = PlaybackManager.Paused ? Properties.Resources.Play : Properties.Resources.Pause;
         }
 
-        private void OnNextButtonMouseDown(object sender, MouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Left && songReady)
-            {
-                songReady = false;
-                PlaybackManager.NextSong();
-            }
-        }
-        private void OnPreviousButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnPreviousButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left && songReady)
             {
                 songReady = false;
                 PlaybackManager.PreviousSong();
+            }
+        }
+        private void OnNextButtonMouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left && songReady)
+            {
+                songReady = false;
+                PlaybackManager.NextSong();
             }
         }
 
@@ -255,7 +261,7 @@ namespace SoogbadMusic
             }
         }
 
-        private void OnAdvancedSearchButtonMouseDown(object sender, MouseEventArgs e)
+        private void OnAdvancedSearchButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
             {
@@ -266,6 +272,16 @@ namespace SoogbadMusic
                     AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOff;
                 OnSearchTextBoxTextChanged(null, null);
             }
+        }
+
+
+        public void RefreshSongList()
+        {
+            if(SongList.TempSongList == null)
+                Playlist.Songs.Sort(new SongComparer());
+            else
+                SongList.TempSongList.Sort(new SongComparer());
+            SongList.ChangeIndex(SongList.Index, SongList.ScrollPixelsOffset);
         }
 
         private void ShortenLabelsText()
@@ -316,18 +332,14 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
-                _ = SendMessage(Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+                _ = SendMessage(Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0); // Allow dragging the window by the menu strip
             }
         }
 
-        public SongList GetSongList()
+        protected override void OnHandleCreated(EventArgs e)
         {
-            return SongList;
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
+            base.OnHandleCreated(e);
+            Utility.SetWindowTitleBarColor(Handle);
         }
 
     }

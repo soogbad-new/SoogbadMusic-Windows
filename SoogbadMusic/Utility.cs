@@ -1,5 +1,7 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 
 namespace SoogbadMusic
 {
@@ -35,6 +37,22 @@ namespace SoogbadMusic
             }
         }
 
+        public static MainForm? GetMainForm()
+        {
+            foreach(Form form in Application.OpenForms)
+                if(form is MainForm main)
+                    return form as MainForm;
+            return null;
+        }
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+        private const int DWMWA_CAPTION_COLOR = 35;
+        public static void SetWindowTitleBarColor(nint windowHandle)
+        {
+            int colorRef = ColorTranslator.ToWin32(Color.FromArgb(15, 100, 50));
+            _ = DwmSetWindowAttribute(windowHandle, DWMWA_CAPTION_COLOR, ref colorRef, sizeof(int));
+        }
 
         public sealed class NoHighlightToolStripRenderer : ToolStripProfessionalRenderer
         {

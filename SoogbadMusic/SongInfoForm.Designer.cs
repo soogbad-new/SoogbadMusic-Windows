@@ -29,226 +29,226 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongInfoForm));
-            this.TitleTextBox = new System.Windows.Forms.TextBox();
-            this.TitleLabel = new System.Windows.Forms.Label();
-            this.ArtistLabel = new System.Windows.Forms.Label();
-            this.ArtistTextBox = new System.Windows.Forms.TextBox();
-            this.AlbumLabel = new System.Windows.Forms.Label();
-            this.AlbumTextBox = new System.Windows.Forms.TextBox();
-            this.YearLabel = new System.Windows.Forms.Label();
-            this.YearTextBox = new System.Windows.Forms.TextBox();
-            this.AlbumCoverLabel = new System.Windows.Forms.Label();
-            this.OpenAlbumCoverDialog = new System.Windows.Forms.OpenFileDialog();
-            this.LyricsTextBox = new System.Windows.Forms.TextBox();
-            this.CancelButton = new System.Windows.Forms.Button();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.AlbumCoverPictureButton = new PictureButton();
-            ((System.ComponentModel.ISupportInitialize)(this.AlbumCoverPictureButton)).BeginInit();
-            this.SuspendLayout();
+            TitleTextBox = new TextBox();
+            TitleLabel = new Label();
+            ArtistLabel = new Label();
+            ArtistTextBox = new TextBox();
+            AlbumLabel = new Label();
+            AlbumTextBox = new TextBox();
+            YearLabel = new Label();
+            YearTextBox = new TextBox();
+            AlbumCoverLabel = new Label();
+            OpenAlbumCoverDialog = new OpenFileDialog();
+            LyricsTextBox = new TextBox();
+            CancelButton = new Button();
+            SaveButton = new Button();
+            AlbumCoverPictureButton = new PictureButton();
+            ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureButton).BeginInit();
+            SuspendLayout();
             // 
             // TitleTextBox
             // 
-            this.TitleTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(96)))), ((int)(((byte)(112)))));
-            this.TitleTextBox.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.TitleTextBox.ForeColor = System.Drawing.Color.White;
-            this.TitleTextBox.Location = new System.Drawing.Point(87, 15);
-            this.TitleTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.TitleTextBox.Name = "TitleTextBox";
-            this.TitleTextBox.Size = new System.Drawing.Size(132, 24);
-            this.TitleTextBox.TabIndex = 0;
-            this.TitleTextBox.WordWrap = false;
-            this.TitleTextBox.TextChanged += new System.EventHandler(this.OnTextBoxTextChanged);
+            TitleTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            TitleTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            TitleTextBox.ForeColor = Color.White;
+            TitleTextBox.Location = new Point(76, 14);
+            TitleTextBox.Margin = new Padding(4);
+            TitleTextBox.Name = "TitleTextBox";
+            TitleTextBox.Size = new Size(116, 21);
+            TitleTextBox.TabIndex = 0;
+            TitleTextBox.WordWrap = false;
+            TitleTextBox.TextChanged += OnTextBoxTextChanged;
             // 
             // TitleLabel
             // 
-            this.TitleLabel.AutoSize = true;
-            this.TitleLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.TitleLabel.ForeColor = System.Drawing.Color.White;
-            this.TitleLabel.Location = new System.Drawing.Point(20, 18);
-            this.TitleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(45, 21);
-            this.TitleLabel.TabIndex = 1;
-            this.TitleLabel.Text = "Title:";
+            TitleLabel.AutoSize = true;
+            TitleLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            TitleLabel.ForeColor = Color.White;
+            TitleLabel.Location = new Point(18, 17);
+            TitleLabel.Margin = new Padding(4, 0, 4, 0);
+            TitleLabel.Name = "TitleLabel";
+            TitleLabel.Size = new Size(34, 15);
+            TitleLabel.TabIndex = 1;
+            TitleLabel.Text = "Title:";
             // 
             // ArtistLabel
             // 
-            this.ArtistLabel.AutoSize = true;
-            this.ArtistLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.ArtistLabel.ForeColor = System.Drawing.Color.White;
-            this.ArtistLabel.Location = new System.Drawing.Point(20, 78);
-            this.ArtistLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.ArtistLabel.Name = "ArtistLabel";
-            this.ArtistLabel.Size = new System.Drawing.Size(53, 21);
-            this.ArtistLabel.TabIndex = 3;
-            this.ArtistLabel.Text = "Artist:";
+            ArtistLabel.AutoSize = true;
+            ArtistLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            ArtistLabel.ForeColor = Color.White;
+            ArtistLabel.Location = new Point(18, 73);
+            ArtistLabel.Margin = new Padding(4, 0, 4, 0);
+            ArtistLabel.Name = "ArtistLabel";
+            ArtistLabel.Size = new Size(39, 15);
+            ArtistLabel.TabIndex = 3;
+            ArtistLabel.Text = "Artist:";
             // 
             // ArtistTextBox
             // 
-            this.ArtistTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(96)))), ((int)(((byte)(112)))));
-            this.ArtistTextBox.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.ArtistTextBox.ForeColor = System.Drawing.Color.White;
-            this.ArtistTextBox.Location = new System.Drawing.Point(87, 74);
-            this.ArtistTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.ArtistTextBox.Name = "ArtistTextBox";
-            this.ArtistTextBox.Size = new System.Drawing.Size(132, 24);
-            this.ArtistTextBox.TabIndex = 2;
-            this.ArtistTextBox.WordWrap = false;
-            this.ArtistTextBox.TextChanged += new System.EventHandler(this.OnTextBoxTextChanged);
+            ArtistTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            ArtistTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            ArtistTextBox.ForeColor = Color.White;
+            ArtistTextBox.Location = new Point(76, 69);
+            ArtistTextBox.Margin = new Padding(4);
+            ArtistTextBox.Name = "ArtistTextBox";
+            ArtistTextBox.Size = new Size(116, 21);
+            ArtistTextBox.TabIndex = 2;
+            ArtistTextBox.WordWrap = false;
+            ArtistTextBox.TextChanged += OnTextBoxTextChanged;
             // 
             // AlbumLabel
             // 
-            this.AlbumLabel.AutoSize = true;
-            this.AlbumLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.AlbumLabel.ForeColor = System.Drawing.Color.White;
-            this.AlbumLabel.Location = new System.Drawing.Point(20, 137);
-            this.AlbumLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.AlbumLabel.Name = "AlbumLabel";
-            this.AlbumLabel.Size = new System.Drawing.Size(61, 21);
-            this.AlbumLabel.TabIndex = 5;
-            this.AlbumLabel.Text = "Album:";
+            AlbumLabel.AutoSize = true;
+            AlbumLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            AlbumLabel.ForeColor = Color.White;
+            AlbumLabel.Location = new Point(18, 128);
+            AlbumLabel.Margin = new Padding(4, 0, 4, 0);
+            AlbumLabel.Name = "AlbumLabel";
+            AlbumLabel.Size = new Size(45, 15);
+            AlbumLabel.TabIndex = 5;
+            AlbumLabel.Text = "Album:";
             // 
             // AlbumTextBox
             // 
-            this.AlbumTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(96)))), ((int)(((byte)(112)))));
-            this.AlbumTextBox.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.AlbumTextBox.ForeColor = System.Drawing.Color.White;
-            this.AlbumTextBox.Location = new System.Drawing.Point(87, 133);
-            this.AlbumTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.AlbumTextBox.Name = "AlbumTextBox";
-            this.AlbumTextBox.Size = new System.Drawing.Size(132, 24);
-            this.AlbumTextBox.TabIndex = 4;
-            this.AlbumTextBox.WordWrap = false;
-            this.AlbumTextBox.TextChanged += new System.EventHandler(this.OnTextBoxTextChanged);
+            AlbumTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            AlbumTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            AlbumTextBox.ForeColor = Color.White;
+            AlbumTextBox.Location = new Point(76, 125);
+            AlbumTextBox.Margin = new Padding(4);
+            AlbumTextBox.Name = "AlbumTextBox";
+            AlbumTextBox.Size = new Size(116, 21);
+            AlbumTextBox.TabIndex = 4;
+            AlbumTextBox.WordWrap = false;
+            AlbumTextBox.TextChanged += OnTextBoxTextChanged;
             // 
             // YearLabel
             // 
-            this.YearLabel.AutoSize = true;
-            this.YearLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.YearLabel.ForeColor = System.Drawing.Color.White;
-            this.YearLabel.Location = new System.Drawing.Point(20, 196);
-            this.YearLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.YearLabel.Name = "YearLabel";
-            this.YearLabel.Size = new System.Drawing.Size(44, 21);
-            this.YearLabel.TabIndex = 7;
-            this.YearLabel.Text = "Year:";
+            YearLabel.AutoSize = true;
+            YearLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            YearLabel.ForeColor = Color.White;
+            YearLabel.Location = new Point(18, 184);
+            YearLabel.Margin = new Padding(4, 0, 4, 0);
+            YearLabel.Name = "YearLabel";
+            YearLabel.Size = new Size(33, 15);
+            YearLabel.TabIndex = 7;
+            YearLabel.Text = "Year:";
             // 
             // YearTextBox
             // 
-            this.YearTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(96)))), ((int)(((byte)(112)))));
-            this.YearTextBox.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.YearTextBox.ForeColor = System.Drawing.Color.White;
-            this.YearTextBox.Location = new System.Drawing.Point(87, 192);
-            this.YearTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.YearTextBox.MaxLength = 4;
-            this.YearTextBox.Name = "YearTextBox";
-            this.YearTextBox.ShortcutsEnabled = false;
-            this.YearTextBox.Size = new System.Drawing.Size(132, 24);
-            this.YearTextBox.TabIndex = 6;
-            this.YearTextBox.WordWrap = false;
-            this.YearTextBox.TextChanged += new System.EventHandler(this.OnTextBoxTextChanged);
-            this.YearTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnYearTextBoxKeyPress);
+            YearTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            YearTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            YearTextBox.ForeColor = Color.White;
+            YearTextBox.Location = new Point(76, 180);
+            YearTextBox.Margin = new Padding(4);
+            YearTextBox.MaxLength = 4;
+            YearTextBox.Name = "YearTextBox";
+            YearTextBox.ShortcutsEnabled = false;
+            YearTextBox.Size = new Size(116, 21);
+            YearTextBox.TabIndex = 6;
+            YearTextBox.WordWrap = false;
+            YearTextBox.TextChanged += OnTextBoxTextChanged;
+            YearTextBox.KeyPress += OnYearTextBoxKeyPress;
             // 
             // AlbumCoverLabel
             // 
-            this.AlbumCoverLabel.AutoSize = true;
-            this.AlbumCoverLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.AlbumCoverLabel.ForeColor = System.Drawing.Color.White;
-            this.AlbumCoverLabel.Location = new System.Drawing.Point(100, 310);
-            this.AlbumCoverLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.AlbumCoverLabel.Name = "AlbumCoverLabel";
-            this.AlbumCoverLabel.Size = new System.Drawing.Size(105, 21);
-            this.AlbumCoverLabel.TabIndex = 11;
-            this.AlbumCoverLabel.Text = "Album Cover:";
+            AlbumCoverLabel.AutoSize = true;
+            AlbumCoverLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            AlbumCoverLabel.ForeColor = Color.White;
+            AlbumCoverLabel.Location = new Point(88, 291);
+            AlbumCoverLabel.Margin = new Padding(4, 0, 4, 0);
+            AlbumCoverLabel.Name = "AlbumCoverLabel";
+            AlbumCoverLabel.Size = new Size(79, 15);
+            AlbumCoverLabel.TabIndex = 11;
+            AlbumCoverLabel.Text = "Album Cover:";
             // 
             // OpenAlbumCoverDialog
             // 
-            this.OpenAlbumCoverDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp";
-            this.OpenAlbumCoverDialog.SupportMultiDottedExtensions = true;
+            OpenAlbumCoverDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp";
+            OpenAlbumCoverDialog.SupportMultiDottedExtensions = true;
             // 
             // LyricsTextBox
             // 
-            this.LyricsTextBox.AcceptsReturn = true;
-            this.LyricsTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(96)))), ((int)(((byte)(112)))));
-            this.LyricsTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.LyricsTextBox.ForeColor = System.Drawing.Color.White;
-            this.LyricsTextBox.HideSelection = false;
-            this.LyricsTextBox.Location = new System.Drawing.Point(385, 18);
-            this.LyricsTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.LyricsTextBox.Multiline = true;
-            this.LyricsTextBox.Name = "LyricsTextBox";
-            this.LyricsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.LyricsTextBox.Size = new System.Drawing.Size(852, 442);
-            this.LyricsTextBox.TabIndex = 12;
-            this.LyricsTextBox.WordWrap = false;
-            this.LyricsTextBox.TextChanged += new System.EventHandler(this.OnTextBoxTextChanged);
+            LyricsTextBox.AcceptsReturn = true;
+            LyricsTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            LyricsTextBox.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            LyricsTextBox.ForeColor = Color.White;
+            LyricsTextBox.HideSelection = false;
+            LyricsTextBox.Location = new Point(337, 17);
+            LyricsTextBox.Margin = new Padding(4);
+            LyricsTextBox.Multiline = true;
+            LyricsTextBox.Name = "LyricsTextBox";
+            LyricsTextBox.ScrollBars = ScrollBars.Vertical;
+            LyricsTextBox.Size = new Size(746, 415);
+            LyricsTextBox.TabIndex = 12;
+            LyricsTextBox.WordWrap = false;
+            LyricsTextBox.TextChanged += OnTextBoxTextChanged;
             // 
             // CancelButton
             // 
-            this.CancelButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.CancelButton.Location = new System.Drawing.Point(1139, 570);
-            this.CancelButton.Margin = new System.Windows.Forms.Padding(4);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(100, 28);
-            this.CancelButton.TabIndex = 13;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnCancelButtonMouseDown);
+            CancelButton.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            CancelButton.Location = new Point(997, 534);
+            CancelButton.Margin = new Padding(4);
+            CancelButton.Name = "CancelButton";
+            CancelButton.Size = new Size(88, 26);
+            CancelButton.TabIndex = 13;
+            CancelButton.Text = "Cancel";
+            CancelButton.UseVisualStyleBackColor = true;
+            CancelButton.MouseClick += OnCancelButtonMouseClick;
             // 
             // SaveButton
             // 
-            this.SaveButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.SaveButton.Location = new System.Drawing.Point(20, 570);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(4);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(100, 28);
-            this.SaveButton.TabIndex = 14;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnSaveButtonMouseDown);
+            SaveButton.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            SaveButton.Location = new Point(18, 534);
+            SaveButton.Margin = new Padding(4);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(88, 26);
+            SaveButton.TabIndex = 14;
+            SaveButton.Text = "Save";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.MouseClick += OnSaveButtonMouseClick;
             // 
             // AlbumCoverPictureButton
             // 
-            this.AlbumCoverPictureButton.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.AlbumCoverPictureButton.Location = new System.Drawing.Point(87, 338);
-            this.AlbumCoverPictureButton.Margin = new System.Windows.Forms.Padding(4);
-            this.AlbumCoverPictureButton.Name = "AlbumCoverPictureButton";
-            this.AlbumCoverPictureButton.Size = new System.Drawing.Size(133, 123);
-            this.AlbumCoverPictureButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.AlbumCoverPictureButton.TabIndex = 10;
-            this.AlbumCoverPictureButton.TabStop = false;
-            this.AlbumCoverPictureButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnAlbumCoverPictureButtonMouseDown);
+            AlbumCoverPictureButton.BorderStyle = BorderStyle.FixedSingle;
+            AlbumCoverPictureButton.Location = new Point(76, 317);
+            AlbumCoverPictureButton.Margin = new Padding(4);
+            AlbumCoverPictureButton.Name = "AlbumCoverPictureButton";
+            AlbumCoverPictureButton.Size = new Size(117, 115);
+            AlbumCoverPictureButton.SizeMode = PictureBoxSizeMode.StretchImage;
+            AlbumCoverPictureButton.TabIndex = 10;
+            AlbumCoverPictureButton.TabStop = false;
+            AlbumCoverPictureButton.MouseClick += OnAlbumCoverPictureButtonMouseClick;
             // 
             // SongInfoForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(80)))));
-            this.ClientSize = new System.Drawing.Size(1259, 617);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.LyricsTextBox);
-            this.Controls.Add(this.AlbumCoverLabel);
-            this.Controls.Add(this.AlbumCoverPictureButton);
-            this.Controls.Add(this.YearLabel);
-            this.Controls.Add(this.YearTextBox);
-            this.Controls.Add(this.AlbumLabel);
-            this.Controls.Add(this.AlbumTextBox);
-            this.Controls.Add(this.ArtistLabel);
-            this.Controls.Add(this.ArtistTextBox);
-            this.Controls.Add(this.TitleLabel);
-            this.Controls.Add(this.TitleTextBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
-            this.Name = "SongInfoForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Song Info";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.AlbumCoverPictureButton)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(0, 64, 80);
+            ClientSize = new Size(1102, 578);
+            Controls.Add(SaveButton);
+            Controls.Add(CancelButton);
+            Controls.Add(LyricsTextBox);
+            Controls.Add(AlbumCoverLabel);
+            Controls.Add(AlbumCoverPictureButton);
+            Controls.Add(YearLabel);
+            Controls.Add(YearTextBox);
+            Controls.Add(AlbumLabel);
+            Controls.Add(AlbumTextBox);
+            Controls.Add(ArtistLabel);
+            Controls.Add(ArtistTextBox);
+            Controls.Add(TitleLabel);
+            Controls.Add(TitleTextBox);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4);
+            MaximizeBox = false;
+            Name = "SongInfoForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Song Info";
+            FormClosing += OnFormClosing;
+            ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureButton).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

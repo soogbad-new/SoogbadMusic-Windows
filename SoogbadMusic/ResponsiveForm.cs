@@ -1,20 +1,8 @@
-﻿using System.Runtime.InteropServices;
-
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
 
     public class ResponsiveForm : Form
     {
-
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
-        private const int DWMWA_CAPTION_COLOR = 35;
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-            int colorRef = ColorTranslator.ToWin32(Color.FromArgb(15, 100, 50));
-            _ = DwmSetWindowAttribute(Handle, DWMWA_CAPTION_COLOR, ref colorRef, sizeof(int));
-        }
 
         private Size initialFormSize = Size.Empty;
         private Dictionary<string, Values> initialValues = [];

@@ -18,7 +18,7 @@ namespace SoogbadMusic
         private int ItemHeight { get { return items.Length > 0 ? (int)Math.Round((double)Height / GetVisibleItemsCount()) : Height; } }
         private int ScrollAmount { get { return (int)Math.Round(ItemHeight / (double)SCROLL_MULTIPLIER); } }
 
-        public SongList(VScrollBar scrollBar)
+        public SongList()
         {
             InitializeComponent();
             MouseWheel += OnSongListMouseWheel;
@@ -32,10 +32,6 @@ namespace SoogbadMusic
                 }
                 items[i].MouseDown += OnSongListItemMouseDown;
             }
-            this.scrollBar = scrollBar;
-            scrollBar.SmallChange = ScrollAmount;
-            scrollBar.LargeChange = SCROLL_MULTIPLIER * GetVisibleItemsCount();
-            scrollBar.ValueChanged += OnScrollBarValueChanged;
         }
 
         private void OnSongListItemMouseDown(object? sender, MouseEventArgs e)
@@ -210,6 +206,14 @@ namespace SoogbadMusic
                 if(item.Song == song)
                     return true;
             return false;
+        }
+
+        public void SetScrollBar(VScrollBar scrollBar)
+        {
+            this.scrollBar = scrollBar;
+            scrollBar.SmallChange = ScrollAmount;
+            scrollBar.LargeChange = SCROLL_MULTIPLIER * GetVisibleItemsCount();
+            scrollBar.ValueChanged += OnScrollBarValueChanged;
         }
 
     }

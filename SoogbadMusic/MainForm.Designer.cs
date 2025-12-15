@@ -42,13 +42,14 @@
             SearchTextBox = new TextBox();
             SongNameLabel = new Label();
             SongInfoLabel = new Label();
-            SongList = new SongList(SongListScrollBar);
+            SongList = new SongList();
             AlbumCoverPictureBox = new PictureBox();
             AdvancedSearchButton = new PictureButton();
             MenuStrip = new MenuStrip();
             LyricsButton = new ToolStripMenuItem();
             ShuffleButton = new ToolStripMenuItem();
             FilterButton = new ToolStripMenuItem();
+            DownloadButton = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).BeginInit();
@@ -120,7 +121,7 @@
             PlayPauseButton.SizeMode = PictureBoxSizeMode.Zoom;
             PlayPauseButton.TabIndex = 10;
             PlayPauseButton.TabStop = false;
-            PlayPauseButton.MouseDown += OnPlayPauseButtonMouseDown;
+            PlayPauseButton.MouseClick += OnPlayPauseButtonMouseClick;
             // 
             // PreviousButton
             // 
@@ -134,7 +135,7 @@
             PreviousButton.SizeMode = PictureBoxSizeMode.Zoom;
             PreviousButton.TabIndex = 11;
             PreviousButton.TabStop = false;
-            PreviousButton.MouseDown += OnPreviousButtonMouseDown;
+            PreviousButton.MouseClick += OnPreviousButtonMouseClick;
             // 
             // NextButton
             // 
@@ -148,7 +149,7 @@
             NextButton.SizeMode = PictureBoxSizeMode.Zoom;
             NextButton.TabIndex = 12;
             NextButton.TabStop = false;
-            NextButton.MouseDown += OnNextButtonMouseDown;
+            NextButton.MouseClick += OnNextButtonMouseClick;
             // 
             // SongListScrollBar
             // 
@@ -201,10 +202,10 @@
             // SongList
             // 
             SongList.Font = new Font("Microsoft Sans Serif", 8.25F);
+            SongList.HighlightedSong = null;
             SongList.Location = new Point(0, 155);
             SongList.Margin = new Padding(4);
             SongList.Name = "SongList";
-            SongList.HighlightedSong = null;
             SongList.Size = new Size(927, 315);
             SongList.TabIndex = 26;
             // 
@@ -229,14 +230,14 @@
             AdvancedSearchButton.SizeMode = PictureBoxSizeMode.Zoom;
             AdvancedSearchButton.TabIndex = 29;
             AdvancedSearchButton.TabStop = false;
-            AdvancedSearchButton.MouseDown += OnAdvancedSearchButtonMouseDown;
+            AdvancedSearchButton.MouseClick += OnAdvancedSearchButtonMouseClick;
             // 
             // MenuStrip
             // 
             MenuStrip.AutoSize = false;
             MenuStrip.BackColor = Color.FromArgb(15, 100, 50);
             MenuStrip.Font = new Font("Segoe UI", 9F);
-            MenuStrip.Items.AddRange(new ToolStripItem[] { LyricsButton, ShuffleButton, FilterButton });
+            MenuStrip.Items.AddRange(new ToolStripItem[] { LyricsButton, ShuffleButton, FilterButton, DownloadButton });
             MenuStrip.Location = new Point(0, 0);
             MenuStrip.Name = "MenuStrip";
             MenuStrip.Size = new Size(944, 16);
@@ -276,6 +277,17 @@
             FilterButton.Size = new Size(11, 11);
             FilterButton.MouseDown += OnFilterButtonMouseDown;
             // 
+            // DownloadButton
+            // 
+            DownloadButton.AutoSize = false;
+            DownloadButton.BackgroundImage = Properties.Resources.Download;
+            DownloadButton.BackgroundImageLayout = ImageLayout.Stretch;
+            DownloadButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            DownloadButton.Margin = new Padding(15, 0, 0, 0);
+            DownloadButton.Name = "DownloadButton";
+            DownloadButton.Size = new Size(11, 11);
+            DownloadButton.MouseDown += OnDownloadButtonMouseDown;
+            // 
             // MainForm
             // 
             BackColor = Color.FromArgb(0, 64, 80);
@@ -303,7 +315,6 @@
             Text = "SoogbadMusic";
             WindowState = FormWindowState.Maximized;
             FormClosed += OnFormClosed;
-            Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).EndInit();
@@ -337,6 +348,7 @@
         private ToolStripMenuItem LyricsButton;
         private ToolStripMenuItem ShuffleButton;
         private ToolStripMenuItem FilterButton;
+        private ToolStripMenuItem DownloadButton;
     }
 }
 
