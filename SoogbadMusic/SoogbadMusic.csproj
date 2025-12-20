@@ -110,6 +110,7 @@
     <None Include="Resources\FilterOn.png" />
     <None Include="Resources\FilterOff.png" />
     <None Include="Resources\Download.png" />
+    <None Include="Resources\Loading.gif" />
   </ItemGroup>
 
 </Project>

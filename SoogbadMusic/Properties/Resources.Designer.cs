@@ -221,5 +221,17 @@ namespace SoogbadMusic.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        // <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Image Loading
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("Loading", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
     }
 }

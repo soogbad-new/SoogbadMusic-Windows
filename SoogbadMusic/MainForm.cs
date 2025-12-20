@@ -104,17 +104,11 @@ namespace SoogbadMusic
             SearchTextBox.ForeColor = Color.LightGray;
             SearchTextBox.Text = "Search " + Playlist.Songs.Count + " Songs";
             ProgressBar.Width = 1;
-            SongList.HighlightedSong = PlaybackManager.Player.Song;
-            if(!SongList.IsOnScreen(PlaybackManager.Player.Song))
-                SongList.SetScrollBarValue(Playlist.Songs.IndexOf(PlaybackManager.Player.Song));
-            else
-                SongList.ChangeIndex(SongList.Index, SongList.ScrollPixelsOffset);
+            ScrollToSong(PlaybackManager.Player.Song);
             SongNameLabel.Text = PlaybackManager.Player.Song.Data.Artist + " - " + PlaybackManager.Player.Song.Data.Title;
             SongInfoLabel.Text = PlaybackManager.Player.Song.Data.Album + " (" + PlaybackManager.Player.Song.Data.Year.ToString() + ")";
             AlbumCoverPictureBox.Image = PlaybackManager.Player.Song.Data.AlbumCover;
-            SongNameLabel.Update();
-            SongInfoLabel.Update();
-            AlbumCoverPictureBox.Update();
+            SongNameLabel.Update(); SongInfoLabel.Update(); AlbumCoverPictureBox.Update();
             ShortenLabelsText();
             songReady = true;
         }
@@ -282,6 +276,14 @@ namespace SoogbadMusic
             else
                 SongList.TempSongList.Sort(new SongComparer());
             SongList.ChangeIndex(SongList.Index, SongList.ScrollPixelsOffset);
+        }
+        public void ScrollToSong(Song song)
+        {
+            SongList.HighlightedSong = song;
+            if(!SongList.IsOnScreen(song))
+                SongList.SetScrollBarValue(Playlist.Songs.IndexOf(song));
+            else
+                SongList.ChangeIndex(SongList.Index, SongList.ScrollPixelsOffset);
         }
 
         private void ShortenLabelsText()

@@ -32,11 +32,15 @@
             DownloadButton = new Button();
             URLLabel = new Label();
             URLTextBox = new TextBox();
+            OpenAudacityCheckbox = new CheckBox();
+            LoadingGIFPictureBox = new PictureBox();
+            ProgressLabel = new Label();
+            ((System.ComponentModel.ISupportInitialize)LoadingGIFPictureBox).BeginInit();
             SuspendLayout();
             // 
             // DownloadButton
             // 
-            DownloadButton.Location = new Point(61, 78);
+            DownloadButton.Location = new Point(61, 100);
             DownloadButton.Margin = new Padding(4);
             DownloadButton.Name = "DownloadButton";
             DownloadButton.Size = new Size(88, 26);
@@ -68,12 +72,54 @@
             URLTextBox.Size = new Size(116, 21);
             URLTextBox.TabIndex = 3;
             // 
+            // OpenAudacityCheckbox
+            // 
+            OpenAudacityCheckbox.AutoSize = true;
+            OpenAudacityCheckbox.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            OpenAudacityCheckbox.ForeColor = Color.White;
+            OpenAudacityCheckbox.Location = new Point(18, 53);
+            OpenAudacityCheckbox.Margin = new Padding(4);
+            OpenAudacityCheckbox.Name = "OpenAudacityCheckbox";
+            OpenAudacityCheckbox.Size = new Size(104, 18);
+            OpenAudacityCheckbox.TabIndex = 4;
+            OpenAudacityCheckbox.Text = "Open Audacity";
+            OpenAudacityCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // LoadingGIFPictureBox
+            // 
+            LoadingGIFPictureBox.Image = Properties.Resources.Loading;
+            LoadingGIFPictureBox.Location = new Point(85, 93);
+            LoadingGIFPictureBox.Margin = new Padding(4);
+            LoadingGIFPictureBox.Name = "LoadingGIFPictureBox";
+            LoadingGIFPictureBox.Size = new Size(40, 40);
+            LoadingGIFPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            LoadingGIFPictureBox.TabIndex = 5;
+            LoadingGIFPictureBox.TabStop = false;
+            LoadingGIFPictureBox.Visible = false;
+            // 
+            // ProgressLabel
+            // 
+            ProgressLabel.AutoSize = true;
+            ProgressLabel.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ProgressLabel.ForeColor = Color.White;
+            ProgressLabel.Location = new Point(45, 135);
+            ProgressLabel.Margin = new Padding(4, 0, 4, 0);
+            ProgressLabel.MaximumSize = new Size(119, 0);
+            ProgressLabel.MinimumSize = new Size(119, 0);
+            ProgressLabel.Name = "ProgressLabel";
+            ProgressLabel.Size = new Size(119, 14);
+            ProgressLabel.TabIndex = 6;
+            ProgressLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // DownloadSongForm
             // 
             AutoScaleDimensions = new SizeF(6F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 64, 80);
-            ClientSize = new Size(212, 121);
+            ClientSize = new Size(212, 157);
+            Controls.Add(ProgressLabel);
+            Controls.Add(LoadingGIFPictureBox);
+            Controls.Add(OpenAudacityCheckbox);
             Controls.Add(URLTextBox);
             Controls.Add(URLLabel);
             Controls.Add(DownloadButton);
@@ -83,6 +129,7 @@
             MaximizeBox = false;
             Name = "DownloadSongForm";
             StartPosition = FormStartPosition.CenterScreen;
+            ((System.ComponentModel.ISupportInitialize)LoadingGIFPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -92,5 +139,8 @@
         private Button DownloadButton;
         private Label URLLabel;
         private TextBox URLTextBox;
+        private CheckBox OpenAudacityCheckbox;
+        private PictureBox LoadingGIFPictureBox;
+        private Label ProgressLabel;
     }
 }

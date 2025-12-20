@@ -1,6 +1,6 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 
 namespace SoogbadMusic
@@ -43,6 +43,56 @@ namespace SoogbadMusic
                 if(form is MainForm main)
                     return form as MainForm;
             return null;
+        }
+
+        public static void RunCommandlineTool(string command, string arguements, DataReceivedEventHandler onOutputReceived, ProcessExitedEventHandler onProcessExited, bool sendErrorsToOutput)
+        {
+            new Thread(async () =>
+            {
+                string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, command + ".exe");
+                if(!File.Exists(exePath))
+                    throw new FileNotFoundException("ERROR: Could not find commandline tool: " + exePath);
+                Process process = new()
+                {
+                    StartInfo = new ProcessStartInfo() { FileName = exePath, Arguments = arguements, UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true }
+                };
+                process.OutputDataReceived += onOutputReceived;
+                if(!sendErrorsToOutput)
+                {
+                    process.ErrorDataReceived += (sender, e) =>
+                    {
+                        if(!string.IsNullOrEmpty(e.Data))
+                            MessageBox.Show($"ERROR: {command}: " + e.Data);
+                    };
+                }
+                else
+                    process.ErrorDataReceived += onOutputReceived;
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                await process.WaitForExitAsync();
+                try { onProcessExited(process, new ProcessExitedEventArgs(process.ExitCode)); }
+                catch { onProcessExited(null, new ProcessExitedEventArgs(1)); }
+                process.Dispose();
+            }).Start();
+        }
+        public class ProcessExitedEventArgs(int exitCode) : EventArgs
+        {
+            public int ExitCode { get; private set; } = exitCode;
+        }
+        public delegate void ProcessExitedEventHandler(object? sender, ProcessExitedEventArgs e);
+        public static void RunCommand(string command, string arguements)
+        {
+            new Thread(() =>
+            {
+                if(!File.Exists(command))
+                    throw new FileNotFoundException("ERROR: Could not find command: " + command);
+                using Process process = new()
+                {
+                    StartInfo = new ProcessStartInfo() { FileName = command, Arguments = arguements, UseShellExecute = false }
+                };
+                process.Start();
+            }).Start();
         }
 
         [DllImport("dwmapi.dll")]
