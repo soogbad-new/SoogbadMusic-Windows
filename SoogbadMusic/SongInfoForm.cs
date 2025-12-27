@@ -38,6 +38,7 @@ namespace SoogbadMusic
         }
         private void OnAlbumCoverPictureButtonMouseClick(object sender, MouseEventArgs e)
         {
+            OpenAlbumCoverDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "\\Album Covers";
             if(e.Button == MouseButtons.Left && OpenAlbumCoverDialog.ShowDialog() == DialogResult.OK)
                 AlbumCoverPictureButton.Image = Image.FromFile(OpenAlbumCoverDialog.FileName);
         }

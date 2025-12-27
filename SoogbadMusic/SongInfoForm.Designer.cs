@@ -165,6 +165,7 @@
             // 
             OpenAlbumCoverDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp";
             OpenAlbumCoverDialog.SupportMultiDottedExtensions = true;
+            OpenAlbumCoverDialog.Multiselect = false;
             // 
             // LyricsTextBox
             // 

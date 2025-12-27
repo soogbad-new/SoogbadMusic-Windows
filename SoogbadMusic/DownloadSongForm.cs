@@ -39,37 +39,33 @@ namespace SoogbadMusic
                     DownloadButton.Enabled = true;
                 }
                 string url = string.Concat(URLTextBox.Text.Where(c => { return !char.IsWhiteSpace(c); }));
-                filePath = ShowFileDialog();
-                if(!string.IsNullOrEmpty(filePath) && filePath.EndsWith(".mp3"))
+                string musicDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+                SaveSongDialog.InitialDirectory = musicDirectory;
+                if(SaveSongDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string musicDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-                    string? directory = Path.GetDirectoryName(filePath);
-                    if(!string.IsNullOrEmpty(directory) && directory.Equals(musicDirectory, StringComparison.OrdinalIgnoreCase))
+                    filePath = SaveSongDialog.FileName;
+                    if(!string.IsNullOrEmpty(filePath) && filePath.EndsWith(".mp3"))
                     {
-                        DownloadButton.Visible = false; LoadingGIFPictureBox.Visible = true;
-                        Utility.RunCommandlineTool("yt-dlp", $"-t mp3 --audio-quality 192K --newline --no-playlist --no-check-format --no-warnings --js-runtimes \"node:{nodejsPath}\" --ffmpeg-location \"{ffmpegPath}\" -o \"{filePath}\" \"{url}\"", OnYTDLPOutputReceived, OnYTDLPProcessExited, false);
-                        ProgressLabel.Text = "Initializing...";
+                        string? directory = Path.GetDirectoryName(filePath);
+                        if(!string.IsNullOrEmpty(directory) && directory.Equals(musicDirectory, StringComparison.OrdinalIgnoreCase))
+                        {
+                            DownloadButton.Visible = false; LoadingGIFPictureBox.Visible = true;
+                            Utility.RunCommandlineTool("yt-dlp", $"-t mp3 --audio-quality 192K --newline --no-playlist --no-check-format --no-warnings --js-runtimes \"node:{nodejsPath}\" --ffmpeg-location \"{ffmpegPath}\" -o \"{filePath}\" \"{url}\"", OnYTDLPOutputReceived, OnYTDLPProcessExited, false);
+                            ProgressLabel.Text = "Initializing...";
+                        }
+                        else
+                        {
+                            MessageBox.Show("File must be saved in " + musicDirectory);
+                            DownloadButton.Enabled = true;
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("File must be saved in " + musicDirectory);
+                        MessageBox.Show("Invalid file");
                         DownloadButton.Enabled = true;
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Invalid file");
-                    DownloadButton.Enabled = true;
-                }
             }
-        }
-        public static string ShowFileDialog()
-        {
-            string musicDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            using(SaveFileDialog saveFileDialog = new() { Title = "Choose Filename", Filter = "MP3 Audio (*.mp3)|*.mp3", DefaultExt = "mp3", AddExtension = true, FileName = "", InitialDirectory = musicDirectory, OverwritePrompt = true, CheckPathExists = true, CheckFileExists = false, ValidateNames = true })
-                if(saveFileDialog.ShowDialog() == DialogResult.OK)
-                    return saveFileDialog.FileName;
-            return "";
         }
 
         [GeneratedRegex(@"(\d+(?:\.\d+)?)%")]

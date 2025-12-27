@@ -35,6 +35,7 @@
             OpenAudacityCheckbox = new CheckBox();
             LoadingGIFPictureBox = new PictureBox();
             ProgressLabel = new Label();
+            SaveSongDialog = new SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)LoadingGIFPictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -111,6 +112,18 @@
             ProgressLabel.TabIndex = 6;
             ProgressLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // SaveSongDialog
+            // 
+            SaveSongDialog.Title = "Choose Filename";
+            SaveSongDialog.Filter = "MP3 Audio (*.mp3)|*.mp3";
+            SaveSongDialog.DefaultExt = "mp3";
+            SaveSongDialog.AddExtension = true;
+            SaveSongDialog.FileName = "";
+            SaveSongDialog.OverwritePrompt = true;
+            SaveSongDialog.CheckPathExists = true;
+            SaveSongDialog.CheckFileExists = false;
+            SaveSongDialog.ValidateNames = true;
+            // 
             // DownloadSongForm
             // 
             AutoScaleDimensions = new SizeF(6F, 14F);
@@ -142,5 +155,6 @@
         private CheckBox OpenAudacityCheckbox;
         private PictureBox LoadingGIFPictureBox;
         private Label ProgressLabel;
+        private SaveFileDialog SaveSongDialog;
     }
 }
