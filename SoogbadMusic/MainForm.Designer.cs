@@ -309,12 +309,14 @@
             Controls.Add(MenuStrip);
             Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
             MainMenuStrip = MenuStrip;
             MinimumSize = new Size(960, 540);
             Name = "MainForm";
             Text = "SoogbadMusic";
             WindowState = FormWindowState.Maximized;
             FormClosed += OnFormClosed;
+            KeyDown += OnFormKeyDown;
             ((System.ComponentModel.ISupportInitialize)ProgressBarBackground).EndInit();
             ((System.ComponentModel.ISupportInitialize)ProgressBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)PlayPauseButton).EndInit();

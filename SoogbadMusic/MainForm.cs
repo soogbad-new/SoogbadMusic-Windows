@@ -173,6 +173,14 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
                 PlaybackManager.Paused = !PlaybackManager.Paused;
         }
+        private void OnFormKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Space && !e.Control && !e.Alt && !e.Shift)
+            {
+                e.Handled = true;
+                PlaybackManager.Paused = !PlaybackManager.Paused;
+            }
+        }
         private void OnPausedValueChanged()
         {
             PlayPauseButton.Image = PlaybackManager.Paused ? Properties.Resources.Play : Properties.Resources.Pause;
