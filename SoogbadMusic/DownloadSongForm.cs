@@ -26,16 +26,16 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left && !string.IsNullOrEmpty(URLTextBox.Text))
             {
                 DownloadButton.Enabled = false;
-                string ffmpegPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\FFmpeg\\bin\\ffmpeg.exe";
-                if(!System.IO.File.Exists(ffmpegPath))
-                {
-                    MessageBox.Show("ERROR: FFmpeg is not installed. Please install it and place in your user folder.");
-                    DownloadButton.Enabled = true;
-                }
                 string nodejsPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles).Replace(" (x86)", "") + "\\nodejs\\node.exe";
                 if(!System.IO.File.Exists(nodejsPath))
                 {
-                    MessageBox.Show("ERROR: Node.js is not installed. Please install it and place in Program Files.");
+                    MessageBox.Show("ERROR: Node.js is not installed. It is needed to download from youtube. Please install it and place in Program Files.");
+                    DownloadButton.Enabled = true;
+                }
+                string ffmpegPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\FFmpeg\\bin\\ffmpeg.exe";
+                if(!System.IO.File.Exists(ffmpegPath))
+                {
+                    MessageBox.Show("ERROR: FFmpeg is not installed. It is needed to process the audio. Please install it and place in your user folder.");
                     DownloadButton.Enabled = true;
                 }
                 string url = string.Concat(URLTextBox.Text.Where(c => { return !char.IsWhiteSpace(c); }));
@@ -121,7 +121,10 @@ namespace SoogbadMusic
             if(OpenAudacityCheckbox.Checked)
             {
                 string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles).Replace(" (x86)", "");
-                Utility.RunCommand(programFiles + @"\Audacity\Audacity.exe", filePath);
+                if(!System.IO.File.Exists(programFiles + "\\Audacity\\Audacity.exe"))
+                    MessageBox.Show("ERROR: Audacity is not installed. Please install it and place in Program Files.");
+                else
+                    Utility.RunCommand(programFiles + "\\Audacity\\Audacity.exe", $"\"{filePath}\"");
             }
             Close();
         }
