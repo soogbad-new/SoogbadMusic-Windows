@@ -43,7 +43,10 @@
             CancelButton = new Button();
             SaveButton = new Button();
             AlbumCoverPictureButton = new PictureButton();
+            LoadingGIFPictureBox = new PictureBox();
+            ProgressLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureButton).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)LoadingGIFPictureBox).BeginInit();
             SuspendLayout();
             // 
             // TitleTextBox
@@ -165,7 +168,6 @@
             // 
             OpenAlbumCoverDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp";
             OpenAlbumCoverDialog.SupportMultiDottedExtensions = true;
-            OpenAlbumCoverDialog.Multiselect = false;
             // 
             // LyricsTextBox
             // 
@@ -220,12 +222,40 @@
             AlbumCoverPictureButton.TabStop = false;
             AlbumCoverPictureButton.MouseClick += OnAlbumCoverPictureButtonMouseClick;
             // 
+            // LoadingGIFPictureBox
+            // 
+            LoadingGIFPictureBox.Image = Properties.Resources.Loading;
+            LoadingGIFPictureBox.Location = new Point(532, 514);
+            LoadingGIFPictureBox.Margin = new Padding(4);
+            LoadingGIFPictureBox.Name = "LoadingGIFPictureBox";
+            LoadingGIFPictureBox.Size = new Size(40, 40);
+            LoadingGIFPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            LoadingGIFPictureBox.TabIndex = 15;
+            LoadingGIFPictureBox.TabStop = false;
+            LoadingGIFPictureBox.Visible = false;
+            // 
+            // ProgressLabel
+            // 
+            ProgressLabel.AutoSize = true;
+            ProgressLabel.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ProgressLabel.ForeColor = Color.White;
+            ProgressLabel.Location = new Point(492, 556);
+            ProgressLabel.Margin = new Padding(4, 0, 4, 0);
+            ProgressLabel.MaximumSize = new Size(119, 0);
+            ProgressLabel.MinimumSize = new Size(119, 0);
+            ProgressLabel.Name = "ProgressLabel";
+            ProgressLabel.Size = new Size(119, 14);
+            ProgressLabel.TabIndex = 16;
+            ProgressLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // SongInfoForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 64, 80);
             ClientSize = new Size(1102, 578);
+            Controls.Add(ProgressLabel);
+            Controls.Add(LoadingGIFPictureBox);
             Controls.Add(SaveButton);
             Controls.Add(CancelButton);
             Controls.Add(LyricsTextBox);
@@ -248,6 +278,7 @@
             Text = "Song Info";
             FormClosing += OnFormClosing;
             ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureButton).EndInit();
+            ((System.ComponentModel.ISupportInitialize)LoadingGIFPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
 
@@ -269,5 +300,7 @@
         private System.Windows.Forms.TextBox LyricsTextBox;
         private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button SaveButton;
+        private PictureBox LoadingGIFPictureBox;
+        private Label ProgressLabel;
     }
 }

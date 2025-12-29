@@ -84,7 +84,8 @@ namespace SoogbadMusic
         {
             if(outputDevice != null)
             {
-                outputDevice.Stop();
+                if(!Stopped)
+                    outputDevice.Stop();
                 outputDevice.Dispose();
             }
             if(audioFile != null)
@@ -94,6 +95,11 @@ namespace SoogbadMusic
         }
 
         public bool Stopped { get; private set; } = false;
+        public void Stop()
+        {
+            if(outputDevice != null)
+                outputDevice.Stop();
+        }
 
         private void OnPlaybackStopped(object? sender, StoppedEventArgs e)
         {

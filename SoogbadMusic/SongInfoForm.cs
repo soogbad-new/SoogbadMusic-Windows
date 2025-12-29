@@ -1,4 +1,5 @@
-﻿using TagLib;
+﻿using System.Diagnostics;
+using TagLib;
 
 namespace SoogbadMusic
 {
@@ -41,15 +42,42 @@ namespace SoogbadMusic
             textBox.RightToLeft = Utility.ContainsRTLCharacters(textBox.Text) ? RightToLeft.Yes : RightToLeft.No;
         }
 
-        private bool callUpdateMainForm = false;        
+        private bool returnToMainThreadToSave = false;
         private void OnSaveButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button != MouseButtons.Left)
                 return;
-            SaveButton.Enabled = false;
-            GetMainFormData();
-            SaveDataToFile();
+            if(HasMadeChanges())
+            {
+                SaveButton.Enabled = false;
+                LoadingGIFPictureBox.Visible = true;
+                ProgressLabel.Text = "Initializing... 0%";
+                Utility.RunCommandlineTool("mp3gain", $"/k /r /d 6 \"{Song.Path}\"", OnMP3GainOutputReceived, OnMP3GainProcessExited, true);
+            }
+            else
+            {
+                finishedSaving = true;
+                Close();
+            }
         }
+        private string setProgressTextInMainThread = "";
+        public void OnMP3GainOutputReceived(object sender, DataReceivedEventArgs e)
+        {
+            int progress = Utility.GetCommandToolProgressFromOutput(e.Data);
+            if(progress >= 0)
+            {
+                if(e.Data == null || e.Data.Contains("analyz", StringComparison.CurrentCultureIgnoreCase))
+                    setProgressTextInMainThread = $"Initializing... {progress}%";
+                else
+                    setProgressTextInMainThread = $"Normalizing... {progress}%";
+            }
+        }
+        public void OnMP3GainProcessExited(object? sender, Utility.ProcessExitedEventArgs e)
+        {
+            returnToMainThreadToSave = true;
+        }
+        private bool callUpdateMainForm = false;
+        private long saveStartTime = -1;
         private void SaveDataToFile()
         {
             TagLib.File file = TagLib.File.Create(Song.Path);
@@ -62,6 +90,8 @@ namespace SoogbadMusic
             tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
             tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
             tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
+            saveStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            ProgressLabel.Text = "Saving... 0%";
             Utility.SaveFileTag(file, (sender, e) => { callUpdateMainForm = true; }, false);
         }
 
@@ -77,7 +107,7 @@ namespace SoogbadMusic
                 e.Cancel = false;
             else
             {
-                if(TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics)
+                if(!HasMadeChanges())
                     e.Cancel = false;
                 else if(new ExitDialog().ShowDialog() == DialogResult.OK)
                     e.Cancel = false;
@@ -86,45 +116,66 @@ namespace SoogbadMusic
             }
         }
 
-        MainForm? mainForm = null;
         private double previousCurrentTime = 0;
         private bool wasPlaying = false, wasPaused = false;
         private void GetMainFormData()
         {
-            mainForm = Utility.GetMainForm();
             if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
             {
                 wasPlaying = true;
                 wasPaused = PlaybackManager.Player.Paused;
                 previousCurrentTime = PlaybackManager.Player.CurrentTime;
-                PlaybackManager.Player.Dispose();
+                PlaybackManager.Player.Stop();
                 PlaybackManager.Player = null;
             }
         }
-        private void OnTimerTick(object? sender, EventArgs e)
-        {
-            if(callUpdateMainForm)
-            {
-                callUpdateMainForm = false;
-                UpdateMainForm();
-            }
-        }
+
         private void UpdateMainForm()
         {
+            int songIndex = Playlist.Songs.IndexOf(Song);
+            Playlist.Songs[songIndex].RefreshData();
             if(wasPlaying)
             {
-                int songIndex = Playlist.Songs.IndexOf(Song);
-                Playlist.Songs[songIndex].RefreshData();
                 PlaybackManager.Player = new Player(Playlist.Songs[songIndex]) { CurrentTime = previousCurrentTime };
                 PlaybackManager.Player.PlaybackStopped += PlaybackManager.OnPlaybackStopped;
                 if(!wasPaused)
                     PlaybackManager.Player.Play();
                 PlaybackManager.RaiseSongChanged();
             }
-            if(mainForm != null)
-                mainForm.RefreshSongList();
+            Utility.GetMainForm()?.RefreshSongList();
             finishedSaving = true;
             Close();
+        }
+
+        private void OnTimerTick(object? sender, EventArgs e)
+        {
+            if(returnToMainThreadToSave)
+            {
+                returnToMainThreadToSave = false;
+                GetMainFormData();
+                SaveDataToFile();
+            }
+            if(callUpdateMainForm)
+            {
+                callUpdateMainForm = false;
+                ProgressLabel.Text = "Saving... 100%";
+                UpdateMainForm();
+            }
+            if(!string.IsNullOrEmpty(setProgressTextInMainThread))
+            {
+                ProgressLabel.Text = setProgressTextInMainThread;
+                setProgressTextInMainThread = "";
+            }
+            if(saveStartTime > 0)
+            {
+                int progress = (int)Math.Round((DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - saveStartTime) / 5000.0 * 100);
+                ProgressLabel.Text = $"Saving... {progress}%";
+            }
+        }
+
+        private bool HasMadeChanges()
+        {
+            return TitleTextBox.Text != Song.Data.Title || ArtistTextBox.Text != Song.Data.Artist || AlbumTextBox.Text != Song.Data.Album || YearTextBox.Text != Song.Data.Year.ToString() || AlbumCoverPictureButton.Image != Song.Data.AlbumCover || LyricsTextBox.Text != Song.Data.Lyrics;
         }
 
         public static bool WindowExists(Song song)

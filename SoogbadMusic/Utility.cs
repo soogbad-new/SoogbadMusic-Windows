@@ -2,6 +2,7 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using TagLib;
 
 namespace SoogbadMusic
@@ -42,7 +43,7 @@ namespace SoogbadMusic
         {
             foreach(Form form in Application.OpenForms)
                 if(form is MainForm main)
-                    return form as MainForm;
+                    return main;
             return null;
         }
 
@@ -69,7 +70,7 @@ namespace SoogbadMusic
             {
                 Exception? exception = null;
                 long startTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-                while(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - startTime > TIMEOUT)
+                while(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - startTime < TIMEOUT)
                 {
                     try
                     {
@@ -123,6 +124,18 @@ namespace SoogbadMusic
                 catch { onProcessExited(null, new ProcessExitedEventArgs(1)); }
                 process.Dispose();
             }).Start();
+        }
+        [GeneratedRegex(@"(\d+(?:\.\d+)?)%")]
+        private static partial Regex CommandToolProgressRegex();
+        public static int GetCommandToolProgressFromOutput(string? output)
+        {
+            if(output != null)
+            {
+                Match match = CommandToolProgressRegex().Match(output);
+                if(match.Success && double.TryParse(match.Groups[1].Value, out double progress))
+                    return (int)Math.Round(progress);
+            }
+            return -1;
         }
         public class ProcessExitedEventArgs(int exitCode) : EventArgs
         {

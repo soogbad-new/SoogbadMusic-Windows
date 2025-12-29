@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace SoogbadMusic
 {
@@ -78,8 +77,6 @@ namespace SoogbadMusic
             return false;
         }
 
-        [GeneratedRegex(@"(\d+(?:\.\d+)?)%")]
-        private static partial Regex ProgressRegex();
         public void OnYTDLPOutputReceived(object? sender, DataReceivedEventArgs e)
         {
             SetProgressFromOutput(e.Data, "Downloading");
@@ -90,13 +87,11 @@ namespace SoogbadMusic
         }
         private void SetProgressFromOutput(string? output, string operation)
         {
-            if(output != null)
-            {
-                Match match = ProgressRegex().Match(output);
-                if(match.Success && double.TryParse(match.Groups[1].Value, out double progress))
-                    setProgressTextInMainThread = $"{operation}... {Math.Round(progress)}%";
-            }
+            int progress = Utility.GetCommandToolProgressFromOutput(output);
+            if(progress >= 0)
+                setProgressTextInMainThread = $"{operation}... {progress}%";
         }
+
         public void OnYTDLPProcessExited(object? sender, Utility.ProcessExitedEventArgs e)
         {
             if(e.ExitCode == 0)
