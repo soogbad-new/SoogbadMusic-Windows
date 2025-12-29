@@ -104,7 +104,7 @@ namespace SoogbadMusic
             ProgressLabel.Text = "Finalizing...";
             TagLib.File file = TagLib.File.Create(filePath);
             file.RemoveTags(TagTypes.AllTags);
-            file.Save();
+            Utility.SaveFileTag(file);
             Song song = new(filePath);
             LoadingGIFPictureBox.Visible = false;
             Playlist.Songs.Add(song);

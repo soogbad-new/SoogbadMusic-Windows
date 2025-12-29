@@ -25,13 +25,6 @@ namespace SoogbadMusic
             timer.Start();
         }
 
-        public static bool WindowExists(Song song)
-        {
-            foreach(Form form in Application.OpenForms)
-                if(form.Text == "Song Info - " + song.Path)
-                    return true;
-            return false;
-        }
         private void OnYearTextBoxKeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
@@ -55,6 +48,10 @@ namespace SoogbadMusic
                 return;
             SaveButton.Enabled = false;
             GetMainFormData();
+            SaveDataToFile();
+        }
+        private void SaveDataToFile()
+        {
             TagLib.File file = TagLib.File.Create(Song.Path);
             file.RemoveTags(TagTypes.AllTags);
             TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
@@ -65,30 +62,10 @@ namespace SoogbadMusic
             tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
             tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
             tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
-            new Thread(() =>
-            {
-                int i = 0;
-                while(true)
-                {
-                    bool worked = true;
-                    try
-                    {
-                        file.Save();
-                    }
-                    catch(IOException)
-                    {
-                        worked = false;
-                    }
-                    if(worked)
-                        break;
-                    i++;
-                }
-                file.Dispose();                
-                callUpdateMainForm = true;
-            }).Start();
+            Utility.SaveFileTag(file, (sender, e) => { callUpdateMainForm = true; }, false);
         }
 
-        private bool isSaving = false;
+        private bool finishedSaving = false;
         private void OnCancelButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -96,11 +73,8 @@ namespace SoogbadMusic
         }
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            if(isSaving)
-            {
-                isSaving = false;
+            if(finishedSaving)
                 e.Cancel = false;
-            }
             else
             {
                 if(TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics)
@@ -149,8 +123,16 @@ namespace SoogbadMusic
             }
             if(mainForm != null)
                 mainForm.RefreshSongList();
-            isSaving = true;
+            finishedSaving = true;
             Close();
+        }
+
+        public static bool WindowExists(Song song)
+        {
+            foreach(Form form in Application.OpenForms)
+                if(form.Text == "Song Info - " + song.Path)
+                    return true;
+            return false;
         }
 
         protected override void OnHandleCreated(EventArgs e)

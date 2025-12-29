@@ -45,6 +45,41 @@ namespace SoogbadMusic
             return null;
         }
 
+        private const int TIMEOUT = 5000;
+        public static void SaveFileTag(TagLib.File file)
+        {
+            SaveFileTag(file, null, true);
+        }
+        public static void SaveFileTag(TagLib.File file, EventHandler? onThreadCompletion, bool joinThread)
+        {
+            Thread thread = new(() =>
+            {
+                Exception? exception = null;
+                long startTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                while(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - startTime > TIMEOUT)
+                {
+                    try
+                    {
+                        file.Save();
+                    }
+                    catch(Exception e)
+                    {
+                        exception = e;
+                    }
+                    if(exception == null)
+                        break;
+                }
+                file.Dispose();
+                if(exception != null)
+                    throw exception;
+                else
+                    onThreadCompletion?.Invoke(null, EventArgs.Empty);
+            });
+            thread.Start();
+            if(joinThread)
+                thread.Join();
+        }
+
         public static void RunCommandlineTool(string command, string arguements, DataReceivedEventHandler onOutputReceived, ProcessExitedEventHandler onProcessExited, bool sendErrorsToOutput)
         {
             new Thread(async () =>
