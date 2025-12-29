@@ -2,6 +2,7 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using TagLib;
 
 namespace SoogbadMusic
 {
@@ -45,6 +46,18 @@ namespace SoogbadMusic
             return null;
         }
 
+        public static TagLib.File RemoveAllTags(TagLib.File file)
+        {
+            return RemoveAllTags(file, true);
+        }
+        public static TagLib.File RemoveAllTags(TagLib.File file, bool saveNow)
+        {
+            file.RemoveTags(TagTypes.AllTags);
+            if(saveNow)
+                SaveFileTag(file);
+            return file;
+        }
+
         private const int TIMEOUT = 5000;
         public static void SaveFileTag(TagLib.File file)
         {
@@ -85,7 +98,7 @@ namespace SoogbadMusic
             new Thread(async () =>
             {
                 string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, command + ".exe");
-                if(!File.Exists(exePath))
+                if(!System.IO.File.Exists(exePath))
                     throw new FileNotFoundException("ERROR: Could not find commandline tool: " + exePath);
                 Process process = new()
                 {
@@ -120,7 +133,7 @@ namespace SoogbadMusic
         {
             new Thread(() =>
             {
-                if(!File.Exists(command))
+                if(!System.IO.File.Exists(command))
                     throw new FileNotFoundException("ERROR: Could not find command: " + command);
                 using Process process = new()
                 {

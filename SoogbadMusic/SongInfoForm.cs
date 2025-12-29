@@ -53,7 +53,7 @@ namespace SoogbadMusic
         private void SaveDataToFile()
         {
             TagLib.File file = TagLib.File.Create(Song.Path);
-            file.RemoveTags(TagTypes.AllTags);
+            file = Utility.RemoveAllTags(file, false);
             TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
             tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
             tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
