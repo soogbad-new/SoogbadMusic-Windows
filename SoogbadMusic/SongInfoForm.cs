@@ -47,47 +47,14 @@ namespace SoogbadMusic
             System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
             textBox.RightToLeft = Utility.ContainsRTLCharacters(textBox.Text) ? RightToLeft.Yes : RightToLeft.No;
         }
-        private void OnCancelButtonMouseClick(object sender, MouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Left)
-                Close();
-        }
-        private void OnFormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(isSaving)
-            {
-                isSaving = false;
-                e.Cancel = false;
-            }
-            else
-            {
-                if(TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics)
-                    e.Cancel = false;
-                else if(new ExitDialog().ShowDialog() == DialogResult.OK)
-                    e.Cancel = false;
-                else
-                    e.Cancel = true;
-            }
-        }
 
-        bool isSaving = false, updateMainForm = false, wasPlaying = false, wasPaused = false;
-        double previousCurrentTime = 0;
-        int previousIndex;
-        MainForm? mainForm = null;
+        private bool callUpdateMainForm = false;        
         private void OnSaveButtonMouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button != MouseButtons.Left)
                 return;
             SaveButton.Enabled = false;
-            mainForm = Utility.GetMainForm();
-            if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
-            {
-                wasPlaying = true;
-                wasPaused = PlaybackManager.Player.Paused;
-                previousCurrentTime = PlaybackManager.Player.CurrentTime;
-                PlaybackManager.Player.Dispose();
-                PlaybackManager.Player = null;
-            }
+            GetMainFormData();
             TagLib.File file = TagLib.File.Create(Song.Path);
             file.RemoveTags(TagTypes.AllTags);
             TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
@@ -116,30 +83,74 @@ namespace SoogbadMusic
                         break;
                     i++;
                 }
-                file.Dispose();
-                previousIndex = Playlist.Songs.IndexOf(Song);
-                Playlist.Songs[previousIndex].RefreshData();
-                updateMainForm = true;
+                file.Dispose();                
+                callUpdateMainForm = true;
             }).Start();
+        }
+
+        private bool isSaving = false;
+        private void OnCancelButtonMouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+                Close();
+        }
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(isSaving)
+            {
+                isSaving = false;
+                e.Cancel = false;
+            }
+            else
+            {
+                if(TitleTextBox.Text == Song.Data.Title && ArtistTextBox.Text == Song.Data.Artist && AlbumTextBox.Text == Song.Data.Album && YearTextBox.Text == Song.Data.Year.ToString() && AlbumCoverPictureButton.Image == Song.Data.AlbumCover && LyricsTextBox.Text == Song.Data.Lyrics)
+                    e.Cancel = false;
+                else if(new ExitDialog().ShowDialog() == DialogResult.OK)
+                    e.Cancel = false;
+                else
+                    e.Cancel = true;
+            }
+        }
+
+        MainForm? mainForm = null;
+        private double previousCurrentTime = 0;
+        private bool wasPlaying = false, wasPaused = false;
+        private void GetMainFormData()
+        {
+            mainForm = Utility.GetMainForm();
+            if(PlaybackManager.Player != null && PlaybackManager.Player.Song == Song)
+            {
+                wasPlaying = true;
+                wasPaused = PlaybackManager.Player.Paused;
+                previousCurrentTime = PlaybackManager.Player.CurrentTime;
+                PlaybackManager.Player.Dispose();
+                PlaybackManager.Player = null;
+            }
         }
         private void OnTimerTick(object? sender, EventArgs e)
         {
-            if(updateMainForm)
+            if(callUpdateMainForm)
             {
-                updateMainForm = false;
-                if(wasPlaying)
-                {
-                    PlaybackManager.Player = new Player(Playlist.Songs[previousIndex]) { CurrentTime = previousCurrentTime };
-                    PlaybackManager.Player.PlaybackStopped += PlaybackManager.OnPlaybackStopped;
-                    if(!wasPaused)
-                        PlaybackManager.Player.Play();
-                    PlaybackManager.RaiseSongChanged();
-                }
-                if(mainForm != null)
-                    mainForm.RefreshSongList();
-                isSaving = true;
-                Close();
+                callUpdateMainForm = false;
+                UpdateMainForm();
             }
+        }
+        private void UpdateMainForm()
+        {
+            if(wasPlaying)
+            {
+                int songIndex = Playlist.Songs.IndexOf(Song);
+                Playlist.Songs[songIndex].RefreshData();
+                PlaybackManager.Player = new Player(Playlist.Songs[songIndex]) { CurrentTime = previousCurrentTime };
+                PlaybackManager.Player.PlaybackStopped += PlaybackManager.OnPlaybackStopped;
+                if(!wasPaused)
+                    PlaybackManager.Player.Play();
+                PlaybackManager.RaiseSongChanged();
+            }
+            if(mainForm != null)
+                mainForm.RefreshSongList();
+            isSaving = true;
+            Close();
         }
 
         protected override void OnHandleCreated(EventArgs e)
