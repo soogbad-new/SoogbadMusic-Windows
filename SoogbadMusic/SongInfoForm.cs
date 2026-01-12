@@ -42,59 +42,6 @@ namespace SoogbadMusic
             textBox.RightToLeft = Utility.ContainsRTLCharacters(textBox.Text) ? RightToLeft.Yes : RightToLeft.No;
         }
 
-        private bool returnToMainThreadToSave = false;
-        private void OnSaveButtonMouseClick(object sender, MouseEventArgs e)
-        {
-            if(e.Button != MouseButtons.Left)
-                return;
-            if(HasMadeChanges())
-            {
-                SaveButton.Enabled = false;
-                LoadingGIFPictureBox.Visible = true;
-                ProgressLabel.Text = "Initializing... 0%";
-                Utility.RunCommandlineTool("mp3gain", $"/k /r /d 6 \"{Song.Path}\"", OnMP3GainOutputReceived, OnMP3GainProcessExited, true);
-            }
-            else
-            {
-                finishedSaving = true;
-                Close();
-            }
-        }
-        private string setProgressTextInMainThread = "";
-        public void OnMP3GainOutputReceived(object sender, DataReceivedEventArgs e)
-        {
-            int progress = Utility.GetCommandToolProgressFromOutput(e.Data);
-            if(progress >= 0)
-            {
-                if(e.Data == null || e.Data.Contains("analyz", StringComparison.CurrentCultureIgnoreCase))
-                    setProgressTextInMainThread = $"Initializing... {progress}%";
-                else
-                    setProgressTextInMainThread = $"Normalizing... {progress}%";
-            }
-        }
-        public void OnMP3GainProcessExited(object? sender, Utility.ProcessExitedEventArgs e)
-        {
-            returnToMainThreadToSave = true;
-        }
-        private bool callUpdateMainForm = false;
-        private long saveStartTime = -1;
-        private void SaveDataToFile()
-        {
-            TagLib.File file = TagLib.File.Create(Song.Path);
-            file = Utility.RemoveAllTags(file, false);
-            TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
-            tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
-            tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
-            tag.Performers = tag.AlbumArtists;
-            tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
-            tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
-            tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
-            tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
-            saveStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            ProgressLabel.Text = "Saving... 0%";
-            Utility.SaveFileTag(file, (sender, e) => { callUpdateMainForm = true; }, false);
-        }
-
         private bool finishedSaving = false;
         private void OnCancelButtonMouseClick(object sender, MouseEventArgs e)
         {
@@ -116,6 +63,76 @@ namespace SoogbadMusic
             }
         }
 
+        private bool returnToMainThreadToSave = false;
+        private string setProgressTextInMainThread = "";
+        private bool callUpdateMainForm = false;
+        private void OnSaveButtonMouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button != MouseButtons.Left)
+                return;
+            if(HasMadeChanges())
+            {
+                SaveButton.Enabled = false;
+                LoadingGIFPictureBox.Visible = true;
+                ProgressLabel.Text = "Initializing... 0%";
+                Utility.RunCommandlineTool("mp3gain", $"/k /r /d 6 \"{Song.Path}\"", OnMP3GainOutputReceived, OnMP3GainProcessExited, true);
+            }
+            else
+            {
+                finishedSaving = true;
+                Close();
+            }
+        }
+        
+        public void OnMP3GainOutputReceived(object sender, DataReceivedEventArgs e)
+        {
+            if(e.Data == null)
+                return;
+            int progress = Utility.GetCommandToolProgressFromOutput(e.Data);
+            if(progress >= 0 && e.Data.Contains("analyz", StringComparison.CurrentCultureIgnoreCase))
+                setProgressTextInMainThread = $"Normalizing... {progress}%";
+        }
+        public void OnMP3GainProcessExited(object? sender, Utility.ProcessExitedEventArgs e)
+        {
+            returnToMainThreadToSave = true;
+        }
+
+        private void OnTimerTick(object? sender, EventArgs e)
+        {
+            if(returnToMainThreadToSave)
+            {
+                returnToMainThreadToSave = false;
+                GetMainFormData();
+                SaveDataToFile();
+            }
+            if(callUpdateMainForm)
+            {
+                callUpdateMainForm = false;
+                UpdateMainForm();
+            }
+            if(!string.IsNullOrEmpty(setProgressTextInMainThread))
+            {
+                ProgressLabel.Text = setProgressTextInMainThread;
+                setProgressTextInMainThread = "";
+            }
+        }
+
+        private void SaveDataToFile()
+        {
+            TagLib.File file = TagLib.File.Create(Song.Path);
+            file = Utility.RemoveAllTags(file, false);
+            TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)file.GetTag(TagTypes.Id3v2, true);
+            tag.Title = TitleTextBox.Text == "" ? null : TitleTextBox.Text;
+            tag.AlbumArtists = ArtistTextBox.Text == "" ? [] : [ArtistTextBox.Text];
+            tag.Performers = tag.AlbumArtists;
+            tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
+            tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
+            tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
+            tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
+            ProgressLabel.Text = "Saving...";
+            Utility.SaveFileTag(file, (sender, e) => { callUpdateMainForm = true; }, false);
+        }
+
         private double previousCurrentTime = 0;
         private bool wasPlaying = false, wasPaused = false;
         private void GetMainFormData()
@@ -125,11 +142,10 @@ namespace SoogbadMusic
                 wasPlaying = true;
                 wasPaused = PlaybackManager.Player.Paused;
                 previousCurrentTime = PlaybackManager.Player.CurrentTime;
-                PlaybackManager.Player.Stop();
+                PlaybackManager.Player.Dispose();
                 PlaybackManager.Player = null;
             }
         }
-
         private void UpdateMainForm()
         {
             int songIndex = Playlist.Songs.IndexOf(Song);
@@ -145,32 +161,6 @@ namespace SoogbadMusic
             Utility.GetMainForm()?.RefreshSongList();
             finishedSaving = true;
             Close();
-        }
-
-        private void OnTimerTick(object? sender, EventArgs e)
-        {
-            if(returnToMainThreadToSave)
-            {
-                returnToMainThreadToSave = false;
-                GetMainFormData();
-                SaveDataToFile();
-            }
-            if(callUpdateMainForm)
-            {
-                callUpdateMainForm = false;
-                ProgressLabel.Text = "Saving... 100%";
-                UpdateMainForm();
-            }
-            if(!string.IsNullOrEmpty(setProgressTextInMainThread))
-            {
-                ProgressLabel.Text = setProgressTextInMainThread;
-                setProgressTextInMainThread = "";
-            }
-            if(saveStartTime > 0)
-            {
-                int progress = (int)Math.Round((DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - saveStartTime) / 5000.0 * 100);
-                ProgressLabel.Text = $"Saving... {progress}%";
-            }
         }
 
         private bool HasMadeChanges()

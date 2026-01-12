@@ -106,7 +106,6 @@ namespace SoogbadMusic
 
         private void FinishUp()
         {
-            ProgressLabel.Text = "Finalizing...";
             Utility.RemoveAllTags(TagLib.File.Create(filePath));
             UpdateMainForm();
             LoadingGIFPictureBox.Visible = false;
@@ -119,11 +118,8 @@ namespace SoogbadMusic
             Song song = new(filePath);
             Playlist.Songs.Add(song);
             MainForm? mainForm = Utility.GetMainForm();
-            if(mainForm != null)
-            {
-                mainForm.RefreshSongList();
-                mainForm.ScrollToSong(song);
-            }
+            mainForm?.RefreshSongList();
+            mainForm?.ScrollToSong(song);
         }
         private void LaunchAudacity()
         {

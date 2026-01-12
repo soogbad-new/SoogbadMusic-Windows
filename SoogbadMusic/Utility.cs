@@ -59,7 +59,7 @@ namespace SoogbadMusic
             return file;
         }
 
-        private const int TIMEOUT = 5000;
+        private const double SAVE_FILE_TAG_TIMEOUT = 2000.0;
         public static void SaveFileTag(TagLib.File file)
         {
             SaveFileTag(file, null, true);
@@ -70,16 +70,10 @@ namespace SoogbadMusic
             {
                 Exception? exception = null;
                 long startTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-                while(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - startTime < TIMEOUT)
+                while(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - startTime < SAVE_FILE_TAG_TIMEOUT)
                 {
-                    try
-                    {
-                        file.Save();
-                    }
-                    catch(Exception e)
-                    {
-                        exception = e;
-                    }
+                    try { file.Save(); }
+                    catch(Exception e) { exception = e; }
                     if(exception == null)
                         break;
                 }

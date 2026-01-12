@@ -8,12 +8,13 @@ namespace SoogbadMusic
 
         private WaveOutEvent? outputDevice;
         private AudioFileReader? audioFile;
-
+        private bool isTest;
         public event EventHandler<MyStoppedEventArgs> PlaybackStopped = new((sender, e) => { });
 
-        public Player(Song song)
+        public Player(Song song, bool isTest=false)
         {
             Song = song;
+            this.isTest = isTest;
             Paused = true;
             try
             {
@@ -64,61 +65,38 @@ namespace SoogbadMusic
         public void Play()
         {
             Paused = false;
-            if(outputDevice != null)
-                outputDevice.Play();
+            outputDevice?.Play();
         }
         public void Pause()
         {
             Paused = true;
-            if(outputDevice != null)
-                outputDevice.Pause();
+            outputDevice?.Pause();
+        }
+        
+        public bool Stopped { get; private set; } = false;
+        private void OnPlaybackStopped(object? sender, StoppedEventArgs e)
+        {
+            Stopped = true;
+            bool finished = false;
+            try { finished = audioFile?.TotalTime.TotalSeconds - audioFile?.CurrentTime.TotalSeconds < 1; }
+            catch(NullReferenceException) { }
+            outputDevice?.Dispose();
+            audioFile?.Dispose();
+            if(!isTest)
+                PlaybackStopped(sender, new MyStoppedEventArgs(finished, e.Exception));
         }
 
         public void Dispose()
         {
-            if(outputDevice != null)
-                outputDevice.Stop();
+            OnPlaybackStopped(this, new StoppedEventArgs());
             GC.SuppressFinalize(this);
-        }
-        public void Dispose2()
-        {
-            if(outputDevice != null)
-            {
-                if(!Stopped)
-                    outputDevice.Stop();
-                outputDevice.Dispose();
-            }
-            if(audioFile != null)
-            {
-                audioFile.Dispose();
-            }
-        }
-
-        public bool Stopped { get; private set; } = false;
-        public void Stop()
-        {
-            if(outputDevice != null)
-                outputDevice.Stop();
-        }
-
-        private void OnPlaybackStopped(object? sender, StoppedEventArgs e)
-        {
-            if(audioFile == null || outputDevice == null)
-                return;
-            Stopped = true;
-            bool finished = audioFile.TotalTime.TotalSeconds - audioFile.CurrentTime.TotalSeconds < 1;
-            PlaybackStopped(sender, new MyStoppedEventArgs(finished, e.Exception));
-            outputDevice.Dispose();
-            audioFile.Dispose();
         }
 
     }
 
-
     public class MyStoppedEventArgs(bool finished, Exception? exception = null) : StoppedEventArgs(exception)
     {
         public bool Finished { get; } = finished;
-
     }
 
 }

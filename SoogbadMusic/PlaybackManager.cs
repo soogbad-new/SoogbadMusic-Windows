@@ -56,8 +56,7 @@ namespace SoogbadMusic
 
         private static void CreatePlayer()
         {
-            if(Player != null)
-                Player.Dispose();
+            Player?.Dispose();
             Player = new Player(history[currentlyPlayedSongIndex]);
             Player.PlaybackStopped += OnPlaybackStopped;
             if(!Paused)
@@ -83,7 +82,7 @@ namespace SoogbadMusic
                     if(Shuffle)
                     {
                         Song song = Playlist.Songs[new Random().Next(0, Playlist.Songs.Count)];
-                        if(!File.Exists(song.Path) || !SampleRateConstant(song))
+                        if(!File.Exists(song.Path) || !IsSampleRateConstant(song))
                         {
                             NextSong();
                             return;
@@ -99,7 +98,7 @@ namespace SoogbadMusic
                 else
                 {
                     currentlyPlayedSongIndex++;
-                    if(!File.Exists(history[currentlyPlayedSongIndex].Path) || !SampleRateConstant(history[currentlyPlayedSongIndex]))
+                    if(!File.Exists(history[currentlyPlayedSongIndex].Path) || !IsSampleRateConstant(history[currentlyPlayedSongIndex]))
                     {
                         history.RemoveAt(currentlyPlayedSongIndex);
                         NextSong();
@@ -111,7 +110,7 @@ namespace SoogbadMusic
             }
             else
             {
-                if(!File.Exists(queue[0].Path) || !SampleRateConstant(queue[0]))
+                if(!File.Exists(queue[0].Path) || !IsSampleRateConstant(queue[0]))
                 {
                     queue.RemoveAt(0);
                     NextSong();
@@ -131,7 +130,7 @@ namespace SoogbadMusic
             if(currentlyPlayedSongIndex > 0)
             {
                 currentlyPlayedSongIndex--;
-                if(!File.Exists(history[currentlyPlayedSongIndex].Path) || !SampleRateConstant(history[currentlyPlayedSongIndex]))
+                if(!File.Exists(history[currentlyPlayedSongIndex].Path) || !IsSampleRateConstant(history[currentlyPlayedSongIndex]))
                 {
                     history.RemoveAt(currentlyPlayedSongIndex);
                     PreviousSong();
@@ -144,7 +143,7 @@ namespace SoogbadMusic
 
         public static void SwitchSong(Song song)
         {
-            if(!File.Exists(song.Path) || !SampleRateConstant(song))
+            if(!File.Exists(song.Path) || !IsSampleRateConstant(song))
                 return;
             history.Add(song);
             currentlyPlayedSongIndex = history.Count - 1;
@@ -210,16 +209,12 @@ namespace SoogbadMusic
             }
         }
 
-        private static bool SampleRateConstant(Song song)
+        private static bool IsSampleRateConstant(Song song)
         {
-            Player testPlayer = new(song);
-            if(testPlayer.InitSuccess)
-            {
-                testPlayer.Dispose2();
-                return true;
-            }
-            else
-                return false;
+            using(Player testPlayer = new(song, true))
+                if(testPlayer.InitSuccess)
+                    return true;
+            return false;
         }
 
     }
