@@ -24,7 +24,7 @@ Thank you for installing SoogbadMusic!
 SourceFolder=C:\Users\soogb\VisualStudioProjects\SoogbadMusic\SoogbadMusic\bin\release
 SpecialFolder=Program Files
 SetupPath=SoogbadMusic
-SetupFile=C:\Users\soogb\Documents\SoogbadMusicInstaller.exe
+SetupFile=C:\Users\soogb\VisualStudioProjects\SoogbadMusic\.build\SoogbadMusic.exe
 
 [Shortcuts]
 ProgramGroup=
