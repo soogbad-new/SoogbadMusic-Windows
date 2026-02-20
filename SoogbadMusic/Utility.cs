@@ -28,6 +28,29 @@ namespace SoogbadMusic
             return false;
         }
 
+        public static string RemoveTrailingLeadingAndDoubleSpaces(string str)
+        {
+            if(string.IsNullOrEmpty(str))
+                return str;
+            while(str.Contains("  "))
+                str = str.Replace("  ", " ");
+            if(str[0] == ' ')
+                str = str.Remove(0, 1);
+            if(str.Length > 0 && str[str.Length - 1] == ' ')
+                str = str.Remove(str.Length - 1, 1);
+            return str;
+        }
+        public static string RemoveTrailingAndLeadingNewlines(string str)
+        {
+            if(string.IsNullOrEmpty(str))
+                return str;
+            while(str.StartsWith('\r') || str.StartsWith('\n'))
+                str = str.Remove(0, 1);
+            while(str.EndsWith('\r') || str.EndsWith('\n'))
+                str = str.Remove(str.Length - 1, 1);
+            return str;
+        }
+
         public static void ShortenLabelText(Label label, string fullText, int limitRight)
         {
             label.Text = fullText;

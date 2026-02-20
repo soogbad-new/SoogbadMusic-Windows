@@ -18,7 +18,7 @@ namespace SoogbadMusic
             TitleTextBox.Text = Song.Data.Title;
             ArtistTextBox.Text = Song.Data.Artist;
             AlbumTextBox.Text = Song.Data.Album;
-            YearTextBox.Text = Song.Data.Year.ToString();
+            YearTextBox.Text = Song.Data.Year == 0 ? "" : Song.Data.Year.ToString();
             AlbumCoverPictureButton.Image = Song.Data.AlbumCover;
             LyricsTextBox.Text = Song.Data.Lyrics;
             System.Windows.Forms.Timer timer = new() { Interval = 50 };
@@ -75,6 +75,7 @@ namespace SoogbadMusic
                 SaveButton.Enabled = false;
                 LoadingGIFPictureBox.Visible = true;
                 ProgressLabel.Text = "Initializing... 0%";
+                TrimWhitespaces(TitleTextBox); TrimWhitespaces(ArtistTextBox); TrimWhitespaces(AlbumTextBox); TrimLyricsWhitespaces();
                 Utility.RunCommandlineTool("mp3gain", $"/k /r /d 6 \"{Song.Path}\"", OnMP3GainOutputReceived, OnMP3GainProcessExited, true);
             }
             else
@@ -180,6 +181,22 @@ namespace SoogbadMusic
         {
             base.OnHandleCreated(e);
             Utility.SetWindowTitleBarColor(Handle);
+        }
+
+        private static void TrimWhitespaces(System.Windows.Forms.TextBox textBox)
+        {
+            string newText = Utility.RemoveTrailingLeadingAndDoubleSpaces(textBox.Text);
+            if(newText != textBox.Text)
+                textBox.Text = newText;
+        }
+        private void TrimLyricsWhitespaces()
+        {
+            string newText = Utility.RemoveTrailingAndLeadingNewlines(LyricsTextBox.Text).ReplaceLineEndings();
+            string newText2 = "";
+            foreach(string line in newText.Split(Environment.NewLine))
+                newText2 += Utility.RemoveTrailingLeadingAndDoubleSpaces(line);
+            if(newText != LyricsTextBox.Text)
+                LyricsTextBox.Text = newText;
         }
 
     }
