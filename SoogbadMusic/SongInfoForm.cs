@@ -3,7 +3,7 @@ using TagLib;
 
 namespace SoogbadMusic
 {
-    public partial class SongInfoForm : Form
+    public partial class SongInfoForm : ResponsiveForm
     {
 
         public Song Song { get; private set; }
@@ -24,6 +24,10 @@ namespace SoogbadMusic
             System.Windows.Forms.Timer timer = new() { Interval = 50 };
             timer.Tick += OnTimerTick;
             timer.Start();
+            LocationChanged += OnLocationChanged;
+            BlacklistControlTop(LoadingGIFPictureBox); BlacklistControlLeft(LoadingGIFPictureBox); BlacklistControlTop(ProgressLabel); BlacklistControlLeft(ProgressLabel);
+            ResponsiveClientSizeChanged += OnResponsiveClientSizeChanged;
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void OnYearTextBoxKeyPress(object sender, KeyPressEventArgs e)
@@ -166,7 +170,9 @@ namespace SoogbadMusic
 
         private bool HasMadeChanges()
         {
-            return TitleTextBox.Text != Song.Data.Title || ArtistTextBox.Text != Song.Data.Artist || AlbumTextBox.Text != Song.Data.Album || YearTextBox.Text != Song.Data.Year.ToString() || AlbumCoverPictureButton.Image != Song.Data.AlbumCover || LyricsTextBox.Text != Song.Data.Lyrics;
+            return TitleTextBox.Text != Song.Data.Title || ArtistTextBox.Text != Song.Data.Artist || AlbumTextBox.Text != Song.Data.Album
+                || (YearTextBox.Text != Song.Data.Year.ToString() && !(YearTextBox.Text == "" && Song.Data.Year == 0))
+                || AlbumCoverPictureButton.Image != Song.Data.AlbumCover || LyricsTextBox.Text != Song.Data.Lyrics;
         }
 
         public static bool WindowExists(Song song)
@@ -181,6 +187,40 @@ namespace SoogbadMusic
         {
             base.OnHandleCreated(e);
             Utility.SetWindowTitleBarColor(Handle);
+        }
+
+        private Rectangle currentBounds;
+        private void OnLocationChanged(object? sender, EventArgs e)
+        {
+            Rectangle bounds = Screen.GetBounds(this);
+            if(bounds != currentBounds)
+            {
+                currentBounds = bounds;
+                Size defaultWindowSize = new(1118, 617); Size defaultScreenSize = new(1920, 1080);
+                double widthScale = (double)bounds.Width / defaultScreenSize.Width;
+                double heightScale = (double)bounds.Height / defaultScreenSize.Height;
+                int newWidth = (int)Math.Max(1, defaultWindowSize.Width * widthScale);
+                int newHeight = (int)Math.Max(1, defaultWindowSize.Height * heightScale);
+                if(newWidth != Size.Width || newHeight != Size.Height)
+                {
+                    Size = new Size(newWidth, newHeight);
+                }
+            }
+        }
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            Rectangle workingArea = Screen.FromControl(this).WorkingArea;
+            int x = workingArea.Left + Math.Max(0, (workingArea.Width - Width) / 2);
+            int y = workingArea.Top + Math.Max(0, (workingArea.Height - Height) / 2);
+            SetDesktopLocation(x, y);
+        }
+        private void OnResponsiveClientSizeChanged()
+        {
+            ProgressLabel.Top = ClientSize.Height - ProgressLabel.Height - 40;
+            ProgressLabel.Left = ClientSize.Width / 2 - ProgressLabel.Width / 2;
+            LoadingGIFPictureBox.Top = ProgressLabel.Top - ProgressLabel.Height - LoadingGIFPictureBox.Height;
+            LoadingGIFPictureBox.Left = ClientSize.Width / 2 - LoadingGIFPictureBox.Width / 2;
         }
 
         private static void TrimWhitespaces(System.Windows.Forms.TextBox textBox)
