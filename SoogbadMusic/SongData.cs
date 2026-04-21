@@ -1,12 +1,13 @@
 namespace SoogbadMusic
 {
 	
-	public struct SongData(string title, string artist, string album, uint year, Image? albumCover, string lyrics)
+	public struct SongData(string title, string artist, string album, uint year, string genre, Image? albumCover, string lyrics)
     {
         public string Title { get; set; } = title;
 		public string Artist { get; set; } = artist;
 		public string Album { get; set; } = album;
 		public uint Year { get; set; } = year;
+		public string Genre { get; set; } = genre;
 		public Image? AlbumCover { get; set; } = albumCover;
 		public string Lyrics { get; set; } = lyrics;
 

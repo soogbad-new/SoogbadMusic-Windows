@@ -15,12 +15,9 @@ namespace SoogbadMusic
             if(Song.Data.AlbumCover == null || Song.Data.Lyrics == "")
                 Song.LoadAlbumCoverAndLyrics();
             Text = "Song Info - " + Song.Path;
-            TitleTextBox.Text = Song.Data.Title;
-            ArtistTextBox.Text = Song.Data.Artist;
-            AlbumTextBox.Text = Song.Data.Album;
+            TitleTextBox.Text = Song.Data.Title; ArtistTextBox.Text = Song.Data.Artist;AlbumTextBox.Text = Song.Data.Album;
             YearTextBox.Text = Song.Data.Year == 0 ? "" : Song.Data.Year.ToString();
-            AlbumCoverPictureButton.Image = Song.Data.AlbumCover;
-            LyricsTextBox.Text = Song.Data.Lyrics;
+            GenreTextBox.Text = Song.Data.Genre; AlbumCoverPictureButton.Image = Song.Data.AlbumCover; LyricsTextBox.Text = Song.Data.Lyrics;
             System.Windows.Forms.Timer timer = new() { Interval = 50 };
             timer.Tick += OnTimerTick;
             timer.Start();
@@ -79,7 +76,7 @@ namespace SoogbadMusic
                 SaveButton.Enabled = false;
                 LoadingGIFPictureBox.Visible = true;
                 ProgressLabel.Text = "Initializing... 0%";
-                TrimWhitespaces(TitleTextBox); TrimWhitespaces(ArtistTextBox); TrimWhitespaces(AlbumTextBox); TrimLyricsWhitespaces();
+                TrimWhitespaces(TitleTextBox); TrimWhitespaces(ArtistTextBox); TrimWhitespaces(AlbumTextBox); TrimWhitespaces(GenreTextBox); TrimLyricsWhitespaces();
                 Utility.RunCommandlineTool("mp3gain", $"/k /r /d 6 \"{Song.Path}\"", OnMP3GainOutputReceived, OnMP3GainProcessExited, true);
             }
             else
@@ -132,6 +129,7 @@ namespace SoogbadMusic
             tag.Performers = tag.AlbumArtists;
             tag.Album = AlbumTextBox.Text == "" ? null : AlbumTextBox.Text;
             tag.Year = YearTextBox.Text == "" ? 0 : uint.Parse(YearTextBox.Text);
+            tag.Genres = GenreTextBox.Text == "" ? [] : [GenreTextBox.Text];
             tag.Pictures = AlbumCoverPictureButton.Image == null ? [] : [new Picture(new ByteVector((byte[]?)new ImageConverter().ConvertTo(AlbumCoverPictureButton.Image, typeof(byte[]))))];
             tag.Lyrics = LyricsTextBox.Text == "" ? null : LyricsTextBox.Text;
             ProgressLabel.Text = "Saving...";
@@ -172,7 +170,7 @@ namespace SoogbadMusic
         {
             return TitleTextBox.Text != Song.Data.Title || ArtistTextBox.Text != Song.Data.Artist || AlbumTextBox.Text != Song.Data.Album
                 || (YearTextBox.Text != Song.Data.Year.ToString() && !(YearTextBox.Text == "" && Song.Data.Year == 0))
-                || AlbumCoverPictureButton.Image != Song.Data.AlbumCover || LyricsTextBox.Text != Song.Data.Lyrics;
+                || GenreTextBox.Text != Song.Data.Genre || AlbumCoverPictureButton.Image != Song.Data.AlbumCover || LyricsTextBox.Text != Song.Data.Lyrics;
         }
 
         public static bool WindowExists(Song song)

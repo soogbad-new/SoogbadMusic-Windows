@@ -26,7 +26,7 @@ namespace SoogbadMusic
                         for(int i = 1; i < file.Tag.AlbumArtists.Length; i++)
                             artist += "/" + file.Tag.AlbumArtists[i];
                 }
-                Data = new SongData(file.Tag.Title == null ? "" : file.Tag.Title, artist, file.Tag.Album == null ? "" : file.Tag.Album, file.Tag.Year, null, "");
+                Data = new SongData(file.Tag.Title == null ? "" : file.Tag.Title, artist, file.Tag.Album == null ? "" : file.Tag.Album, file.Tag.Year, file.Tag.FirstGenre ?? "", null, "");
             }
         }
 
@@ -37,7 +37,7 @@ namespace SoogbadMusic
                 Image? image = null;
                 if(file.Tag.Pictures.Length > 0)
                     image = Image.FromStream(new MemoryStream(file.Tag.Pictures[0].Data.Data));
-                Data = new SongData(Data.Title, Data.Artist, Data.Album, Data.Year, image, file.Tag.Lyrics == null ? "" : file.Tag.Lyrics);
+                Data = new SongData(Data.Title, Data.Artist, Data.Album, Data.Year, Data.Genre, image, file.Tag.Lyrics == null ? "" : file.Tag.Lyrics);
             }
         }
 
