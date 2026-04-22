@@ -93,16 +93,6 @@ namespace SoogbadMusic
             SearchTextBox.Font = new Font(SearchTextBox.Font, FontStyle.Italic);
             SearchTextBox.ForeColor = Color.LightGray;
             SearchTextBox.Text = "Search " + Playlist.Songs.Count + " Songs";
-            Dictionary<string, int> songDict = new Dictionary<string, int>();
-            foreach(Song song in Playlist.Songs)
-            {
-                if(!songDict.ContainsKey(song.Data.Genre))
-                    songDict.Add(song.Data.Genre, 1);
-                else
-                    songDict[song.Data.Genre] += 1;
-            }
-            foreach(string genre in songDict.Keys)
-                MessageBox.Show(genre + ": " + songDict[genre].ToString());
         }
 
         private void OnSongChanged()

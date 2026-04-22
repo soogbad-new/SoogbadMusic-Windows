@@ -17,7 +17,7 @@ namespace SoogbadMusic
 			if(!advanced)
 				return Contains(RemoveSpecialCharacters(Artist.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Title.ToLower()), realKey);
 			else
-				return Contains(RemoveSpecialCharacters(Artist.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Title.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Album.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Year.ToString().ToLower()), realKey) || Contains(RemoveSpecialCharacters(Lyrics.ToLower()), realKey);
+				return Contains(RemoveSpecialCharacters(Artist.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Title.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Album.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Year.ToString().ToLower()), realKey) || Contains(RemoveSpecialCharacters(Lyrics.ToLower()), realKey) || Contains(RemoveSpecialCharacters(Genre.ToLower()), realKey);
 		}
 		private static bool Contains(string str, string key)
         {
