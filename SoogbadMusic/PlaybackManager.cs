@@ -82,10 +82,12 @@ namespace SoogbadMusic
                     if(Shuffle)
                     {
                         string currentGenre = Player?.Song.Data.Genre ?? "";
-                        List<Song> songs = currentGenre != "" ? Playlist.Songs.Where(s => s.Data.Genre == currentGenre).ToList() : Playlist.Songs;
-                        if(songs.Count == 0)
+                        List<Song> songs = currentGenre != "" ? [.. Playlist.Songs.Where(s => { return s.Data.Genre == currentGenre; })] : Playlist.Songs;
+                        if(songs.Count < 2)
                             songs = Playlist.Songs;
                         Song song = songs[new Random().Next(0, songs.Count)];
+                        while(Player != null && Player.Song == song)
+                            song = songs[new Random().Next(0, songs.Count)];
                         if(!File.Exists(song.Path) || !IsSampleRateConstant(song))
                         {
                             NextSong();

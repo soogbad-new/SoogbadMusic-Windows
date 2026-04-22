@@ -45,6 +45,8 @@
             AlbumCoverPictureButton = new PictureButton();
             LoadingGIFPictureBox = new PictureBox();
             ProgressLabel = new Label();
+            GenreLabel = new Label();
+            GenreTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)AlbumCoverPictureButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)LoadingGIFPictureBox).BeginInit();
             SuspendLayout();
@@ -52,7 +54,7 @@
             // TitleTextBox
             // 
             TitleTextBox.BackColor = Color.FromArgb(32, 96, 112);
-            TitleTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            TitleTextBox.Font = new Font("Calibri", 8.25F);
             TitleTextBox.ForeColor = Color.White;
             TitleTextBox.Location = new Point(76, 14);
             TitleTextBox.Margin = new Padding(4);
@@ -65,7 +67,7 @@
             // TitleLabel
             // 
             TitleLabel.AutoSize = true;
-            TitleLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            TitleLabel.Font = new Font("Calibri", 9.75F);
             TitleLabel.ForeColor = Color.White;
             TitleLabel.Location = new Point(18, 17);
             TitleLabel.Margin = new Padding(4, 0, 4, 0);
@@ -77,7 +79,7 @@
             // ArtistLabel
             // 
             ArtistLabel.AutoSize = true;
-            ArtistLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            ArtistLabel.Font = new Font("Calibri", 9.75F);
             ArtistLabel.ForeColor = Color.White;
             ArtistLabel.Location = new Point(18, 73);
             ArtistLabel.Margin = new Padding(4, 0, 4, 0);
@@ -89,7 +91,7 @@
             // ArtistTextBox
             // 
             ArtistTextBox.BackColor = Color.FromArgb(32, 96, 112);
-            ArtistTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            ArtistTextBox.Font = new Font("Calibri", 8.25F);
             ArtistTextBox.ForeColor = Color.White;
             ArtistTextBox.Location = new Point(76, 69);
             ArtistTextBox.Margin = new Padding(4);
@@ -102,7 +104,7 @@
             // AlbumLabel
             // 
             AlbumLabel.AutoSize = true;
-            AlbumLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            AlbumLabel.Font = new Font("Calibri", 9.75F);
             AlbumLabel.ForeColor = Color.White;
             AlbumLabel.Location = new Point(18, 128);
             AlbumLabel.Margin = new Padding(4, 0, 4, 0);
@@ -114,7 +116,7 @@
             // AlbumTextBox
             // 
             AlbumTextBox.BackColor = Color.FromArgb(32, 96, 112);
-            AlbumTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            AlbumTextBox.Font = new Font("Calibri", 8.25F);
             AlbumTextBox.ForeColor = Color.White;
             AlbumTextBox.Location = new Point(76, 125);
             AlbumTextBox.Margin = new Padding(4);
@@ -127,7 +129,7 @@
             // YearLabel
             // 
             YearLabel.AutoSize = true;
-            YearLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            YearLabel.Font = new Font("Calibri", 9.75F);
             YearLabel.ForeColor = Color.White;
             YearLabel.Location = new Point(18, 184);
             YearLabel.Margin = new Padding(4, 0, 4, 0);
@@ -139,7 +141,7 @@
             // YearTextBox
             // 
             YearTextBox.BackColor = Color.FromArgb(32, 96, 112);
-            YearTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            YearTextBox.Font = new Font("Calibri", 8.25F);
             YearTextBox.ForeColor = Color.White;
             YearTextBox.Location = new Point(76, 180);
             YearTextBox.Margin = new Padding(4);
@@ -155,7 +157,7 @@
             // AlbumCoverLabel
             // 
             AlbumCoverLabel.AutoSize = true;
-            AlbumCoverLabel.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            AlbumCoverLabel.Font = new Font("Calibri", 9.75F);
             AlbumCoverLabel.ForeColor = Color.White;
             AlbumCoverLabel.Location = new Point(88, 291);
             AlbumCoverLabel.Margin = new Padding(4, 0, 4, 0);
@@ -173,7 +175,7 @@
             // 
             LyricsTextBox.AcceptsReturn = true;
             LyricsTextBox.BackColor = Color.FromArgb(32, 96, 112);
-            LyricsTextBox.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            LyricsTextBox.Font = new Font("Calibri", 12F);
             LyricsTextBox.ForeColor = Color.White;
             LyricsTextBox.HideSelection = false;
             LyricsTextBox.Location = new Point(337, 17);
@@ -188,7 +190,7 @@
             // 
             // CancelButton
             // 
-            CancelButton.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            CancelButton.Font = new Font("Calibri", 9F);
             CancelButton.Location = new Point(997, 534);
             CancelButton.Margin = new Padding(4);
             CancelButton.Name = "CancelButton";
@@ -200,7 +202,7 @@
             // 
             // SaveButton
             // 
-            SaveButton.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 177);
+            SaveButton.Font = new Font("Calibri", 9F);
             SaveButton.Location = new Point(18, 534);
             SaveButton.Margin = new Padding(4);
             SaveButton.Name = "SaveButton";
@@ -213,6 +215,7 @@
             // AlbumCoverPictureButton
             // 
             AlbumCoverPictureButton.BorderStyle = BorderStyle.FixedSingle;
+            AlbumCoverPictureButton.Font = new Font("Segoe UI", 9F);
             AlbumCoverPictureButton.Location = new Point(76, 317);
             AlbumCoverPictureButton.Margin = new Padding(4);
             AlbumCoverPictureButton.Name = "AlbumCoverPictureButton";
@@ -224,6 +227,7 @@
             // 
             // LoadingGIFPictureBox
             // 
+            LoadingGIFPictureBox.Font = new Font("Segoe UI", 9F);
             LoadingGIFPictureBox.Image = Properties.Resources.Loading;
             LoadingGIFPictureBox.Location = new Point(532, 514);
             LoadingGIFPictureBox.Margin = new Padding(4);
@@ -237,7 +241,7 @@
             // ProgressLabel
             // 
             ProgressLabel.AutoSize = true;
-            ProgressLabel.Font = new Font("Calibri", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ProgressLabel.Font = new Font("Calibri", 9F);
             ProgressLabel.ForeColor = Color.White;
             ProgressLabel.Location = new Point(492, 556);
             ProgressLabel.Margin = new Padding(4, 0, 4, 0);
@@ -248,12 +252,39 @@
             ProgressLabel.TabIndex = 16;
             ProgressLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // GenreLabel
+            // 
+            GenreLabel.AutoSize = true;
+            GenreLabel.Font = new Font("Calibri", 9.75F);
+            GenreLabel.ForeColor = Color.White;
+            GenreLabel.Location = new Point(18, 238);
+            GenreLabel.Margin = new Padding(4, 0, 4, 0);
+            GenreLabel.Name = "GenreLabel";
+            GenreLabel.RightToLeft = RightToLeft.No;
+            GenreLabel.Size = new Size(42, 15);
+            GenreLabel.TabIndex = 18;
+            GenreLabel.Text = "Genre:";
+            // 
+            // GenreTextBox
+            // 
+            GenreTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            GenreTextBox.Font = new Font("Calibri", 8.25F);
+            GenreTextBox.ForeColor = Color.White;
+            GenreTextBox.Location = new Point(76, 235);
+            GenreTextBox.Margin = new Padding(4);
+            GenreTextBox.Name = "GenreTextBox";
+            GenreTextBox.Size = new Size(116, 21);
+            GenreTextBox.TabIndex = 19;
+            GenreTextBox.WordWrap = false;
+            // 
             // SongInfoForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 64, 80);
             ClientSize = new Size(1102, 578);
+            Controls.Add(GenreTextBox);
+            Controls.Add(GenreLabel);
             Controls.Add(ProgressLabel);
             Controls.Add(LoadingGIFPictureBox);
             Controls.Add(SaveButton);
@@ -273,6 +304,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             MaximizeBox = false;
+            MinimumSize = new Size(1118, 617);
             Name = "SongInfoForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Song Info";
@@ -302,5 +334,7 @@
         private System.Windows.Forms.Button SaveButton;
         private PictureBox LoadingGIFPictureBox;
         private Label ProgressLabel;
+        private Label GenreLabel;
+        private TextBox GenreTextBox;
     }
 }
