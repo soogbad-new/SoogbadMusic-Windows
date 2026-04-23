@@ -60,7 +60,7 @@
             TitleTextBox.Margin = new Padding(4);
             TitleTextBox.Name = "TitleTextBox";
             TitleTextBox.Size = new Size(116, 21);
-            TitleTextBox.TabIndex = 0;
+            TitleTextBox.TabIndex = 1;
             TitleTextBox.WordWrap = false;
             TitleTextBox.TextChanged += OnTextBoxTextChanged;
             // 
@@ -73,7 +73,7 @@
             TitleLabel.Margin = new Padding(4, 0, 4, 0);
             TitleLabel.Name = "TitleLabel";
             TitleLabel.Size = new Size(34, 15);
-            TitleLabel.TabIndex = 1;
+            TitleLabel.TabIndex = 0;
             TitleLabel.Text = "Title:";
             // 
             // ArtistLabel
@@ -85,7 +85,7 @@
             ArtistLabel.Margin = new Padding(4, 0, 4, 0);
             ArtistLabel.Name = "ArtistLabel";
             ArtistLabel.Size = new Size(39, 15);
-            ArtistLabel.TabIndex = 3;
+            ArtistLabel.TabIndex = 2;
             ArtistLabel.Text = "Artist:";
             // 
             // ArtistTextBox
@@ -97,7 +97,7 @@
             ArtistTextBox.Margin = new Padding(4);
             ArtistTextBox.Name = "ArtistTextBox";
             ArtistTextBox.Size = new Size(116, 21);
-            ArtistTextBox.TabIndex = 2;
+            ArtistTextBox.TabIndex = 3;
             ArtistTextBox.WordWrap = false;
             ArtistTextBox.TextChanged += OnTextBoxTextChanged;
             // 
@@ -110,7 +110,7 @@
             AlbumLabel.Margin = new Padding(4, 0, 4, 0);
             AlbumLabel.Name = "AlbumLabel";
             AlbumLabel.Size = new Size(45, 15);
-            AlbumLabel.TabIndex = 5;
+            AlbumLabel.TabIndex = 4;
             AlbumLabel.Text = "Album:";
             // 
             // AlbumTextBox
@@ -122,7 +122,7 @@
             AlbumTextBox.Margin = new Padding(4);
             AlbumTextBox.Name = "AlbumTextBox";
             AlbumTextBox.Size = new Size(116, 21);
-            AlbumTextBox.TabIndex = 4;
+            AlbumTextBox.TabIndex = 5;
             AlbumTextBox.WordWrap = false;
             AlbumTextBox.TextChanged += OnTextBoxTextChanged;
             // 
@@ -135,7 +135,7 @@
             YearLabel.Margin = new Padding(4, 0, 4, 0);
             YearLabel.Name = "YearLabel";
             YearLabel.Size = new Size(33, 15);
-            YearLabel.TabIndex = 7;
+            YearLabel.TabIndex = 6;
             YearLabel.Text = "Year:";
             // 
             // YearTextBox
@@ -149,7 +149,7 @@
             YearTextBox.Name = "YearTextBox";
             YearTextBox.ShortcutsEnabled = false;
             YearTextBox.Size = new Size(116, 21);
-            YearTextBox.TabIndex = 6;
+            YearTextBox.TabIndex = 7;
             YearTextBox.WordWrap = false;
             YearTextBox.TextChanged += OnTextBoxTextChanged;
             YearTextBox.KeyPress += OnYearTextBoxKeyPress;
@@ -163,7 +163,7 @@
             AlbumCoverLabel.Margin = new Padding(4, 0, 4, 0);
             AlbumCoverLabel.Name = "AlbumCoverLabel";
             AlbumCoverLabel.Size = new Size(79, 15);
-            AlbumCoverLabel.TabIndex = 11;
+            AlbumCoverLabel.TabIndex = 10;
             AlbumCoverLabel.Text = "Album Cover:";
             // 
             // OpenAlbumCoverDialog
@@ -184,7 +184,7 @@
             LyricsTextBox.Name = "LyricsTextBox";
             LyricsTextBox.ScrollBars = ScrollBars.Vertical;
             LyricsTextBox.Size = new Size(746, 415);
-            LyricsTextBox.TabIndex = 12;
+            LyricsTextBox.TabIndex = 11;
             LyricsTextBox.WordWrap = false;
             LyricsTextBox.TextChanged += OnTextBoxTextChanged;
             // 
@@ -249,7 +249,7 @@
             ProgressLabel.MinimumSize = new Size(119, 0);
             ProgressLabel.Name = "ProgressLabel";
             ProgressLabel.Size = new Size(119, 14);
-            ProgressLabel.TabIndex = 16;
+            ProgressLabel.TabIndex = 12;
             ProgressLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // GenreLabel
@@ -262,7 +262,7 @@
             GenreLabel.Name = "GenreLabel";
             GenreLabel.RightToLeft = RightToLeft.No;
             GenreLabel.Size = new Size(42, 15);
-            GenreLabel.TabIndex = 18;
+            GenreLabel.TabIndex = 8;
             GenreLabel.Text = "Genre:";
             // 
             // GenreTextBox
@@ -274,7 +274,7 @@
             GenreTextBox.Margin = new Padding(4);
             GenreTextBox.Name = "GenreTextBox";
             GenreTextBox.Size = new Size(116, 21);
-            GenreTextBox.TabIndex = 19;
+            GenreTextBox.TabIndex = 9;
             GenreTextBox.WordWrap = false;
             // 
             // SongInfoForm
