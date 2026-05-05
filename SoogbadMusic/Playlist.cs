@@ -22,7 +22,7 @@ namespace SoogbadMusic
             {
                 TagLib.Id3v2.Tag.DefaultVersion = 3;
                 TagLib.Id3v2.Tag.ForceDefaultVersion = true;
-                Dictionary<string, Song> previousSongs = Songs.ToDictionary(song => song.FilePath, song => song);
+                Dictionary<string, Song> previousSongs = Songs.ToDictionary(song => { return song.Path; }, song => { return song; });
                 Songs = [];
                 IEnumerable<string> files = PlaybackManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith('_'); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
                 int count = files.Count();
