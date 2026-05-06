@@ -25,8 +25,8 @@ namespace SoogbadMusic
                 Dictionary<string, Song> previousSongs = Songs.ToDictionary(song => song.FilePath, song => song);
                 Songs = [];
                 IEnumerable<string> files = PlaybackManager.Filter ? System.IO.Directory.EnumerateFiles(Directory, "*.mp3").Where(file => { return !Path.GetFileName(file).StartsWith('_'); }) : System.IO.Directory.EnumerateFiles(Directory, "*.mp3");
-                int count = files.Count();
-                int i = 0;
+                int newSongsTotal = files.Count() - previousSongs.Count;
+                int newSongsLoaded = 0;
                 foreach(string file in files)
                 {
                     if(stopLastThread)
@@ -34,11 +34,13 @@ namespace SoogbadMusic
                     if(previousSongs.ContainsKey(file))
                         Songs.Add(previousSongs[file]);
                     else
+                    {
                         Songs.Add(new Song(file));
-                    IsAccessingRefreshSongsProgress = true;
-                    RefreshSongsProgress = (double)i / count;
-                    IsAccessingRefreshSongsProgress = false;
-                    i++;
+                        IsAccessingRefreshSongsProgress = true;
+                        RefreshSongsProgress = (double)newSongsLoaded / newSongsTotal;
+                        IsAccessingRefreshSongsProgress = false;
+                        newSongsLoaded++;
+                    }
                 }
                 Songs.Sort(new SongComparer());
                 RefreshSongsComplete = true;
