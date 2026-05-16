@@ -13,10 +13,11 @@ namespace SoogbadMusic
     public static partial class Utility
     {
 
-        public static string FormatTime(double seconds)
+        public static string FormatTime(double milliseconds)
         {
-            int mins = (int)(seconds / 60);
-            int secs = (int)(seconds % 60);
+            int totalSeconds = (int)(milliseconds / 1000);
+            int mins = totalSeconds / 60;
+            int secs = totalSeconds % 60;
             return mins.ToString() + ":" + (secs >= 10 ? "" : "0") + secs.ToString();
         }
 

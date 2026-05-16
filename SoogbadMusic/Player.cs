@@ -51,14 +51,14 @@ namespace SoogbadMusic
                 if(Stopped)
                     return Song.Duration;
                 else if(audioFile != null)
-                    return audioFile.CurrentTime.TotalSeconds;
+                    return audioFile.CurrentTime.TotalMilliseconds;
                 else
                     return 0;
             }
             set
             {
                 if(!Stopped && value >= 0 && value < Song.Duration && audioFile != null)
-                    audioFile.CurrentTime = new TimeSpan(0, 0, (int)Math.Round(value));
+                    audioFile.CurrentTime = TimeSpan.FromMilliseconds(value);
             }
         }
 

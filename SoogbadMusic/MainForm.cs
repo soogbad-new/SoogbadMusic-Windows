@@ -128,8 +128,8 @@ namespace SoogbadMusic
             if(PlaybackManager.Player != null && !Playlist.IsAccessingRefreshSongsProgress && Playlist.RefreshSongsProgress == 0)
             {
                 double time = (double)posX / ClientSize.Width * PlaybackManager.Player.Song.Duration;
-                if(time > PlaybackManager.Player.Song.Duration - 1)
-                    time = PlaybackManager.Player.Song.Duration - 1;
+                if(time > PlaybackManager.Player.Song.Duration - 1000)
+                    time = PlaybackManager.Player.Song.Duration - 1000;
                 if(time < 0)
                     time = 0;
                 if(PlaybackManager.Player.Stopped)

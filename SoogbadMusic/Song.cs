@@ -15,7 +15,7 @@ namespace SoogbadMusic
                 return;
             using(TagLib.File file = TagLib.File.Create(Path))
             {
-                Duration = file.Properties.Duration.TotalSeconds;
+                Duration = file.Properties.Duration.TotalMilliseconds;
                 string artist;
                 if(file.Tag.AlbumArtists.Length == 0)
                     artist = "";
