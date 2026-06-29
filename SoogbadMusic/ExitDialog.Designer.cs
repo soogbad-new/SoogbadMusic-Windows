@@ -76,7 +76,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(0, 64, 80);
+            BackColor = Color.FromArgb(0, 48, 64);
             ClientSize = new Size(280, 121);
             ControlBox = false;
             Controls.Add(DialogLabel);

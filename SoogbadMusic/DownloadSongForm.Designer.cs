@@ -114,21 +114,15 @@
             // 
             // SaveSongDialog
             // 
-            SaveSongDialog.Title = "Choose Filename";
-            SaveSongDialog.Filter = "MP3 Audio (*.mp3)|*.mp3";
             SaveSongDialog.DefaultExt = "mp3";
-            SaveSongDialog.AddExtension = true;
-            SaveSongDialog.FileName = "";
-            SaveSongDialog.OverwritePrompt = true;
-            SaveSongDialog.CheckPathExists = true;
-            SaveSongDialog.CheckFileExists = false;
-            SaveSongDialog.ValidateNames = true;
+            SaveSongDialog.Filter = "MP3 Audio (*.mp3)|*.mp3";
+            SaveSongDialog.Title = "Choose Filename";
             // 
             // DownloadSongForm
             // 
             AutoScaleDimensions = new SizeF(6F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(0, 64, 80);
+            BackColor = Color.FromArgb(0, 48, 64);
             ClientSize = new Size(212, 157);
             Controls.Add(ProgressLabel);
             Controls.Add(LoadingGIFPictureBox);

@@ -51,7 +51,7 @@
             // 
             // SongListItem6
             // 
-            SongListItem6.BackColor = Color.FromArgb(0, 64, 64);
+            SongListItem6.BackColor = Color.FromArgb(0, 64, 80);
             SongListItem6.ForeColor = Color.White;
             SongListItem6.Location = new Point(0, 260);
             SongListItem6.Margin = new Padding(5, 3, 5, 3);
@@ -73,7 +73,7 @@
             // 
             // SongListItem4
             // 
-            SongListItem4.BackColor = Color.FromArgb(0, 64, 64);
+            SongListItem4.BackColor = Color.FromArgb(0, 64, 80);
             SongListItem4.ForeColor = Color.White;
             SongListItem4.Location = new Point(0, 156);
             SongListItem4.Margin = new Padding(5, 3, 5, 3);
@@ -95,7 +95,7 @@
             // 
             // SongListItem2
             // 
-            SongListItem2.BackColor = Color.FromArgb(0, 64, 64);
+            SongListItem2.BackColor = Color.FromArgb(0, 64, 80);
             SongListItem2.ForeColor = Color.White;
             SongListItem2.Location = new Point(0, 52);
             SongListItem2.Margin = new Padding(5, 3, 5, 3);
@@ -117,7 +117,7 @@
             // 
             // SongListItem8Hidden
             // 
-            SongListItem8Hidden.BackColor = Color.FromArgb(0, 64, 64);
+            SongListItem8Hidden.BackColor = Color.FromArgb(0, 64, 80);
             SongListItem8Hidden.ForeColor = Color.White;
             SongListItem8Hidden.Location = new Point(0, 312);
             SongListItem8Hidden.Margin = new Padding(5, 3, 5, 3);

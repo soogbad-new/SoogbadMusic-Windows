@@ -290,7 +290,7 @@
             // 
             // MainForm
             // 
-            BackColor = Color.FromArgb(0, 64, 80);
+            BackColor = Color.FromArgb(0, 48, 64);
             ClientSize = new Size(944, 501);
             Controls.Add(AdvancedSearchButton);
             Controls.Add(AlbumCoverPictureBox);
