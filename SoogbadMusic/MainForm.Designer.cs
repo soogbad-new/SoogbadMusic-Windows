@@ -235,7 +235,7 @@
             // MenuStrip
             // 
             MenuStrip.AutoSize = false;
-            MenuStrip.BackColor = AppColors.Green;
+            MenuStrip.BackColor = AppColors.AppColor;
             MenuStrip.Font = new Font("Segoe UI", 9F);
             MenuStrip.Items.AddRange(new ToolStripItem[] { LyricsButton, ShuffleButton, FilterButton, DownloadButton });
             MenuStrip.Location = new Point(0, 0);

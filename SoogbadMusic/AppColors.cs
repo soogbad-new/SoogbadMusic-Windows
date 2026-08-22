@@ -1,9 +1,10 @@
-namespace SoogbadMusic
+﻿namespace SoogbadMusic
 {
 
     public static class AppColors
     {
 
+        public static readonly Color AppColor = ColorTranslator.FromHtml("#19967D");
         public static readonly Color LightBlue = ColorTranslator.FromHtml("#005060");
         public static readonly Color DarkBlue = ColorTranslator.FromHtml("#004050");
         public static readonly Color VeryDarkBlue = ColorTranslator.FromHtml("#003040");

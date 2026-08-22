@@ -79,7 +79,7 @@
             // 
             // SongContextMenuStrip
             // 
-            SongContextMenuStrip.BackColor = AppColors.GreenLight;
+            SongContextMenuStrip.BackColor = AppColors.AccentLight;
             SongContextMenuStrip.Items.AddRange(new ToolStripItem[] { AddToQueueToolStripMenuItem, RemoveFromQueueToolStripMenuItem, SongInfoToolStripMenuItem });
             SongContextMenuStrip.Name = "ContextMenuStrip";
             SongContextMenuStrip.Size = new Size(187, 92);
