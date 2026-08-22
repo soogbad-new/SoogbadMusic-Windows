@@ -79,35 +79,38 @@
             // 
             // SongContextMenuStrip
             // 
-            SongContextMenuStrip.BackColor = AppColors.AccentLight;
+            SongContextMenuStrip.BackColor = AppColors.AccentColor;
             SongContextMenuStrip.Items.AddRange(new ToolStripItem[] { AddToQueueToolStripMenuItem, RemoveFromQueueToolStripMenuItem, SongInfoToolStripMenuItem });
             SongContextMenuStrip.Name = "ContextMenuStrip";
-            SongContextMenuStrip.Size = new Size(187, 92);
+            SongContextMenuStrip.Size = new Size(186, 92);
             // 
             // AddToQueueToolStripMenuItem
             // 
+            AddToQueueToolStripMenuItem.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             AddToQueueToolStripMenuItem.ForeColor = Color.White;
             AddToQueueToolStripMenuItem.Image = Properties.Resources.QueueAdd;
             AddToQueueToolStripMenuItem.Name = "AddToQueueToolStripMenuItem";
-            AddToQueueToolStripMenuItem.Size = new Size(186, 22);
+            AddToQueueToolStripMenuItem.Size = new Size(185, 22);
             AddToQueueToolStripMenuItem.Text = "Add To Queue";
             AddToQueueToolStripMenuItem.MouseDown += OnAddToQueueToolStripMenuItemMouseDown;
             // 
             // RemoveFromQueueToolStripMenuItem
             // 
+            RemoveFromQueueToolStripMenuItem.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RemoveFromQueueToolStripMenuItem.ForeColor = Color.White;
             RemoveFromQueueToolStripMenuItem.Image = Properties.Resources.QueueRemove;
             RemoveFromQueueToolStripMenuItem.Name = "RemoveFromQueueToolStripMenuItem";
-            RemoveFromQueueToolStripMenuItem.Size = new Size(186, 22);
+            RemoveFromQueueToolStripMenuItem.Size = new Size(185, 22);
             RemoveFromQueueToolStripMenuItem.Text = "Remove From Queue";
             RemoveFromQueueToolStripMenuItem.MouseDown += OnRemoveFromQueueToolStripMenuItemMouseDown;
             // 
             // SongInfoToolStripMenuItem
             // 
+            SongInfoToolStripMenuItem.Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             SongInfoToolStripMenuItem.ForeColor = Color.White;
             SongInfoToolStripMenuItem.Image = Properties.Resources.Info;
             SongInfoToolStripMenuItem.Name = "SongInfoToolStripMenuItem";
-            SongInfoToolStripMenuItem.Size = new Size(186, 22);
+            SongInfoToolStripMenuItem.Size = new Size(185, 22);
             SongInfoToolStripMenuItem.Text = "Song Info";
             SongInfoToolStripMenuItem.MouseDown += OnSongInfoToolStripMenuItemMouseDown;
             // 
@@ -115,7 +118,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = AppColors.LightSong;
+            BackColor = AppColors.AppColor;
             Controls.Add(DurationLabel);
             Controls.Add(InfoLabel);
             Controls.Add(NameLabel);
