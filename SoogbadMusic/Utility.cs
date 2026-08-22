@@ -63,6 +63,14 @@ namespace SoogbadMusic
             }
         }
 
+        public static Bitmap TintImage(Image source)
+        {
+            var tinted = new Bitmap(source.Width, source.Height);
+            using var g = Graphics.FromImage(tinted);
+            g.DrawImage(source, new Rectangle(0, 0, source.Width, source.Height), 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, PictureButton.ActiveAttrs);
+            return tinted;
+        }
+
         public static MainForm? GetMainForm()
         {
             foreach(Form form in Application.OpenForms)
