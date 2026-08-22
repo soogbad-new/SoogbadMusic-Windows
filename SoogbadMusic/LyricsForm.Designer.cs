@@ -48,7 +48,7 @@
             // 
             // Panel
             // 
-            Panel.BackColor = Color.FromArgb(0, 64, 80);
+            Panel.BackColor = AppColors.DarkBlue;
             Panel.Font = new Font("Microsoft Sans Serif", 10.16018F);
             Panel.Location = new Point(0, 86);
             Panel.Name = "Panel";
@@ -82,7 +82,7 @@
             // 
             AutoScaleDimensions = new SizeF(6F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(0, 48, 64);
+            BackColor = AppColors.VeryDarkBlue;
             ClientSize = new Size(1259, 617);
             Controls.Add(SongInfoLabel);
             Controls.Add(SongNameLabel);

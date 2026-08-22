@@ -74,7 +74,7 @@
             // 
             // ProgressBar
             // 
-            ProgressBar.BackColor = Color.FromArgb(15, 100, 50);
+            ProgressBar.BackColor = AppColors.Green;
             ProgressBar.Font = new Font("Microsoft Sans Serif", 8.25F);
             ProgressBar.Location = new Point(0, 120);
             ProgressBar.Name = "ProgressBar";
@@ -163,7 +163,7 @@
             // 
             // SearchTextBox
             // 
-            SearchTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            SearchTextBox.BackColor = AppColors.TextBoxBackground;
             SearchTextBox.BorderStyle = BorderStyle.FixedSingle;
             SearchTextBox.Enabled = false;
             SearchTextBox.Font = new Font("Calibri", 9F);
@@ -235,7 +235,7 @@
             // MenuStrip
             // 
             MenuStrip.AutoSize = false;
-            MenuStrip.BackColor = Color.FromArgb(15, 100, 50);
+            MenuStrip.BackColor = AppColors.Green;
             MenuStrip.Font = new Font("Segoe UI", 9F);
             MenuStrip.Items.AddRange(new ToolStripItem[] { LyricsButton, ShuffleButton, FilterButton, DownloadButton });
             MenuStrip.Location = new Point(0, 0);
@@ -290,7 +290,7 @@
             // 
             // MainForm
             // 
-            BackColor = Color.FromArgb(0, 48, 64);
+            BackColor = AppColors.VeryDarkBlue;
             ClientSize = new Size(944, 501);
             Controls.Add(AdvancedSearchButton);
             Controls.Add(AlbumCoverPictureBox);

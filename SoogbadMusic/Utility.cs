@@ -179,7 +179,7 @@ namespace SoogbadMusic
         private const int DWMWA_CAPTION_COLOR = 35;
         public static void SetWindowTitleBarColor(nint windowHandle)
         {
-            int colorRef = ColorTranslator.ToWin32(Color.FromArgb(15, 100, 50));
+            int colorRef = ColorTranslator.ToWin32(AppColors.Green);
             _ = DwmSetWindowAttribute(windowHandle, DWMWA_CAPTION_COLOR, ref colorRef, sizeof(int));
         }
 

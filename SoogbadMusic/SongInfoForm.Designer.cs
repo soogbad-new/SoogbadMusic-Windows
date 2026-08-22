@@ -53,7 +53,7 @@
             // 
             // TitleTextBox
             // 
-            TitleTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            TitleTextBox.BackColor = AppColors.TextBoxBackground;
             TitleTextBox.Font = new Font("Calibri", 8.25F);
             TitleTextBox.ForeColor = Color.White;
             TitleTextBox.Location = new Point(76, 14);
@@ -90,7 +90,7 @@
             // 
             // ArtistTextBox
             // 
-            ArtistTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            ArtistTextBox.BackColor = AppColors.TextBoxBackground;
             ArtistTextBox.Font = new Font("Calibri", 8.25F);
             ArtistTextBox.ForeColor = Color.White;
             ArtistTextBox.Location = new Point(76, 69);
@@ -115,7 +115,7 @@
             // 
             // AlbumTextBox
             // 
-            AlbumTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            AlbumTextBox.BackColor = AppColors.TextBoxBackground;
             AlbumTextBox.Font = new Font("Calibri", 8.25F);
             AlbumTextBox.ForeColor = Color.White;
             AlbumTextBox.Location = new Point(76, 125);
@@ -140,7 +140,7 @@
             // 
             // YearTextBox
             // 
-            YearTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            YearTextBox.BackColor = AppColors.TextBoxBackground;
             YearTextBox.Font = new Font("Calibri", 8.25F);
             YearTextBox.ForeColor = Color.White;
             YearTextBox.Location = new Point(76, 180);
@@ -174,7 +174,7 @@
             // LyricsTextBox
             // 
             LyricsTextBox.AcceptsReturn = true;
-            LyricsTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            LyricsTextBox.BackColor = AppColors.TextBoxBackground;
             LyricsTextBox.Font = new Font("Calibri", 12F);
             LyricsTextBox.ForeColor = Color.White;
             LyricsTextBox.HideSelection = false;
@@ -267,7 +267,7 @@
             // 
             // GenreTextBox
             // 
-            GenreTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            GenreTextBox.BackColor = AppColors.TextBoxBackground;
             GenreTextBox.Font = new Font("Calibri", 8.25F);
             GenreTextBox.ForeColor = Color.White;
             GenreTextBox.Location = new Point(76, 235);
@@ -281,7 +281,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(0, 48, 64);
+            BackColor = AppColors.VeryDarkBlue;
             ClientSize = new Size(1102, 578);
             Controls.Add(GenreTextBox);
             Controls.Add(GenreLabel);

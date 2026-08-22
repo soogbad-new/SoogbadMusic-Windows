@@ -64,7 +64,7 @@
             // 
             // URLTextBox
             // 
-            URLTextBox.BackColor = Color.FromArgb(32, 96, 112);
+            URLTextBox.BackColor = AppColors.TextBoxBackground;
             URLTextBox.Font = new Font("Calibri", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             URLTextBox.ForeColor = Color.White;
             URLTextBox.Location = new Point(76, 14);
@@ -122,7 +122,7 @@
             // 
             AutoScaleDimensions = new SizeF(6F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(0, 48, 64);
+            BackColor = AppColors.VeryDarkBlue;
             ClientSize = new Size(212, 157);
             Controls.Add(ProgressLabel);
             Controls.Add(LoadingGIFPictureBox);

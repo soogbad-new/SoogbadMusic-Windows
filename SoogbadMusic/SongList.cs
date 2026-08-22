@@ -50,17 +50,17 @@ namespace SoogbadMusic
                 for(int i = 0; i < items.Length; i++)
                 {
                     if(items[i].Song == HighlightedSong)
-                        items[i].BackColor = light ? Color.FromArgb(0, 80, 96) : Color.FromArgb(0, 64, 80);
+                        items[i].BackColor = light ? AppColors.LightSong : AppColors.DarkSong;
                     light = !light;
                 }
                 HighlightedSong = item.Song;
-                item.BackColor = Color.FromArgb(215, 170, 40);
+                item.BackColor = AppColors.Yellow;
                 if(PlaybackManager.Player != null && HighlightedSong != PlaybackManager.Player.Song)
                 {
                     foreach(SongListItem item2 in items)
                         if(item2.Song == PlaybackManager.Player.Song)
                             foreach(Control label in item2.GetLabels())
-                                label.ForeColor = Color.FromArgb(215, 170, 40);
+                                label.ForeColor = AppColors.Yellow;
                 }
                 else
                     foreach(Control label in item.GetLabels())
@@ -78,12 +78,12 @@ namespace SoogbadMusic
             foreach(SongListItem item in items)
             {
                 item.Song = Index + i < currentList.Count ? currentList[Index + i] : null;
-                item.BackColor = item.Song == HighlightedSong && item.Song != null ? Color.FromArgb(215, 170, 40) : (light ? Color.FromArgb(0, 80, 96) : Color.FromArgb(0, 64, 80));
+                item.BackColor = item.Song == HighlightedSong && item.Song != null ? AppColors.Yellow : (light ? AppColors.LightSong : AppColors.DarkSong);
                 if(PlaybackManager.Player != null)
                 {
                     if(item.Song == PlaybackManager.Player.Song && item.Song != HighlightedSong)
                         foreach(Control label in item.GetLabels())
-                            label.ForeColor = Color.FromArgb(215, 170, 40);
+                            label.ForeColor = AppColors.Yellow;
                     else
                         foreach(Control label in item.GetLabels())
                             label.ForeColor = Color.White;

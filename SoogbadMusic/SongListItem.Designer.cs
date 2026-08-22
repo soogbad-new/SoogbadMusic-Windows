@@ -79,7 +79,7 @@
             // 
             // SongContextMenuStrip
             // 
-            SongContextMenuStrip.BackColor = Color.FromArgb(50, 150, 75);
+            SongContextMenuStrip.BackColor = AppColors.GreenLight;
             SongContextMenuStrip.Items.AddRange(new ToolStripItem[] { AddToQueueToolStripMenuItem, RemoveFromQueueToolStripMenuItem, SongInfoToolStripMenuItem });
             SongContextMenuStrip.Name = "ContextMenuStrip";
             SongContextMenuStrip.Size = new Size(187, 92);
@@ -115,7 +115,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(0, 80, 96);
+            BackColor = AppColors.LightSong;
             Controls.Add(DurationLabel);
             Controls.Add(InfoLabel);
             Controls.Add(NameLabel);
