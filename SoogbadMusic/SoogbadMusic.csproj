@@ -95,8 +95,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="Resources\ShuffleOn.png" />
-    <None Include="Resources\ShuffleOff.png" />
+    <None Include="Resources\Shuffle.png" />
     <None Include="Resources\QueueRemove.png" />
     <None Include="Resources\QueueAdd.png" />
     <None Include="Resources\Lyrics.png" />
@@ -105,10 +104,8 @@
     <None Include="Resources\Play.png" />
     <None Include="Resources\Pause.png" />
     <None Include="Resources\Next.png" />
-    <None Include="Resources\AdvancedSearchOff.png" />
-    <None Include="Resources\AdvancedSearchOn.png" />
-    <None Include="Resources\FilterOn.png" />
-    <None Include="Resources\FilterOff.png" />
+    <None Include="Resources\AdvancedSearch.png" />
+    <None Include="Resources\Filter.png" />
     <None Include="Resources\Download.png" />
     <None Include="Resources\Loading.gif" />
   </ItemGroup>

@@ -223,7 +223,7 @@
             // 
             AdvancedSearchButton.BackColor = Color.Transparent;
             AdvancedSearchButton.Font = new Font("Microsoft Sans Serif", 8.25F);
-            AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOff;
+            AdvancedSearchButton.Image = Properties.Resources.AdvancedSearch;
             AdvancedSearchButton.Location = new Point(923, 476);
             AdvancedSearchButton.Name = "AdvancedSearchButton";
             AdvancedSearchButton.Size = new Size(18, 18);
@@ -258,7 +258,7 @@
             // ShuffleButton
             // 
             ShuffleButton.AutoSize = false;
-            ShuffleButton.BackgroundImage = Properties.Resources.ShuffleOff;
+            ShuffleButton.BackgroundImage = Properties.Resources.Shuffle;
             ShuffleButton.BackgroundImageLayout = ImageLayout.Stretch;
             ShuffleButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             ShuffleButton.Margin = new Padding(15, 0, 0, 0);
@@ -269,7 +269,7 @@
             // FilterButton
             // 
             FilterButton.AutoSize = false;
-            FilterButton.BackgroundImage = Properties.Resources.FilterOn;
+            FilterButton.BackgroundImage = Properties.Resources.Filter;
             FilterButton.BackgroundImageLayout = ImageLayout.Stretch;
             FilterButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
             FilterButton.Margin = new Padding(15, 0, 0, 0);

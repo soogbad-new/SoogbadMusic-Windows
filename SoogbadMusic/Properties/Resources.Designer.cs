@@ -63,9 +63,9 @@ namespace SoogbadMusic.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AdvancedSearchOff {
+        internal static System.Drawing.Bitmap AdvancedSearch {
             get {
-                object obj = ResourceManager.GetObject("AdvancedSearchOff", resourceCulture);
+                object obj = ResourceManager.GetObject("AdvancedSearch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,29 +73,9 @@ namespace SoogbadMusic.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AdvancedSearchOn {
+        internal static System.Drawing.Bitmap Filter {
             get {
-                object obj = ResourceManager.GetObject("AdvancedSearchOn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap FilterOff {
-            get {
-                object obj = ResourceManager.GetObject("FilterOff", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap FilterOn {
-            get {
-                object obj = ResourceManager.GetObject("FilterOn", resourceCulture);
+                object obj = ResourceManager.GetObject("Filter", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,19 +173,9 @@ namespace SoogbadMusic.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ShuffleOff {
+        internal static System.Drawing.Bitmap Shuffle {
             get {
-                object obj = ResourceManager.GetObject("ShuffleOff", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ShuffleOn {
-            get {
-                object obj = ResourceManager.GetObject("ShuffleOn", resourceCulture);
+                object obj = ResourceManager.GetObject("Shuffle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace SoogbadMusic
 {
@@ -34,6 +35,7 @@ namespace SoogbadMusic
             timer.Start();
             ResponsiveClientSizeChanged += OnResponsiveClientSizeChanged;
             SetOnControlMouseUpEvents(this);
+            FilterButton.BackgroundImage = PlaybackManager.Filter ? filterActiveBitmap : Properties.Resources.Filter;
         }
 
         private void OnTimerTick(object? sender, EventArgs e)
@@ -143,10 +145,7 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
             {
                 PlaybackManager.Shuffle = !PlaybackManager.Shuffle;
-                if(PlaybackManager.Shuffle)
-                    ShuffleButton.BackgroundImage = Properties.Resources.ShuffleOn;
-                else
-                    ShuffleButton.BackgroundImage = Properties.Resources.ShuffleOff;
+                ShuffleButton.BackgroundImage = PlaybackManager.Shuffle ? shuffleActiveBitmap : Properties.Resources.Shuffle;
             }
         }
         private void OnFilterButtonMouseDown(object sender, MouseEventArgs e)
@@ -154,10 +153,7 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
             {
                 PlaybackManager.Filter = !PlaybackManager.Filter;
-                if(PlaybackManager.Filter)
-                    FilterButton.BackgroundImage = Properties.Resources.FilterOn;
-                else
-                    FilterButton.BackgroundImage = Properties.Resources.FilterOff;
+                FilterButton.BackgroundImage = PlaybackManager.Filter ? filterActiveBitmap : Properties.Resources.Filter;
                 SongList.HighlightedSong = null;
                 Playlist.RefreshSongs();
             }
@@ -268,10 +264,7 @@ namespace SoogbadMusic
             if(e.Button == MouseButtons.Left)
             {
                 advancedSearch = !advancedSearch;
-                if(advancedSearch)
-                    AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOn;
-                else
-                    AdvancedSearchButton.Image = Properties.Resources.AdvancedSearchOff;
+                AdvancedSearchButton.Image = advancedSearch ? advancedSearchActiveBitmap : Properties.Resources.AdvancedSearch;
                 OnSearchTextBoxTextChanged(null, null);
             }
         }
@@ -351,6 +344,14 @@ namespace SoogbadMusic
             base.OnHandleCreated(e);
             Utility.SetWindowTitleBarColor(Handle);
         }
+
+        private static readonly ColorMatrix activeButtonColorColorMatrix = new(
+        [
+            [ AppColors.ActiveButton.R / 255f, 0, 0, 0, 0 ], [ 0, AppColors.ActiveButton.G / 255f, 0, 0, 0 ], [ 0, 0, AppColors.ActiveButton.B / 255f, 0, 0 ], [ 0, 0, 0, 1, 0 ], [ 0, 0, 0, 0, 1 ]
+        ]);
+        private static readonly Bitmap filterActiveBitmap = Utility.TintImage(Properties.Resources.Filter, activeButtonColorColorMatrix);
+        private static readonly Bitmap shuffleActiveBitmap = Utility.TintImage(Properties.Resources.Shuffle, activeButtonColorColorMatrix);
+        private static readonly Bitmap advancedSearchActiveBitmap = Utility.TintImage(Properties.Resources.AdvancedSearch, activeButtonColorColorMatrix);
 
     }
 

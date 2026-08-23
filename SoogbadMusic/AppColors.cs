@@ -14,6 +14,7 @@
         public static readonly Color LightSong = LightBlue;
         public static readonly Color DarkSong = DarkBlue;
         public static readonly Color TextBoxBackground = ColorTranslator.FromHtml("#206070");
+        public static readonly Color ActiveButton = ColorTranslator.FromHtml("#4A9657");
         public static readonly Color ContextMenuBackground = ColorTranslator.FromHtml("#32964B");
 
     }
