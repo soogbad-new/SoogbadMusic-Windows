@@ -110,8 +110,12 @@ namespace SoogbadMusic
             UpdateMainForm();
             LoadingGIFPictureBox.Visible = false;
             if(OpenAudacityCheckbox.Checked)
+            {
                 LaunchAudacity();
-            Close();
+                Application.Exit();
+            }
+            else
+                Close();
         }
         private void UpdateMainForm()
         {
@@ -124,10 +128,10 @@ namespace SoogbadMusic
         private void LaunchAudacity()
         {
             string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles).Replace(" (x86)", "");
-            if(!File.Exists(programFiles + "\\Audacity\\Audacity.exe"))
-                MessageBox.Show("ERROR: Audacity is not installed. Please install it and place in Program Files.");
+            if(!File.Exists(programFiles + "\\Audacity 4\\bin\\Audacity4.exe"))
+                MessageBox.Show("ERROR: Audacity 4 is not installed. Please install it and place in Program Files\\Audacity 4\\bin\\Audacity4.exe.");
             else
-                Utility.RunCommand(programFiles + "\\Audacity\\Audacity.exe", $"\"{filePath}\"");
+                Utility.RunCommand(programFiles + "\\Audacity 4\\bin\\Audacity4.exe", $"\"{filePath}\"");
         }
 
         private void OnTimerTick(object? sender, EventArgs e)
